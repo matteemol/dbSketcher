@@ -1,0 +1,17 @@
+table( formula ) {
+  primary_key( formula_ID ): INTEGER PRIMARY KEY
+  column( nombre ): TEXT NOT NULL
+  column( cpnp ): TEXT NOT NULL
+  foreign_key( clientId ): INTEGER <<FK>>
+}
+
+table( clientes ) {
+  primary_key( client_ID ): INTEGER PRIMARY KEY
+  column( nombre ): TEXT NOT NULL
+  column( apellido ): TEXT NOT NULL
+  column( razon_social ): TEXT NOT NULL}
+
+table( clientes ) {  primary_key( client_ID ): INTEGER PRIMARY KEY
+  column( nombre ): TEXT NOT NULL
+  column( apellido ): TEXT NOT NULL
+  column( razon_social ): TEXT NOT NULL }
