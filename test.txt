@@ -11,7 +11,7 @@ table( clientes ) {
   column( apellido ): TEXT NOT NULL
   column( razon_social ): TEXT NOT NULL}
 
-table( clientes ) {  primary_key( client_ID ): INTEGER PRIMARY KEY
-  column( nombre ): TEXT NOT NULL
-  column( apellido ): TEXT NOT NULL
-  column( razon_social ): TEXT NOT NULL }
+table( clientes_loc ) {  primary_key( client_ID ): INTEGER PRIMARY KEY
+  column( nombre_loc ): TEXT NOT NULL
+  column( direccion ): TEXT NOT NULL
+  column( pais ): TEXT NOT NULL}
