@@ -2,7 +2,7 @@ table( formula ) {
   primary_key( formula_ID ): INTEGER PRIMARY KEY
   column( nombre ): TEXT NOT NULL
   column( cpnp ): TEXT NOT NULL
-  foreign_key( client_Id ): INTEGER <<FK>>
+  foreign_key( client_Id ): INTEGER
 }
 
 table( clientes ) {

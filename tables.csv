@@ -2,11 +2,11 @@ clientes, client_ID, integer primary key
 clientes, nombre, text not null
 clientes, apellido, text not null
 clientes, razon_social, text not null
-clientes_loc, client_ID, integer foreign key
+clientes_loc, client_ID, integer foreign key (clientes)
 clientes_loc, nombre_loc, text not null
 clientes_loc, direccion, text not null
 clientes_loc, pais, text not null
 formula, formula_ID, integer pk
 formula, nombre, text not null
 formula, cpnp, text not null
-formula, client_ID, integer foreign key
+formula, client_ID, integer foreign key (clientes)

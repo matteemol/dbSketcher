@@ -143,6 +143,7 @@ def umlToDict(file):
 
 def identifyType(data: str):
     att_class = "col"
+    parent = ""
     col_type = data.upper()
     pKeys = [' primary key', ' pk', ' pkey']
     for key in pKeys:
@@ -153,18 +154,22 @@ def identifyType(data: str):
 
     fKeys = [' foreign key', ' fk', ' fkey']
     for key in fKeys:
-        res = re.search(fr'{key}', data, re.IGNORECASE)
-        if res != None:
-            col_type = data[:res.start()].upper() + data[res.end():].upper() + " <<FK>>"
-            att_class = "fk"
+        resKey = re.search(fr'{key}', data, re.IGNORECASE)
+        resParent = re.search(r'[(\w]*[)]', data, re.IGNORECASE)
+        if resKey != None:
+            col_type = data[:resKey.start()].upper()
+            parent = data[(resParent.start() + 1):(resParent.end() - 1)].strip()
+            att_class = "fk" + f" ({parent})"
 
-    return att_class, col_type
+    return att_class, col_type, parent
 
 
 def csvToDict(file):
 
     tables = {}
     tableinfo = []
+    relationships = {}
+    relinfo = []
 
     with open(file, newline='') as csvfile:
         tablereader = csv.reader(csvfile, delimiter=',')
@@ -174,14 +179,24 @@ def csvToDict(file):
             except:
                 tables[row[0]] = tableinfo
             name = row[1].strip()
-            att_class, col_type = identifyType(row[2].strip())
+            att_class, col_type, parent = identifyType(row[2].strip())
 
             tableinfo.append((name, att_class, col_type))
             tables[row[0]] = tableinfo
 
+            if parent != "":
+                try:
+                    relinfo = relationships[name]
+                except:
+                    relationships[name] = relinfo
+
+                relinfo.append((parent, row[0]))
+                relationships[name] = relinfo
+
+            relinfo = []
             tableinfo = []
   
-    return dict(sorted(tables.items()))
+    return dict(sorted(tables.items())), dict(sorted(relationships.items()))
 
 
 def dictToSql(tables:dict):
@@ -204,6 +219,29 @@ def dictToSql(tables:dict):
         sql_out.write(sqlScript)
 
     return sqlScript
+
+
+def dictToUml(tables:dict, relations:dict):
+    umlScript = ""
+    references = {}
+    references[pk] = "primary_key( "
+    references[fk] = "foreign_key( "
+    references[co] = "column( "
+    for table, columns in tables.items():
+        colsLines = ""
+        startLine = "table ( " + table + " ) {\n"
+        for col in columns:
+            attLine = "  " + references[col[1][:1]] + col[0] + " ): " + col[1] + "\n"
+            colsLines += attLine
+        lastLine = "}"
+
+        if table != list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine)
+
+    with open("test_uml.uml", "w") as uml_out:
+        uml_out.write(umlScript)
+
+    return umlScript
 
 
 def sqlToDict(file):
@@ -264,16 +302,21 @@ def sqlToDict(file):
 if __name__ == '__main__':
     file = 'test.txt'
 #    file = sys.argv[1]
+    print("UML to dict")
     print(umlToDict(file))
     file = 'tables.csv'
-    tables = csvToDict(file)
+    tables, relationships = csvToDict(file)
+    print("\nCSV to dict - Tables")
     print(tables)
+    print("\nCSV to dict - Relationships")
+    print(relationships)
 
+    dictToUml(tables, relationships)
     dictToSql(tables)
 #    print(dictToSql(tables))
-    print("Sql to dict")
+#    print("\nSql to dict")
     file = "test_sql.sql"
-    print(sqlToDict(file))
+#    print(sqlToDict(file))
 
 # Acomodar lo de FK (hacer script de sql bien escrito)
 # ver https://www.sqlitetutorial.net/sqlite-foreign-key/
