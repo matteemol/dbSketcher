@@ -1,4 +1,5 @@
 import re, sys, csv
+import formatStrings
 
 def polishUML(raw_list: list):
     """
@@ -195,7 +196,7 @@ def csvToDict(file):
 
             relinfo = []
             tableinfo = []
-  
+
     return dict(sorted(tables.items())), dict(sorted(relationships.items()))
 
 
@@ -221,24 +222,39 @@ def dictToSql(tables:dict):
     return sqlScript
 
 
-def dictToUml(tables:dict, relations:dict):
-    umlScript = ""
+def dictToUml(tables:dict, relations:dict, fname):
+    umlScript = formatStrings.initUML
     references = {}
-    references[pk] = "primary_key( "
-    references[fk] = "foreign_key( "
-    references[co] = "column( "
+    references["pk"] = "primary_key( "
+    references["fk "] = "foreign_key( "
+    references["col"] = "column( "
+
     for table, columns in tables.items():
         colsLines = ""
-        startLine = "table ( " + table + " ) {\n"
+        startLine = "table( " + table + " ) {\n"
         for col in columns:
-            attLine = "  " + references[col[1][:1]] + col[0] + " ): " + col[1] + "\n"
+            if col[0] in list(relations.keys()) and col[1][:2] != "fk":
+                attLine = "  " + "column_fk( " + col[0] + " ): " + col[2] + "\n"
+            else:
+                attLine = "  " + references[col[1].split("(")[0]] + col[0] + " ): " + col[2] + "\n"
             colsLines += attLine
         lastLine = "}"
 
         if table != list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine + "\n\n")
         if table == list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine)
 
-    with open("test_uml.uml", "w") as uml_out:
+    if relations != "":
+        umlScript += "\n\n"
+        for attribute, rel in relations.items():
+            for family in rel:
+                link = ""
+                father, child = family
+                link += father + "::" + attribute + " --> " + child + "::" + attribute
+                umlScript += link + "\n"
+
+    umlScript += formatStrings.endUML
+
+    with open(f"{fname}.uml", "w") as uml_out:
         uml_out.write(umlScript)
 
     return umlScript
@@ -300,22 +316,22 @@ def sqlToDict(file):
 
 
 if __name__ == '__main__':
-    file = 'test.txt'
+    file = 'recetas_2tables.csv'
 #    file = sys.argv[1]
-    print("UML to dict")
-    print(umlToDict(file))
-    file = 'tables.csv'
+#    print("UML to dict")
+#    print(umlToDict(file))
+#    file = 'recetas_nonNF.csv'
     tables, relationships = csvToDict(file)
     print("\nCSV to dict - Tables")
     print(tables)
     print("\nCSV to dict - Relationships")
     print(relationships)
 
-    dictToUml(tables, relationships)
+    dictToUml(tables, relationships, file)
     dictToSql(tables)
 #    print(dictToSql(tables))
 #    print("\nSql to dict")
-    file = "test_sql.sql"
+#    file = "test_sql.sql"
 #    print(sqlToDict(file))
 
 # Acomodar lo de FK (hacer script de sql bien escrito)

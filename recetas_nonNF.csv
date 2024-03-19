@@ -1,0 +1,7 @@
+receta, receta_Id, integer primary key
+receta, nombre, text not null
+receta, tipo_plato, text
+receta, origen, text
+receta, creador, text
+receta, ingredientes, text not null
+receta, puntaje, real

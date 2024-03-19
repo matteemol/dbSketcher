@@ -1,0 +1,15 @@
+receta, receta_Id, integer primary key
+receta, nombre, text not null
+receta, tipo_Id, integer
+receta, origen, text
+receta, chef_Id, integer
+receta, ingredientes, text not null
+receta, puntaje, real
+tipos, tipo_Id, integer foreign key (receta)
+tipos, paso, text not null
+tipos, jerarquia, text
+tipos, maridaje, text
+chefs, chef_Id, integer foreign key (receta)
+chefs, nombre, text not null
+chefs, apellido, text
+chefs, apodo, text
