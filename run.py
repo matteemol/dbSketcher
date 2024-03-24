@@ -1,13 +1,19 @@
-import re, sys, csv
+import re
+import sys
+import csv
 import formatStrings
 
-def polishUML(raw_list: list):
+def polishUML(raw_list: list)-> list:
     """
-Takes a list consisting of each of the UML text lines
-and transforms it into a list of tuples with the form
-(name, pk/fk/col, type), where type is the SQL script
-code to define the column's data type
-"""
+    Takes a list consisting of each of the UML text lines and
+    transforms it into a list of tuples with the form (name, pk/fk/col,
+    type), where type is the SQL script code to define the column's
+    data type.
+
+    `raw_list` : list
+    :type m: The slope
+    :return: list
+    """
 
     clean = []
     att_class = ""
@@ -36,15 +42,11 @@ code to define the column's data type
 
 # generate the tuple and append it to the table's list
         clean.append((name, att_class, col_type))
-        
-# If true, extract the table name from inside the ()
-#            if table_line != None:
-#                table = (table_line.string).split("(")[1].split(")")[0].strip()
-#                print(f"Tabla '{table}':")
+
 
     return clean
 
-def polishSQL(raw_list: list):
+def polishSQL(raw_list: list)-> list:
     """
 Takes a list consisting of each of the SQL text lines
 and transforms it into a list of tuples with the form
@@ -88,7 +90,7 @@ code to define the column's data type
     return clean
 
 
-def umlToDict(file):
+def umlToDict(file)-> dict:
 
     isWithin = False
     table_line = ""
@@ -142,7 +144,7 @@ def umlToDict(file):
                 table_list = []
     return dict(sorted(tables.items()))
 
-def identifyType(data: str):
+def identifyType(data: str)-> tuple:
     att_class = "col"
     parent = ""
     col_type = data.upper()
@@ -165,7 +167,7 @@ def identifyType(data: str):
     return att_class, col_type, parent
 
 
-def csvToDict(file):
+def csvToDict(file)-> dict:
 
     tables = {}
     tableinfo = []
@@ -200,29 +202,82 @@ def csvToDict(file):
     return dict(sorted(tables.items())), dict(sorted(relationships.items()))
 
 
-def dictToSql(tables:dict):
+def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     sqlScript = ""
+    foreignLine = ""
+    auxLine = ""
+    father_tables = set()
+    child_tables = set()
+    childs_in_table = []
+
+    if relations != "":
+#            auxLine = ",\n"      # REVISAR ESTOOO --(ver como sacar la coma de la ultima linea cuando NO hay FK)
+        for attribute, rel in relations.items():
+            for family in rel:
+                link = ""
+                father, child = family
+                father_tables.add(father)
+                child_tables.add(child)
+
     for table, columns in tables.items():
         colsLines = ""
         startLine = "CREATE TABLE " + table + " (\n"
         for col in columns:
+            if col in child_tables: childs_in_table.append(col)
             if col != columns[-1]:
                 attLine = " " + col[0] + " " + col[2] + ",\n"
             else:
-                attLine = " " + col[0] + " " + col[2] + "\n"
+                attLine = " " + col[0] + " " + col[2]
+                if table in child_tables : attLine += ",\n"
+                if table not in child_tables : attLine += "\n"
             colsLines += attLine
+
+# hacer un loop por childs_in_table y referenciar al dict de relationships
+# for item in childs_in_table: attribute = relations[item] blah y sacar de
+# aca el string de link y foreignLine
+# asi se evita la segunda iteración por relations.items():
+
+        if table in childs_in_table:
+            for attribute, rel in relations.items():
+                for family in rel:
+                    link = ""
+                    father, child = family
+                    link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")\n"
+                    foreignLine += link
+    #
+
+
+
+            """
+            if relations != "":
+    #            auxLine = ",\n"      # REVISAR ESTOOO --(ver como sacar la coma de la ultima linea cuando NO hay FK)
+                for attribute, rel in relations.items():
+                    for family in rel:
+                        link = ""
+                        father, child = family
+                        father_tables.append(father)
+                        child_tables.append(child)
+                        if table == child:
+    #                        auxLine = ",\n"
+                            link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")\n"
+                            foreignLine += link
+    #                    if table != child:
+    #                        auxLine = "\n"
+    """
         lastLine = ");"
+        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine)
+        foreignLine = ""
 
-        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine)
+##### REVISAR ESTA PARTEA
 
-    with open("test_sql.sql", "w") as sql_out:
+    with open(f"{fname[:-4]}.sql", "w") as sql_out:
         sql_out.write(sqlScript)
 
     return sqlScript
 
 
-def dictToUml(tables:dict, relations:dict, fname):
+def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     umlScript = formatStrings.initUML
     references = {}
     references["pk"] = "primary_key( "
@@ -254,13 +309,13 @@ def dictToUml(tables:dict, relations:dict, fname):
 
     umlScript += formatStrings.endUML
 
-    with open(f"{fname}.uml", "w") as uml_out:
+    with open(f"{fname[:-4]}.uml", "w") as uml_out:
         uml_out.write(umlScript)
 
     return umlScript
 
 
-def sqlToDict(file):
+def sqlToDict(file)-> dict:
 
     isWithin = False
     table_line = ""
@@ -328,7 +383,7 @@ if __name__ == '__main__':
     print(relationships)
 
     dictToUml(tables, relationships, file)
-    dictToSql(tables)
+    dictToSql(tables, relationships, file)
 #    print(dictToSql(tables))
 #    print("\nSql to dict")
 #    file = "test_sql.sql"
