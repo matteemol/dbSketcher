@@ -13,3 +13,4 @@ chefs, chef_Id, integer foreign key (receta)
 chefs, nombre, text not null
 chefs, apellido, text
 chefs, apodo, text
+chefs, paso, text foreign key (tipos)

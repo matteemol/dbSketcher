@@ -208,35 +208,52 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     auxLine = ""
     father_tables = set()
     child_tables = set()
-    childs_in_table = []
 
     if relations != "":
-#            auxLine = ",\n"      # REVISAR ESTOOO --(ver como sacar la coma de la ultima linea cuando NO hay FK)
         for attribute, rel in relations.items():
             for family in rel:
-                link = ""
                 father, child = family
                 father_tables.add(father)
                 child_tables.add(child)
 
     for table, columns in tables.items():
+        isChild = False
+        if table in child_tables: isChild = True
+        childs_in_table = []
         colsLines = ""
         startLine = "CREATE TABLE " + table + " (\n"
+        print(list(relations.keys()))
+        print(father_tables)
+        print(child_tables, "\n")
         for col in columns:
-            if col in child_tables: childs_in_table.append(col)
+            if isChild:
+                for f in relations[col[0]]:
+                    if col[0] in child_tables: childs_in_table.append(col[0])
+
             if col != columns[-1]:
                 attLine = " " + col[0] + " " + col[2] + ",\n"
             else:
                 attLine = " " + col[0] + " " + col[2]
-                if table in child_tables : attLine += ",\n"
-                if table not in child_tables : attLine += "\n"
+                if table in child_tables : attLine += ","
+#                if table not in child_tables : attLine += "\n"
             colsLines += attLine
+        print(table, isChild, childs_in_table)
 
+        link = "\n"
+        if isChild:
+            for childCol in childs_in_table:
+                link += " FOREIGN KEY (" + childCol + ")\n" + "  REFERENCES " + relations[childCol][0][0] + " (" + childCol + ")\n"
 # hacer un loop por childs_in_table y referenciar al dict de relationships
 # for item in childs_in_table: attribute = relations[item] blah y sacar de
 # aca el string de link y foreignLine
 # asi se evita la segunda iteración por relations.items():
+        foreignLine = link
+        lastLine = ");"
+        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine)
+        foreignLine = ""
 
+        """
         if table in childs_in_table:
             for attribute, rel in relations.items():
                 for family in rel:
@@ -248,7 +265,6 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
 
 
 
-            """
             if relations != "":
     #            auxLine = ",\n"      # REVISAR ESTOOO --(ver como sacar la coma de la ultima linea cuando NO hay FK)
                 for attribute, rel in relations.items():
@@ -264,10 +280,6 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     #                    if table != child:
     #                        auxLine = "\n"
     """
-        lastLine = ");"
-        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine)
-        foreignLine = ""
 
 ##### REVISAR ESTA PARTEA
 
