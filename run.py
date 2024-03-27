@@ -171,8 +171,10 @@ def csvToDict(file)-> dict:
 
     tables = {}
     tableinfo = []
-    relationships = {}
+    relationships_uml = {}
     relinfo = []
+    families = []
+    relationships_sql = {}
 
     with open(file, newline='') as csvfile:
         tablereader = csv.reader(csvfile, delimiter=',')
@@ -189,60 +191,55 @@ def csvToDict(file)-> dict:
 
             if parent != "":
                 try:
-                    relinfo = relationships[name]
+                    relinfo = relationships_uml[name]
                 except:
-                    relationships[name] = relinfo
+                    relationships_uml[name] = relinfo
 
                 relinfo.append((parent, row[0]))
-                relationships[name] = relinfo
+                relationships_uml[name] = relinfo
+
+                try:
+                    families = relationships_sql[row[0]]
+                except:
+                    relationships_sql[row[0]] = families
+
+                families.append((row[1].strip(), parent))
+                relationships_sql[row[0]] = families
 
             relinfo = []
             tableinfo = []
+            families = []
 
-    return dict(sorted(tables.items())), dict(sorted(relationships.items()))
+    return dict(sorted(tables.items())), dict(sorted(relationships_uml.items())), dict(sorted(relationships_sql.items()))
 
 
 def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     sqlScript = ""
     foreignLine = ""
     auxLine = ""
-    father_tables = set()
-    child_tables = set()
-
-    if relations != "":
-        for attribute, rel in relations.items():
-            for family in rel:
-                father, child = family
-                father_tables.add(father)
-                child_tables.add(child)
 
     for table, columns in tables.items():
-        isChild = False
-        if table in child_tables: isChild = True
-        childs_in_table = []
+        resIsChild = None
         colsLines = ""
         startLine = "CREATE TABLE " + table + " (\n"
-        print(list(relations.keys()))
-        print(father_tables)
-        print(child_tables, "\n")
+
         for col in columns:
-            if isChild:
-                for f in relations[col[0]]:
-                    if col[0] in child_tables: childs_in_table.append(col[0])
+            link = ""
+            if resIsChild: link += ",\n"
+            resIsChild = re.search(r'[(\w]*[)]', col[1], re.IGNORECASE)
+            if resIsChild:
+                father = col[1][(resIsChild.start() + 1):(resIsChild.end() - 1)].strip()
+                link += " FOREIGN KEY (" + col[0] + ")\n" + "  REFERENCES " + father + " (" + col[0] + ")"
+            link += "\n"
 
             if col != columns[-1]:
                 attLine = " " + col[0] + " " + col[2] + ",\n"
             else:
                 attLine = " " + col[0] + " " + col[2]
-                if table in child_tables : attLine += ","
-#                if table not in child_tables : attLine += "\n"
+                if resIsChild: attLine += ","
             colsLines += attLine
-        print(table, isChild, childs_in_table)
 
-        link = "\n"
-        if isChild:
-            for childCol in childs_in_table:
-                link += " FOREIGN KEY (" + childCol + ")\n" + "  REFERENCES " + relations[childCol][0][0] + " (" + childCol + ")\n"
+#        link += "\n"
 # hacer un loop por childs_in_table y referenciar al dict de relationships
 # for item in childs_in_table: attribute = relations[item] blah y sacar de
 # aca el string de link y foreignLine
@@ -252,36 +249,6 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
         if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine + "\n\n")
         if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine)
         foreignLine = ""
-
-        """
-        if table in childs_in_table:
-            for attribute, rel in relations.items():
-                for family in rel:
-                    link = ""
-                    father, child = family
-                    link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")\n"
-                    foreignLine += link
-    #
-
-
-
-            if relations != "":
-    #            auxLine = ",\n"      # REVISAR ESTOOO --(ver como sacar la coma de la ultima linea cuando NO hay FK)
-                for attribute, rel in relations.items():
-                    for family in rel:
-                        link = ""
-                        father, child = family
-                        father_tables.append(father)
-                        child_tables.append(child)
-                        if table == child:
-    #                        auxLine = ",\n"
-                            link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")\n"
-                            foreignLine += link
-    #                    if table != child:
-    #                        auxLine = "\n"
-    """
-
-##### REVISAR ESTA PARTEA
 
     with open(f"{fname[:-4]}.sql", "w") as sql_out:
         sql_out.write(sqlScript)
@@ -388,14 +355,16 @@ if __name__ == '__main__':
 #    print("UML to dict")
 #    print(umlToDict(file))
 #    file = 'recetas_nonNF.csv'
-    tables, relationships = csvToDict(file)
+    tables, relationships_uml, relationships_sql = csvToDict(file)
     print("\nCSV to dict - Tables")
     print(tables)
-    print("\nCSV to dict - Relationships")
-    print(relationships)
+    print("\nCSV to dict - Relationships (UML)")
+    print(relationships_uml)
+    print("\nCSV to dict - Relationships (SQL)")
+    print(relationships_sql)
 
-    dictToUml(tables, relationships, file)
-    dictToSql(tables, relationships, file)
+    dictToUml(tables, relationships_uml, file)
+#    dictToSql(tables, relationships_sql, file) --> ver como tomar la info ahora
 #    print(dictToSql(tables))
 #    print("\nSql to dict")
 #    file = "test_sql.sql"
