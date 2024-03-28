@@ -215,40 +215,31 @@ def csvToDict(file)-> dict:
 
 def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     sqlScript = ""
-    foreignLine = ""
-    auxLine = ""
 
     for table, columns in tables.items():
-        resIsChild = None
         colsLines = ""
         startLine = "CREATE TABLE " + table + " (\n"
 
         for col in columns:
-            link = ""
-            if resIsChild: link += ",\n"
-            resIsChild = re.search(r'[(\w]*[)]', col[1], re.IGNORECASE)
-            if resIsChild:
-                father = col[1][(resIsChild.start() + 1):(resIsChild.end() - 1)].strip()
-                link += " FOREIGN KEY (" + col[0] + ")\n" + "  REFERENCES " + father + " (" + col[0] + ")"
-            link += "\n"
 
             if col != columns[-1]:
                 attLine = " " + col[0] + " " + col[2] + ",\n"
             else:
                 attLine = " " + col[0] + " " + col[2]
-                if resIsChild: attLine += ","
+                try:
+#                    attLine += ","
+                    for family in relations[table]:
+                        link = ""
+                        attLine += ",\n"
+                        attribute, father = family
+                        link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")"
+                        attLine += link
+                except:
+                    ...
             colsLines += attLine
-
-#        link += "\n"
-# hacer un loop por childs_in_table y referenciar al dict de relationships
-# for item in childs_in_table: attribute = relations[item] blah y sacar de
-# aca el string de link y foreignLine
-# asi se evita la segunda iteración por relations.items():
-        foreignLine = link
-        lastLine = ");"
-        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + auxLine + foreignLine + lastLine)
-        foreignLine = ""
+        lastLine = "\n);"
+        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine)
 
     with open(f"{fname[:-4]}.sql", "w") as sql_out:
         sql_out.write(sqlScript)
@@ -364,7 +355,7 @@ if __name__ == '__main__':
     print(relationships_sql)
 
     dictToUml(tables, relationships_uml, file)
-#    dictToSql(tables, relationships_sql, file) --> ver como tomar la info ahora
+    dictToSql(tables, relationships_sql, file)
 #    print(dictToSql(tables))
 #    print("\nSql to dict")
 #    file = "test_sql.sql"
