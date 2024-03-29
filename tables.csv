@@ -1,4 +1,0 @@
-chefs, chef_Id, integer primary key
-chefs, nombre, text not null
-chefs, apellido, text not null
-chefs, restaurant, text

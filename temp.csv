@@ -1,3 +1,0 @@
-clientes, client_ID, integer primary key
-clientes, nombre, text not null
-clientes_loc, direccion, text not null
