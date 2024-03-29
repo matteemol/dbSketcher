@@ -273,7 +273,10 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
 
 
 def sqlToDict(file)-> dict:
-
+    """
+Reads an sql script file and transforms it into a dictionary with the
+required format to be used to create an UML file
+"""
     isWithin = False
     table_line = ""
     table = ""
@@ -282,31 +285,29 @@ def sqlToDict(file)-> dict:
 
     with open(file) as f:
         for line in f:
-# Remove line breaking character from the read line
             line = line.rstrip()
-# Search if the line contains the string "table (xxxxxxxxx)"
             table_line = re.search(r"CREATE TABLE", line)
-# If true, extract the table name from inside the ()
             if table_line != None:
-                table = (table_line.string).split("TABLE")[1].split("(")[0].strip()
-# Start reading the table
+                table = (
+                    (table_line.string).split("TABLE")[1]
+                    .split("(")[0].strip()
+                )
                 isWithin = True
-            
+                
             if isWithin:
-# case: same line contains table name and first column:
-# i.e: table (xxxx) { column 1: type
+# This 'if' block is to consider all three cases of column appearances
+# in the script:
+# 1) CREATE TABLE xxxxx ( attribute...
+# 2) attribute TEXT NOT NULL
+# 3) attribute TEXT NOT NULL );
                 if "(" in str(line):
                     column = line.split("(")[1].strip()
                 else:
-# analogue case, if the last column is the same line where the table ends
-# i.e: column N: type }
                     if ")" in line:
                         column = line.split(")")[0].strip()
-# Or just the -expected- case of a line with only the column info
                     else:
                         column = line.strip()
-# if there's a match (a column exists in the line), then
-# append it to the list of colums for the table
+
                 if column != "": table_list.append(column)
 
             if ")" in line:
