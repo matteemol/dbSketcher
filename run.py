@@ -3,6 +3,214 @@ import sys
 import csv
 import formatStrings
 
+
+def identifyType(data: str)-> tuple:
+    """
+Core function of the script. Reads the CSV line with the structure
+
+    'table name', 'attribute', 'SQL-type definition'
+
+and breaks it down in 3.
+
+:param `data`: 
+:type `data`: String
+
+...
+
+:return: 3 strings in a tuple.
+
+         `att_class`:
+         `col_type`: 
+         `parent`: 
+
+:rtype: tuple
+"""
+    att_class = "col"
+    col_type = data.upper()
+    parent = ""
+# Values initialized with the standard outputs for a plain column.
+
+    pKeys = [' primary key', ' pk', ' pkey']
+# Lines in which the SQL-type definition '... primary key',
+# '... integer pk', or '... pkey' are broken down here, updating
+# the att_class and col_type values ready for output
+    for key in pKeys:
+        res = re.search(fr'{key}', data, re.IGNORECASE)
+        if res != None:
+            col_type = data[:res.start()].upper() + data[res.end():].upper() + " PRIMARY KEY"
+            att_class = "pk"
+
+    fKeys = [' foreign key', ' fk', ' fkey']
+# Similar to the primary key lines, but for foreign keys.
+# In addition, the parent string is updated for correct output.
+    for key in fKeys:
+        resKey = re.search(fr'{key}', data, re.IGNORECASE)
+        resParent = re.search(r'[(\w]*[)]', data, re.IGNORECASE)
+        if resKey != None:
+            col_type = data[:resKey.start()].upper()
+            parent = data[(resParent.start() + 1):(resParent.end() - 1)].strip()
+            att_class = "fk" + f" ({parent})"
+
+    return att_class, col_type, parent
+
+
+def csvToDict(file)-> tuple:
+    """
+Starting point of the program. Takes a CSV file with the structure:
+
+    'table name', 'attribute', 'SQL-type definition'
+
+and transforms this into a dictionary with the structure:
+{'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
+                  (...)]}
+
+If foreign keys are present, the CSV line should state the parent table
+to which the foreign key refer between brackets:
+
+    i.e: 'SQL-type definition' = 'integer foreign key ('parent table')
+
+If so, two additional dictionaries are populated by this function to
+represent the relationships in a useful way for the rest of the code.
+
+:param `file`: Base file without headers and only three columns
+               'table name', 'attribute', 'SQL-type definition'             
+:type `file`: CSV file
+
+...
+
+:return: 3 dictionaries in a tuple. These dictionaries are
+
+         `tables`:            tables and attributes information
+         `relationships_uml`: foreign key relationships, for UML format
+         `relationchips_sql`: foreign key relationships, for SQL format
+
+:rtype: tuple
+"""
+    tables = {}
+    relationships_uml = {}
+    relationships_sql = {}
+
+    tableinfo = []
+    relinfo = []  #Aux list for relationships_uml
+    families = [] #Aux list for relationships_sql
+
+    with open(file, newline='') as csvfile:
+        tablereader = csv.reader(csvfile, delimiter=',')
+        for row in tablereader:
+# Iterate over rows and add them to the returned dict.
+# try/except used in case the line opened is the first appearance and
+# the item in the dictionary doesn't exist. In such case, it's created.
+            try:
+                tableinfo = tables[row[0]]
+            except:
+                tables[row[0]] = tableinfo
+            name = row[1].strip()
+            att_class, col_type, parent = identifyType(row[2].strip())
+# Breaks down the CSV line info into chunks that are then used to write
+# the dictionary with an adequate format
+
+            tableinfo.append((name, att_class, col_type))
+            tables[row[0]] = tableinfo
+
+            if parent != "":
+# Relationships creation block. Analogue to the table creation block,
+# whenever a fk is present, a parent-child relationship is created
+# and stored in two dictionaries (although may seem redundant, it
+# simplifies the functions' code from this point forward)
+                try:
+                    relinfo = relationships_uml[name]
+                except:
+                    relationships_uml[name] = relinfo
+
+                relinfo.append((parent, row[0]))
+                relationships_uml[name] = relinfo
+
+                try:
+                    families = relationships_sql[row[0]]
+                except:
+                    relationships_sql[row[0]] = families
+
+                families.append((row[1].strip(), parent))
+                relationships_sql[row[0]] = families
+
+            relinfo = []    # All three auxiliary lists
+            tableinfo = []  # must be reinitialized between
+            families = []   # row and row
+
+    return dict(sorted(tables.items())), dict(sorted(relationships_uml.items())), dict(sorted(relationships_sql.items()))
+
+
+def dictToUml(tables:dict, relations:dict, fname:str)-> str:
+    umlScript = formatStrings.initUML
+    references = {}
+    references["pk"] = "primary_key( "
+    references["fk "] = "foreign_key( "
+    references["col"] = "column( "
+
+    for table, columns in tables.items():
+        colsLines = ""
+        startLine = "table( " + table + " ) {\n"
+        for col in columns:
+            if col[0] in list(relations.keys()) and col[1][:2] != "fk":
+                attLine = "  " + "column_fk( " + col[0] + " ): " + col[2] + "\n"
+            else:
+                attLine = "  " + references[col[1].split("(")[0]] + col[0] + " ): " + col[2] + "\n"
+            colsLines += attLine
+        lastLine = "}"
+
+        if table != list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine)
+
+    if relations != "":
+        umlScript += "\n\n"
+        for attribute, rel in relations.items():
+            for family in rel:
+                link = ""
+                father, child = family
+                link += father + "::" + attribute + " --> " + child + "::" + attribute
+                umlScript += link + "\n"
+
+    umlScript += formatStrings.endUML
+
+    with open(f"{fname[:-4]}.uml", "w") as uml_out:
+        uml_out.write(umlScript)
+
+    return umlScript
+
+
+def dictToSql(tables:dict, relations:dict, fname:str)-> str:
+    sqlScript = ""
+
+    for table, columns in tables.items():
+        colsLines = ""
+        startLine = "CREATE TABLE IF NOT EXISTS " + table + " (\n"
+
+        for col in columns:
+
+            if col != columns[-1]:
+                attLine = " " + col[0] + " " + col[2] + ",\n"
+            else:
+                attLine = " " + col[0] + " " + col[2]
+                try:
+                    for family in relations[table]:
+                        link = ""
+                        attLine += ",\n"
+                        attribute, father = family
+                        link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")"
+                        attLine += link
+                except:
+                    pass
+            colsLines += attLine
+        lastLine = "\n);"
+        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine + "\n\n")
+        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine)
+
+    with open(f"{fname[:-4]}.sql", "w") as sql_out:
+        sql_out.write(sqlScript)
+
+    return sqlScript
+
+
 def polishUML(raw_list: list)-> list:
     """
     Takes a list consisting of each of the UML text lines and
@@ -37,42 +245,6 @@ def polishUML(raw_list: list)-> list:
         name = item.split("(")[1].split(")")[0].strip()
 # extract the data type of the column after the ":"
         col_type = item.split(":")[1].strip()
-
-# generate the tuple and append it to the table's list
-        clean.append((name, att_class, col_type))
-    return clean
-
-def polishSQL(raw_list: list)-> list:
-    """
-Takes a list consisting of each of the SQL text lines and transforms it
-into a list of tuples with the form (name, pk/fk/col, type), where type
-is the SQL script code to define the column's data type.
-"""
-
-    clean = []
-    att_class = ""
-    name = ""
-    col_type = ""
-
-    for item in raw_list:
-# Each item is a column of a certain table.
-# First: identify if the column is something special (pk, fk) or
-# just a plain column (attribute)
-
-        pk = re.search(r"PRIMARY KEY", item)
-        fk = re.search(r"<<FK>>", item)
-
-# Then, select only the non-None values, and define the attribute type
-# to be used in the returned tuples
-        att_class = "col"
-        if pk != None: att_class = "pk"
-        if fk != None: att_class = "fk"
-
-# extract the name within first two space characters
-        name = item.split(" ", 1)[0].strip()
-# extract the data type of the column after the second space character
-        col_type = item.split(" ", 1)[1].strip()
-        if col_type[-1] == ",": col_type = col_type[:(len(col_type)-1)]
 
 # generate the tuple and append it to the table's list
         clean.append((name, att_class, col_type))
@@ -132,150 +304,48 @@ def umlToDict(file)-> dict:
                 table_list = []
     return dict(sorted(tables.items()))
 
-def identifyType(data: str)-> tuple:
-    att_class = "col"
-    parent = ""
-    col_type = data.upper()
-    pKeys = [' primary key', ' pk', ' pkey']
-    for key in pKeys:
-        res = re.search(fr'{key}', data, re.IGNORECASE)
-        if res != None:
-            col_type = data[:res.start()].upper() + data[res.end():].upper() + " PRIMARY KEY"
-            att_class = "pk"
 
-    fKeys = [' foreign key', ' fk', ' fkey']
-    for key in fKeys:
-        resKey = re.search(fr'{key}', data, re.IGNORECASE)
-        resParent = re.search(r'[(\w]*[)]', data, re.IGNORECASE)
-        if resKey != None:
-            col_type = data[:resKey.start()].upper()
-            parent = data[(resParent.start() + 1):(resParent.end() - 1)].strip()
-            att_class = "fk" + f" ({parent})"
+def polishSQL(raw_list: list)-> list:
+    """
+Takes a list consisting of each of the SQL text lines and transforms it
+into a list of tuples with the form (name, pk/fk/col, type), where type
+is the SQL script code to define the column's data type.
+"""
 
-    return att_class, col_type, parent
+    clean = []
+    att_class = ""
+    name = ""
+    col_type = ""
 
+    for item in raw_list:
+# Each item is a column of a certain table.
+# First: identify if the column is something special (pk, fk) or
+# just a plain column (attribute)
 
-def csvToDict(file)-> dict:
+        pk = re.search(r"PRIMARY KEY", item)
+        fk = re.search(r"<<FK>>", item)
 
-    tables = {}
-    tableinfo = []
-    relationships_uml = {}
-    relinfo = []
-    families = []
-    relationships_sql = {}
+# Then, select only the non-None values, and define the attribute type
+# to be used in the returned tuples
+        att_class = "col"
+        if pk != None: att_class = "pk"
+        if fk != None: att_class = "fk"
 
-    with open(file, newline='') as csvfile:
-        tablereader = csv.reader(csvfile, delimiter=',')
-        for row in tablereader:
-            try:
-                tableinfo = tables[row[0]]
-            except:
-                tables[row[0]] = tableinfo
-            name = row[1].strip()
-            att_class, col_type, parent = identifyType(row[2].strip())
+# extract the name within first two space characters
+        name = item.split(" ", 1)[0].strip()
+# extract the data type of the column after the second space character
+        col_type = item.split(" ", 1)[1].strip()
+        if col_type[-1] == ",": col_type = col_type[:(len(col_type)-1)]
 
-            tableinfo.append((name, att_class, col_type))
-            tables[row[0]] = tableinfo
-
-            if parent != "":
-                try:
-                    relinfo = relationships_uml[name]
-                except:
-                    relationships_uml[name] = relinfo
-
-                relinfo.append((parent, row[0]))
-                relationships_uml[name] = relinfo
-
-                try:
-                    families = relationships_sql[row[0]]
-                except:
-                    relationships_sql[row[0]] = families
-
-                families.append((row[1].strip(), parent))
-                relationships_sql[row[0]] = families
-
-            relinfo = []
-            tableinfo = []
-            families = []
-
-    return dict(sorted(tables.items())), dict(sorted(relationships_uml.items())), dict(sorted(relationships_sql.items()))
-
-
-def dictToSql(tables:dict, relations:dict, fname:str)-> str:
-    sqlScript = ""
-
-    for table, columns in tables.items():
-        colsLines = ""
-        startLine = "CREATE TABLE IF NOT EXISTS " + table + " (\n"
-
-        for col in columns:
-
-            if col != columns[-1]:
-                attLine = " " + col[0] + " " + col[2] + ",\n"
-            else:
-                attLine = " " + col[0] + " " + col[2]
-                try:
-                    for family in relations[table]:
-                        link = ""
-                        attLine += ",\n"
-                        attribute, father = family
-                        link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")"
-                        attLine += link
-                except:
-                    pass
-            colsLines += attLine
-        lastLine = "\n);"
-        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine)
-
-    with open(f"{fname[:-4]}.sql", "w") as sql_out:
-        sql_out.write(sqlScript)
-
-    return sqlScript
-
-
-def dictToUml(tables:dict, relations:dict, fname:str)-> str:
-    umlScript = formatStrings.initUML
-    references = {}
-    references["pk"] = "primary_key( "
-    references["fk "] = "foreign_key( "
-    references["col"] = "column( "
-
-    for table, columns in tables.items():
-        colsLines = ""
-        startLine = "table( " + table + " ) {\n"
-        for col in columns:
-            if col[0] in list(relations.keys()) and col[1][:2] != "fk":
-                attLine = "  " + "column_fk( " + col[0] + " ): " + col[2] + "\n"
-            else:
-                attLine = "  " + references[col[1].split("(")[0]] + col[0] + " ): " + col[2] + "\n"
-            colsLines += attLine
-        lastLine = "}"
-
-        if table != list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine)
-
-    if relations != "":
-        umlScript += "\n\n"
-        for attribute, rel in relations.items():
-            for family in rel:
-                link = ""
-                father, child = family
-                link += father + "::" + attribute + " --> " + child + "::" + attribute
-                umlScript += link + "\n"
-
-    umlScript += formatStrings.endUML
-
-    with open(f"{fname[:-4]}.uml", "w") as uml_out:
-        uml_out.write(umlScript)
-
-    return umlScript
+# generate the tuple and append it to the table's list
+        clean.append((name, att_class, col_type))
+    return clean
 
 
 def sqlToDict(file)-> dict:
     """
 Reads an sql script file and transforms it into a dictionary with the
-required format to be used to create an UML file
+required format to be used to create a UML file
 """
     isWithin = False
     table_line = ""
