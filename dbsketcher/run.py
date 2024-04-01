@@ -226,7 +226,6 @@ plantUML-ready file for it's visualization.
 
 
 def dictToSql(tables:dict, relations:dict, fname:str)-> str:
-
     sqlScript = ""
 
     for table, columns in tables.items():
