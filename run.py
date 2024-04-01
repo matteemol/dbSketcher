@@ -6,49 +6,58 @@ import formatStrings
 
 def identifyType(data: str)-> tuple:
     """
-Core function of the script. Reads the CSV line with the structure
+Core function of the script. Reads the 3rd row of the CSV line (the
+so called 'SQL-type definition') and breaks it down in 3: `att_class`,
+`col_type` and -if exists- `parent` (only in case of foreign keys).
 
-    'table name', 'attribute', 'SQL-type definition'
-
-and breaks it down in 3.
-
-:param `data`: 
+:param `data`: SQL-type attribute definition string.
 :type `data`: String
-
-...
 
 :return: 3 strings in a tuple.
 
-         `att_class`:
-         `col_type`: 
-         `parent`: 
+        #. `att_class`: the tag for the type of attribute:
+           * "col" stands for "column", a standard non-key attribute
+           * "pk" stands for "primary key"
+           * "fk (PARENT)" stands for fk, where PARENT is the table
+            to which this key makes reference to.
+
+        #. `col_type`: SQLite code to declare an attribute (uppercase)
+        #.  `parent`: when the line corresponds to a foreign key, this
+            output corresponds to the parent table's name.
 
 :rtype: tuple
 """
-    att_class = "col"
+    att_class = "col"     
     col_type = data.upper()
     parent = ""
 # Values initialized with the standard outputs for a plain column.
 
     pKeys = [' primary key', ' pk', ' pkey']
-# Lines in which the SQL-type definition '... primary key',
+# Lines in which the SQL-type definition: '... primary key',
 # '... integer pk', or '... pkey' are broken down here, updating
-# the att_class and col_type values ready for output
+# the att_class and col_type values (parent still == "")
     for key in pKeys:
         res = re.search(fr'{key}', data, re.IGNORECASE)
         if res != None:
-            col_type = data[:res.start()].upper() + data[res.end():].upper() + " PRIMARY KEY"
+            col_type = (
+                data[:res.start()].upper()
+                + data[res.end():].upper()
+                + " PRIMARY KEY"
+            )
             att_class = "pk"
 
     fKeys = [' foreign key', ' fk', ' fkey']
-# Similar to the primary key lines, but for foreign keys.
-# In addition, the parent string is updated for correct output.
+# Similar to the primary key lines, but for foreign keys. In addition,
+# the parent string is updated according to the name between brackets
+# after the 'fk' string in the CSV line.
     for key in fKeys:
         resKey = re.search(fr'{key}', data, re.IGNORECASE)
         resParent = re.search(r'[(\w]*[)]', data, re.IGNORECASE)
         if resKey != None:
             col_type = data[:resKey.start()].upper()
-            parent = data[(resParent.start() + 1):(resParent.end() - 1)].strip()
+            parent = (
+                data[(resParent.start() + 1):(resParent.end() - 1)].strip()
+            )
             att_class = "fk" + f" ({parent})"
 
     return att_class, col_type, parent
@@ -65,9 +74,9 @@ and transforms this into a dictionary with the structure:
                   (...)]}
 
 If foreign keys are present, the CSV line should state the parent table
-to which the foreign key refer between brackets:
+to which the foreign key refer, between brackets:
 
-    i.e: 'SQL-type definition' = 'integer foreign key ('parent table')
+    i.e:`'SQL-type definition'` = 'integer foreign key ('parent table')
 
 If so, two additional dictionaries are populated by this function to
 represent the relationships in a useful way for the rest of the code.
@@ -78,7 +87,7 @@ represent the relationships in a useful way for the rest of the code.
 
 ...
 
-:return: 3 dictionaries in a tuple. These dictionaries are
+:return: 3 dictionaries as a 3-tuple. These dictionaries are
 
          `tables`:            tables and attributes information
          `relationships_uml`: foreign key relationships, for UML format
@@ -133,14 +142,42 @@ represent the relationships in a useful way for the rest of the code.
                 families.append((row[1].strip(), parent))
                 relationships_sql[row[0]] = families
 
-            relinfo = []    # All three auxiliary lists
-            tableinfo = []  # must be reinitialized between
-            families = []   # row and row
+            relinfo = []
+            tableinfo = []
+            families = []
+# All three auxiliary lists must be reinitialized between row and row
 
-    return dict(sorted(tables.items())), dict(sorted(relationships_uml.items())), dict(sorted(relationships_sql.items()))
+    return (
+        dict(sorted(tables.items())),
+        dict(sorted(relationships_uml.items())),
+        dict(sorted(relationships_sql.items()))
+    )
 
 
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
+    """
+Reads the dictionary of the table's information and generates a
+plantUML-ready file for it's visualization.
+
+:param `tables`: {'table name 1':
+                    [('attribute x', 'attribute x type', 'SQL script'),
+                     (...)]
+                 }
+
+:type `tables`: Dictionary
+
+:param `relations`: if foreign keys are defined, this is the dictionary
+                    that holds the relationships information:
+                    {'attribute': [(father_table, child_table)]}
+:type `relations`: Dictionary
+
+:param `fname`: name of the file with the CSV information (to be used as
+                the name for the output file)
+:type `fname`: String
+
+:return: UML script that represents the database
+:rtype: String
+"""
     umlScript = formatStrings.initUML
     references = {}
     references["pk"] = "primary_key( "
@@ -152,14 +189,20 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
         startLine = "table( " + table + " ) {\n"
         for col in columns:
             if col[0] in list(relations.keys()) and col[1][:2] != "fk":
-                attLine = "  " + "column_fk( " + col[0] + " ): " + col[2] + "\n"
+                attLine = "  column_fk( " + col[0] + " ): " + col[2] + "\n"
             else:
-                attLine = "  " + references[col[1].split("(")[0]] + col[0] + " ): " + col[2] + "\n"
+                attLine = (
+                    "  "
+                    + references[col[1].split("(")[0]] + col[0] + " ): "
+                    + col[2] + "\n"
+                )
             colsLines += attLine
         lastLine = "}"
 
-        if table != list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: umlScript += (startLine + colsLines + lastLine)
+        if table == list(tables.keys())[-1]:
+            umlScript += (startLine + colsLines + lastLine)
+        else:
+            umlScript += (startLine + colsLines + lastLine + "\n\n")
 
     if relations != "":
         umlScript += "\n\n"
@@ -167,7 +210,11 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
             for family in rel:
                 link = ""
                 father, child = family
-                link += father + "::" + attribute + " --> " + child + "::" + attribute
+                link += (
+                    father + "::" + attribute
+                    + " --> "
+                    + child + "::" + attribute
+                )
                 umlScript += link + "\n"
 
     umlScript += formatStrings.endUML
@@ -196,14 +243,21 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
                         link = ""
                         attLine += ",\n"
                         attribute, father = family
-                        link += " FOREIGN KEY (" + attribute + ")\n" + "  REFERENCES " + father + " (" + attribute + ")"
+                        link += (
+                            " FOREIGN KEY (" + attribute + ")\n  "
+                            + "REFERENCES " + father + " (" + attribute + ")"
+                            + formatStrings.fkSQL
+                        )
                         attLine += link
                 except:
                     pass
             colsLines += attLine
         lastLine = "\n);"
-        if table != list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine + "\n\n")
-        if table == list(tables.keys())[-1]: sqlScript += (startLine + colsLines + lastLine)
+
+        if table == list(tables.keys())[-1]:
+            sqlScript += (startLine + colsLines + lastLine)
+        else:
+            sqlScript += (startLine + colsLines + lastLine + "\n\n")
 
     with open(f"{fname[:-4]}.sql", "w") as sql_out:
         sql_out.write(sqlScript)
@@ -254,7 +308,7 @@ def polishUML(raw_list: list)-> list:
 def umlToDict(file)-> dict:
 
     isWithin = False
-    table_line = ""
+    isTable = ""
     table = ""
     table_list = []
     tables = {}
@@ -264,10 +318,10 @@ def umlToDict(file)-> dict:
 # Remove line breaking character from the read line
             line = line.rstrip()
 # Search if the line contains the string "table (xxxxxxxxx)"
-            table_line = re.search(r"table[( \w]*[ )]", line)
+            isTable = re.search(r"table[( \w]*[ )]", line)
 # If true, extract the table name from inside the ()
-            if table_line != None:
-                table = (table_line.string).split("(")[1].split(")")[0].strip()
+            if isTable != None:
+                table = (isTable.string).split("(")[1].split(")")[0].strip()
 # Start reading the table
                 isWithin = True
             
@@ -348,7 +402,7 @@ Reads an sql script file and transforms it into a dictionary with the
 required format to be used to create a UML file
 """
     isWithin = False
-    table_line = ""
+    isTable = ""
     table = ""
     table_list = []
     tables = {}
@@ -356,10 +410,10 @@ required format to be used to create a UML file
     with open(file) as f:
         for line in f:
             line = line.rstrip()
-            table_line = re.search(r"CREATE TABLE", line)
-            if table_line != None:
+            isTable = re.search(r"CREATE TABLE", line)
+            if isTable != None:
                 table = (
-                    (table_line.string).split("TABLE")[1]
+                    (isTable.string).split("TABLE")[1]
                     .split("(")[0].strip()
                 )
                 isWithin = True

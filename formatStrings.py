@@ -20,3 +20,7 @@ skinparam class {
 
 endUML = """
 @enduml"""
+
+fkSQL = """
+    ON UPDATE SET NULL
+    ON DELETE SET NULL"""
