@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>run module &#8212; dbSketcher 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-run">
+<span id="run-module"></span><h1>run module<a class="headerlink" href="#module-run" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="run.csvToDict">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">csvToDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#run.csvToDict" title="Link to this definition">¶</a></dt>
+<dd><p>Starting point of the program. Takes a CSV file with the structure:</p>
+<blockquote>
+<div><p>‘table name’, ‘attribute’, ‘SQL-type definition’</p>
+</div></blockquote>
+<p>and transforms this into a dictionary with the structure:
+{‘table name 1’: [(‘attribute x’, ‘attribute x type’, ‘SQL script’),</p>
+<blockquote>
+<div><p>(…)]}</p>
+</div></blockquote>
+<p>If foreign keys are present, the CSV line should state the parent table
+to which the foreign key refer, between brackets:</p>
+<blockquote>
+<div><p>i.e:<cite>’SQL-type definition’</cite> = ‘integer foreign key (‘parent table’)</p>
+</div></blockquote>
+<p>If so, two additional dictionaries are populated by this function to
+represent the relationships in a useful way for the rest of the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>CSV file</em>) – Base file without headers and only three columns
+‘table name’, ‘attribute’, ‘SQL-type definition’</p>
+</dd>
+</dl>
+<p>…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>3 dictionaries as a 3-tuple. These dictionaries are</p>
+<p><cite>tables</cite>:            tables and attributes information
+<cite>relationships_uml</cite>: foreign key relationships, for UML format
+<cite>relationchips_sql</cite>: foreign key relationships, for SQL format</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.dictToSql">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">dictToSql</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#run.dictToSql" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.dictToUml">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">dictToUml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#run.dictToUml" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the dictionary of the table’s information and generates a
+plantUML-ready file for it’s visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tables</strong> (<em>Dictionary</em>) – <dl class="simple">
+<dt>{‘table name 1’:</dt><dd><dl class="simple">
+<dt>[(‘attribute x’, ‘attribute x type’, ‘SQL script’),</dt><dd><p>(…)]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>}</p>
+</p></li>
+<li><p><strong>relations</strong> (<em>Dictionary</em>) – if foreign keys are defined, this is the dictionary
+that holds the relationships information:
+{‘attribute’: [(father_table, child_table)]}</p></li>
+<li><p><strong>fname</strong> (<em>String</em>) – name of the file with the CSV information (to be used as
+the name for the output file)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>UML script that represents the database</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.identifyType">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">identifyType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#run.identifyType" title="Link to this definition">¶</a></dt>
+<dd><p>Core function of the script. Reads the 3rd row of the CSV line (the
+so called ‘SQL-type definition’) and breaks it down in 3: <cite>att_class</cite>,
+<cite>col_type</cite> and -if exists- <cite>parent</cite> (only in case of foreign keys).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>String</em>) – SQL-type attribute definition string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>3 strings in a tuple.</p>
+<ol class="arabic">
+<li><p><cite>att_class</cite>: the tag for the type of attribute:
+* “col” stands for “column”, a standard non-key attribute
+* “pk” stands for “primary key”
+* “fk (PARENT)” stands for fk, where PARENT is the table</p>
+<blockquote>
+<div><p>to which this key makes reference to.</p>
+</div></blockquote>
+</li>
+<li><p><cite>col_type</cite>: SQLite code to declare an attribute (uppercase)</p></li>
+<li><p><cite>parent</cite>: when the line corresponds to a foreign key, this
+output corresponds to the parent table’s name.</p></li>
+</ol>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.polishSQL">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">polishSQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#run.polishSQL" title="Link to this definition">¶</a></dt>
+<dd><p>Takes a list consisting of each of the SQL text lines and transforms it
+into a list of tuples with the form (name, pk/fk/col, type), where type
+is the SQL script code to define the column’s data type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.polishUML">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">polishUML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#run.polishUML" title="Link to this definition">¶</a></dt>
+<dd><p>Takes a list consisting of each of the UML text lines and
+transforms it into a list of tuples with the form (name, pk/fk/col,
+type), where type is the SQL script code to define the column’s
+data type.</p>
+<p><cite>raw_list</cite> : list</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.sqlToDict">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">sqlToDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#run.sqlToDict" title="Link to this definition">¶</a></dt>
+<dd><p>Reads an sql script file and transforms it into a dictionary with the
+required format to be used to create a UML file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="run.umlToDict">
+<span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">umlToDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#run.umlToDict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">dbSketcher</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Matias Molnar.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/run.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
