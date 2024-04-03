@@ -11,10 +11,11 @@ Welcome to dbSketcher's documentation!
    :caption: Contents:
 
    intro
+   examples
+   modules
    run
    formatStrings
    sqlitegen
-   examples
 
 Indices and tables
 ==================
