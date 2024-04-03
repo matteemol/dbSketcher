@@ -6,27 +6,29 @@ import formatStrings
 
 def identifyType(data: str)-> tuple:
     """
-Core function of the script. Reads the 3rd row of the CSV line (the
-so called 'SQL-type definition') and breaks it down in 3: `att_class`,
-`col_type` and -if exists- `parent` (only in case of foreign keys).
+    Core function of the script. Reads the 3rd row of the CSV line (the
+    so called 'SQL-type definition') and breaks it down in 3:
+    `att_class`, `col_type` and -if exists- `parent` (only in case of
+    foreign keys).
 
-:param `data`: SQL-type attribute definition string.
-:type `data`: String
+    :param `data`: SQL-type attribute definition string.
+    :type `data`: String
 
-:return: 3 strings in a tuple.
+    :return: 3 strings in a tuple.
 
         #. `att_class`: the tag for the type of attribute:
            * "col" stands for "column", a standard non-key attribute
            * "pk" stands for "primary key"
            * "fk (PARENT)" stands for fk, where PARENT is the table
-            to which this key makes reference to.
+           to which this key makes reference to.
 
         #. `col_type`: SQLite code to declare an attribute (uppercase)
         #.  `parent`: when the line corresponds to a foreign key, this
             output corresponds to the parent table's name.
 
-:rtype: tuple
-"""
+    :rtype: tuple
+    """
+
     att_class = "col"     
     col_type = data.upper()
     parent = ""
@@ -71,7 +73,7 @@ Starting point of the program. Takes a CSV file with the structure:
 
 and transforms this into a dictionary with the structure:
 {'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
-                  (...)]}
+(...)]}
 
 If foreign keys are present, the CSV line should state the parent table
 to which the foreign key refer, between brackets:
@@ -156,28 +158,26 @@ represent the relationships in a useful way for the rest of the code.
 
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     """
-Reads the dictionary of the table's information and generates a
-plantUML-ready file for it's visualization.
+    Reads the dictionary of the table's information and generates a
+    plantUML-ready file for it's visualization.
 
-:param `tables`: {'table name 1':
-                    [('attribute x', 'attribute x type', 'SQL script'),
-                     (...)]
-                 }
+    :param `tables`: {'table name 1':
+           [('attribute x', 'attribute x type', 'SQL script'), (...)]}
+    :type `tables`: Dictionary
 
-:type `tables`: Dictionary
+    :param `relations`: if foreign keys are defined, this is the
+            dictionary that holds the relationships information:
+            {'attribute': [(father_table, child_table)]}
+    :type `relations`: Dictionary
 
-:param `relations`: if foreign keys are defined, this is the dictionary
-                    that holds the relationships information:
-                    {'attribute': [(father_table, child_table)]}
-:type `relations`: Dictionary
+    :param `fname`: name of the file with the CSV information (to be
+            used as the name for the output file)
+    :type `fname`: String
 
-:param `fname`: name of the file with the CSV information (to be used as
-                the name for the output file)
-:type `fname`: String
+    :return: UML script that represents the database
+    :rtype: String
+    """
 
-:return: UML script that represents the database
-:rtype: String
-"""
     umlScript = formatStrings.initUML
     references = {}
     references["pk"] = "primary_key( "

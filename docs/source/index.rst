@@ -10,11 +10,11 @@ Welcome to dbSketcher's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-intro
-run
-formatStrings
-sqlitegen
-examples
+   intro
+   run
+   formatStrings
+   sqlitegen
+   examples
 
 Indices and tables
 ==================

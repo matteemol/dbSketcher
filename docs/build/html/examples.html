@@ -13,6 +13,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="sqlitegen module" href="sqlitegen.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -39,48 +40,39 @@
 </section>
 <section id="input-format">
 <h2>Input format<a class="headerlink" href="#input-format" title="Link to this heading">¶</a></h2>
-<p>The starting point of the program is the <code class="docutils literal notranslate"><span class="pre">csvToDict</span></code> function
-.. code-block:: python</p>
-<blockquote>
-<div><p>def csvToDict(file)-&gt; tuple:
-“””
-Starting point of the program. Takes a CSV file with the structure:</p>
-<p>‘table name’, ‘attribute’, ‘SQL-type definition’</p>
-<p>and transforms this into a dictionary with the structure:
-{‘table name 1’: [(‘attribute x’, ‘attribute x type’, ‘SQL script’),</p>
-<blockquote>
-<div><p>(…)]}</p>
-</div></blockquote>
-<p>If foreign keys are present, the CSV line should state the parent table
-to which the foreign key refer, between brackets:</p>
-<blockquote>
-<div><p>i.e:<cite>’SQL-type definition’</cite> = ‘integer foreign key (‘parent table’)</p>
-</div></blockquote>
-<p>If so, two additional dictionaries are populated by this function to
-represent the relationships in a useful way for the rest of the code.</p>
-<dl class="field-list simple">
-<dt class="field-odd">param <cite>file</cite><span class="colon">:</span></dt>
-<dd class="field-odd"><p>Base file without headers and only three columns
-‘table name’, ‘attribute’, ‘SQL-type definition’</p>
-</dd>
-<dt class="field-even">type <cite>file</cite><span class="colon">:</span></dt>
-<dd class="field-even"><p>CSV file</p>
-</dd>
-</dl>
-<p>…</p>
-<dl class="field-list">
-<dt class="field-odd">return<span class="colon">:</span></dt>
-<dd class="field-odd"><p>3 dictionaries as a 3-tuple. These dictionaries are</p>
-<p><cite>tables</cite>:            tables and attributes information
-<cite>relationships_uml</cite>: foreign key relationships, for UML format
-<cite>relationchips_sql</cite>: foreign key relationships, for SQL format</p>
-</dd>
-<dt class="field-even">rtype<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple</p>
-</dd>
-</dl>
-<p>“””</p>
-</div></blockquote>
+<p>The starting point of the program is the <code class="docutils literal notranslate"><span class="pre">csvToDict</span></code> function</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">csvToDict</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Starting point of the program. Takes a CSV file with the structure:</span>
+
+<span class="sd">&#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
+
+<span class="sd">and transforms this into a dictionary with the structure:</span>
+<span class="sd">{&#39;table name 1&#39;: [(&#39;attribute x&#39;, &#39;attribute x type&#39;, &#39;SQL script&#39;),</span>
+<span class="sd">(...)]}</span>
+
+<span class="sd">If foreign keys are present, the CSV line should state the parent table</span>
+<span class="sd">to which the foreign key refer, between brackets:</span>
+
+<span class="sd">    i.e:`&#39;SQL-type definition&#39;` = &#39;integer foreign key (&#39;parent table&#39;)</span>
+
+<span class="sd">If so, two additional dictionaries are populated by this function to</span>
+<span class="sd">represent the relationships in a useful way for the rest of the code.</span>
+
+<span class="sd">:param `file`: Base file without headers and only three columns</span>
+<span class="sd">            &#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
+<span class="sd">:type `file`: CSV file</span>
+
+<span class="sd">:return: 3 dictionaries as a 3-tuple. These dictionaries are</span>
+
+<span class="sd">        `tables`:            tables and attributes information</span>
+<span class="sd">        `relationships_uml`: foreign key relationships, for UML format</span>
+<span class="sd">        `relationchips_sql`: foreign key relationships, for SQL format</span>
+
+<span class="sd">:rtype: tuple</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -101,11 +93,24 @@ represent the relationships in a useful way for the rest of the code.</p>
 
 
 <h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sqlitegen.html">sqlitegen module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation-usage">Installation/Usage:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-format">Input format</a></li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="sqlitegen.html" title="previous chapter">sqlitegen module</a></li>
   </ul></li>
 </ul>
 </div>

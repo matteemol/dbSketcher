@@ -10,8 +10,9 @@ To run the program, execute the `python3 run.py <csv file>` command in the termi
 Input format
 ************
 The starting point of the program is the ``csvToDict`` function 
-.. code-block:: python
 
+.. code-block:: python
+    
     def csvToDict(file)-> tuple:
     """
     Starting point of the program. Takes a CSV file with the structure:
@@ -20,7 +21,7 @@ The starting point of the program is the ``csvToDict`` function
 
     and transforms this into a dictionary with the structure:
     {'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
-                    (...)]}
+    (...)]}
 
     If foreign keys are present, the CSV line should state the parent table
     to which the foreign key refer, between brackets:
@@ -34,8 +35,6 @@ The starting point of the program is the ``csvToDict`` function
                 'table name', 'attribute', 'SQL-type definition'             
     :type `file`: CSV file
 
-    ...
-
     :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
             `tables`:            tables and attributes information
@@ -44,3 +43,4 @@ The starting point of the program is the ``csvToDict`` function
 
     :rtype: tuple
     """
+    
