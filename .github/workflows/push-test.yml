@@ -1,0 +1,12 @@
+name: Commit documentation changes
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: GitHub Commit & Push
+      uses: actions-js/push@v1.4
