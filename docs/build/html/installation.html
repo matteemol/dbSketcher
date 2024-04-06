@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; dbSketcher 0.1 documentation</title>
+  <title>Installation: &mdash; dbSketcher 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dbsketcher" href="modules.html" />
-    <link rel="prev" title="Installation:" href="installation.html" /> 
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,12 +47,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation:</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation-usage">Installation/Usage:</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation:</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-format">Input format</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">dbsketcher</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Examples</li>
+      <li class="breadcrumb-item active">Installation:</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,48 +83,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<section id="installation-usage">
-<h2>Installation/Usage:<a class="headerlink" href="#installation-usage" title="Link to this heading"></a></h2>
-<p>As the package has not been published on PyPi yet, it CANNOT be install using pip.</p>
-<p>To run the program, execute the <cite>python3 run.py &lt;csv file&gt;</cite> command in the terminal.</p>
+  <section id="installation">
+<h1>Installation:<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>As the package has not been published on PyPi yet, it CANNOT be install using pip.
+The repository can be found here: <a class="reference external" href="https://github.com/matteemol/dbSketcher">https://github.com/matteemol/dbSketcher</a>
+Go ahead and <a class="reference external" href="https://github.com/matteemol/dbSketcher/fork">Fork me!</a></p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>To run the program, execute the <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command in the terminal.
+<strong>Notes:</strong>
+- The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command should work too.</p>
 </section>
 <section id="input-format">
 <h2>Input format<a class="headerlink" href="#input-format" title="Link to this heading"></a></h2>
-<p>The starting point of the program is the <code class="docutils literal notranslate"><span class="pre">csvToDict</span></code> function</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">csvToDict</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Starting point of the program. Takes a CSV file with the structure:</span>
-
-<span class="sd">&#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
-
-<span class="sd">and transforms this into a dictionary with the structure:</span>
-<span class="sd">{&#39;table name 1&#39;: [(&#39;attribute x&#39;, &#39;attribute x type&#39;, &#39;SQL script&#39;),</span>
-<span class="sd">(...)]}</span>
-
-<span class="sd">If foreign keys are present, the CSV line should state the parent table</span>
-<span class="sd">to which the foreign key refer, between brackets:</span>
-
-<span class="sd">    i.e:`&#39;SQL-type definition&#39;` = &#39;integer foreign key (&#39;parent table&#39;)</span>
-
-<span class="sd">If so, two additional dictionaries are populated by this function to</span>
-<span class="sd">represent the relationships in a useful way for the rest of the code.</span>
-
-<span class="sd">:param `file`: Base file without headers and only three columns</span>
-<span class="sd">            &#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
-<span class="sd">:type `file`: CSV file</span>
-
-<span class="sd">:return: 3 dictionaries as a 3-tuple. These dictionaries are</span>
-
-<span class="sd">        `tables`:            tables and attributes information</span>
-<span class="sd">        `relationships_uml`: foreign key relationships, for UML format</span>
-<span class="sd">        `relationchips_sql`: foreign key relationships, for SQL format</span>
-
-<span class="sd">:rtype: tuple</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
+<p>The CSV file should contain the following information per line:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code>, <code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code>, <code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code></p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> and <code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> are precisely that: the attribute’s (column) name and the table where it belongs.
+The <code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> is a little bit more tricky, but the tested values are:
+- <code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">primary</span> <span class="pre">key</span></code>
+- <code class="docutils literal notranslate"><span class="pre">text</span></code> / <code class="docutils literal notranslate"><span class="pre">integer</span></code> / <code class="docutils literal notranslate"><span class="pre">real</span></code> (optional: <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">null</span></code>)
+- <code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">foreign</span> <span class="pre">key</span> <span class="pre">(PARENT_TABLE)</span></code></p>
 </section>
 </section>
 
@@ -132,8 +110,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation:" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modules.html" class="btn btn-neutral float-right" title="dbsketcher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="intro.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

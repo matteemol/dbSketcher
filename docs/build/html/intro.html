@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="next" title="Installation:" href="installation.html" />
     <link rel="prev" title="Welcome to dbSketcher’s documentation!" href="index.html" /> 
 </head>
 
@@ -47,10 +47,13 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-it-does">What it does</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#todo-list">TODO List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-it-doesn-t-do-yet">What it doesn’t do (yet)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">dbsketcher</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
@@ -84,15 +87,29 @@
              
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">dbSketcher</span></code> is a simple program to sketch a dB out from a CSV file with minimal code</p>
-<section id="motivation">
-<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
-<p>During the development of another program, I needed a tool to help me design a database, so <code class="docutils literal notranslate"><span class="pre">dbSketcher</span></code> was born.</p>
+<p>During the development of another project, I needed to transform some worksheets into a database, so I created <strong>dbSketcher</strong> as a simple program to help me design the database out from a CSV file with minimal code.</p>
+<section id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Link to this heading"></a></h2>
+<p>Takes a simple CSV input, consisting in three columns with the basic table/columns data, and generates an sqlite script (to create the tables) and a UML file with the ERD diagram for the data.
+See some <a class="reference external" href="examples.rst">Examples</a></p>
 </section>
 <section id="limitations">
 <h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<p>The code was developed just as an aid tool. <strong>No unit tests were done</strong>, and several errors can arise without explanation if the initial syntax of the CSV file is not properly done.</p>
+</section>
+<section id="todo-list">
+<h2>TODO List<a class="headerlink" href="#todo-list" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>The code was developed just as an aid tool. No unit tests were done, and several errors can arise without explanation if the initial syntax of the CSV file is not properly done.</p></li>
+<li><p>Create a web interface to try the program</p></li>
+</ul>
+</section>
+<section id="what-it-doesn-t-do-yet">
+<h2>What it doesn’t do (yet)<a class="headerlink" href="#what-it-doesn-t-do-yet" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Work with mySQL or Postgresql (or anything that’s not sqlite)</p></li>
+<li><p>Generate a sketch out of a complex db</p></li>
+<li><p>Read SQLAlchemy constructors</p></li>
+<li><p>Output SQLAlchemy base code</p></li>
 </ul>
 </section>
 </section>
@@ -102,7 +119,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to dbSketcher’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation:" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

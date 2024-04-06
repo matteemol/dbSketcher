@@ -7,7 +7,7 @@ What it does
 ************
 
 Takes a simple CSV input, consisting in three columns with the basic table/columns data, and generates an sqlite script (to create the tables) and a UML file with the ERD diagram for the data.
-See some :ref:`examples`
+See some `Examples <examples.rst>`_
 
 Limitations
 ***********

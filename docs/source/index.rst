@@ -11,6 +11,7 @@ Welcome to dbSketcher's documentation!
    :caption: Contents:
 
    intro
+   installation
    examples
    modules
    run
