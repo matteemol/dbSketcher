@@ -41,7 +41,6 @@ jobs:
 #        name: Documentation
 #        path: docs2/_build/latex/pdfexample.pdf
     # Publish built docs to gh-pages branch.
-    # ===============================
     - name: Commit documentation changes
       run: |
         git clone https://github.com/matteemol/dbSketcher.git --branch main --single-branch main
