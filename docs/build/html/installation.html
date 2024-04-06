@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation: &mdash; dbSketcher 0.1 documentation</title>
+  <title>Installation &mdash; dbSketcher 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -47,7 +47,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation:</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-format">Input format</a></li>
 </ul>
@@ -73,7 +73,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Installation:</li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,25 +84,33 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<h1>Installation:<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<p>As the package has not been published on PyPi yet, it CANNOT be install using pip.
-The repository can be found here: <a class="reference external" href="https://github.com/matteemol/dbSketcher">https://github.com/matteemol/dbSketcher</a>
-Go ahead and <a class="reference external" href="https://github.com/matteemol/dbSketcher/fork">Fork me!</a></p>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">As the package has not been published on PyPi yet, it CANNOT be install using pip.</div>
+<div class="line">The repository can be found here: <a class="reference external" href="https://github.com/matteemol/dbSketcher">https://github.com/matteemol/dbSketcher</a></div>
+<div class="line">Go ahead and <a class="reference external" href="https://github.com/matteemol/dbSketcher/fork">Fork me!</a></div>
+</div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
-<p>To run the program, execute the <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command in the terminal.
-<strong>Notes:</strong>
-- The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command should work too.</p>
+<p>To run the program, execute the <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command in the terminal.</p>
+<div class="line-block">
+<div class="line"><strong>Notes:</strong>
+| - The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command should work too.</div>
+</div>
 </section>
 <section id="input-format">
 <h2>Input format<a class="headerlink" href="#input-format" title="Link to this heading"></a></h2>
 <p>The CSV file should contain the following information per line:</p>
 <p><code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code>, <code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code>, <code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code></p>
-<p>Where <code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> and <code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> are precisely that: the attribute’s (column) name and the table where it belongs.
-The <code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> is a little bit more tricky, but the tested values are:
-- <code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">primary</span> <span class="pre">key</span></code>
-- <code class="docutils literal notranslate"><span class="pre">text</span></code> / <code class="docutils literal notranslate"><span class="pre">integer</span></code> / <code class="docutils literal notranslate"><span class="pre">real</span></code> (optional: <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">null</span></code>)
-- <code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">foreign</span> <span class="pre">key</span> <span class="pre">(PARENT_TABLE)</span></code></p>
+<div class="line-block">
+<div class="line">Where <code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> and <code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> are precisely that: the attribute’s (column) name and the table where it belongs.</div>
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> is a little bit more tricky, but the tested values are:</div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">primary</span> <span class="pre">key</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">text</span></code> / <code class="docutils literal notranslate"><span class="pre">integer</span></code> / <code class="docutils literal notranslate"><span class="pre">real</span></code> (optional: <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">null</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">foreign</span> <span class="pre">key</span> <span class="pre">(PARENT_TABLE)</span></code></p></li>
+</ul>
 </section>
 </section>
 

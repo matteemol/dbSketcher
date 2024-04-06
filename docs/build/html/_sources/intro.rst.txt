@@ -7,7 +7,7 @@ What it does
 ************
 
 Takes a simple CSV input, consisting in three columns with the basic table/columns data, and generates an sqlite script (to create the tables) and a UML file with the ERD diagram for the data.
-See some `Examples <examples.rst>`_
+See some `Examples <examples.html>`_
 
 Limitations
 ***********
@@ -17,7 +17,7 @@ The code was developed just as an aid tool. **No unit tests were done**, and sev
 TODO List
 *********
 
-- Create a web interface to try the program
+- Create a web interface to try the program online
 
 
 What it doesn't do (yet)
