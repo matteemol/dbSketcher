@@ -1,9 +1,6 @@
 name: Commit documentation changes
 
-on:
-  push:
-    branches:    
-      - master
+on: workflow-dispatch
 
 jobs:
   build:
