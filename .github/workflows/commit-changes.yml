@@ -1,6 +1,6 @@
 name: Commit documentation changes
 
-on: workflow-dispatch
+on: workflow_dispatch
 
 jobs:
   build:
