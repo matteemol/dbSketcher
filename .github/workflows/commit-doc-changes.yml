@@ -6,8 +6,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
  
     steps:
       - name: Checkout
@@ -31,21 +29,15 @@ jobs:
       - name: Init new repo in dist folder and commit generated files
         run: |
           cd docs/build/html/
-          git init
           touch .nojekyll
           git add -A
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m 'deploy'
 
-      - name: Config global safe directory
-        run: |
-          git config --global --add safe.directory /github/workspace/docs/build/html
-
       - name: Force push to destination branch
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: rtd-pages
-          force: true
-          directory: './docs/build/html'
+          force_with_lease: true
