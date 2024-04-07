@@ -1,4 +1,4 @@
-name: Commit documentation changes
+name: Commit changes
 
 on: workflow_dispatch
 
