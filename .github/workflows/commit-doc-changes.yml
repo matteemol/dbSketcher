@@ -1,4 +1,4 @@
-name: Commit documentation changes
+name: Commit documentation changes (html)
 
 on: workflow_dispatch
 
@@ -40,4 +40,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: rtd-pages
+          directory: docs/build/html
           force_with_lease: true
