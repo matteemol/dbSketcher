@@ -49,8 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation-usage">Installation/Usage:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#input-format">Input format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#csv-input-format">CSV input format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">dbsketcher</a></li>
@@ -85,44 +84,11 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<section id="installation-usage">
-<h2>Installation/Usage:<a class="headerlink" href="#installation-usage" title="Link to this heading"></a></h2>
-<p>As the package has not been published on PyPi yet, it CANNOT be install using pip.</p>
-<p>To run the program, execute the <cite>python3 run.py &lt;csv file&gt;</cite> command in the terminal.</p>
-</section>
-<section id="input-format">
-<h2>Input format<a class="headerlink" href="#input-format" title="Link to this heading"></a></h2>
-<p>The starting point of the program is the <code class="docutils literal notranslate"><span class="pre">csvToDict</span></code> function</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">csvToDict</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Starting point of the program. Takes a CSV file with the structure:</span>
-
-<span class="sd">&#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
-
-<span class="sd">and transforms this into a dictionary with the structure:</span>
-<span class="sd">{&#39;table name 1&#39;: [(&#39;attribute x&#39;, &#39;attribute x type&#39;, &#39;SQL script&#39;),</span>
-<span class="sd">(...)]}</span>
-
-<span class="sd">If foreign keys are present, the CSV line should state the parent table</span>
-<span class="sd">to which the foreign key refer, between brackets:</span>
-
-<span class="sd">    i.e:`&#39;SQL-type definition&#39;` = &#39;integer foreign key (&#39;parent table&#39;)</span>
-
-<span class="sd">If so, two additional dictionaries are populated by this function to</span>
-<span class="sd">represent the relationships in a useful way for the rest of the code.</span>
-
-<span class="sd">:param `file`: Base file without headers and only three columns</span>
-<span class="sd">            &#39;table name&#39;, &#39;attribute&#39;, &#39;SQL-type definition&#39;</span>
-<span class="sd">:type `file`: CSV file</span>
-
-<span class="sd">:return: 3 dictionaries as a 3-tuple. These dictionaries are</span>
-
-<span class="sd">        `tables`:            tables and attributes information</span>
-<span class="sd">        `relationships_uml`: foreign key relationships, for UML format</span>
-<span class="sd">        `relationchips_sql`: foreign key relationships, for SQL format</span>
-
-<span class="sd">:rtype: tuple</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<section id="csv-input-format">
+<h2>CSV input format<a class="headerlink" href="#csv-input-format" title="Link to this heading"></a></h2>
+<p>The CSV doesn’t have any header, and one line per attribute</p>
+<p>Table</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
 </pre></div>
 </div>
 </section>
