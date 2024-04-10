@@ -5,8 +5,25 @@ CSV input format
 ****************
 The CSV doesn't have any header, and one line per attribute
 
-"Here goes a Table related to the CSV below"
+For example, take the following data:
+
+.. list table:: Table (customers)
+   :widths: 20 20 20 20 20
+   :header-rows: 1
+
+   * - customer_id
+     - name
+     - full_address
+   * - 12345
+     - John William Doe
+     - 555 Evergreen Av., Springfield, USA
+
+The CSV that represents this table would state
 
 .. code-block:: python
     
+    customers, customer_id, integer primary key
+    customers, name, text
+    customers, full_address, text
+
     table, attribute, integer primary key
