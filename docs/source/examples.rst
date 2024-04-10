@@ -7,7 +7,7 @@ The CSV doesn't have any header, and one line per attribute
 
 For example, take the following data:
 
-.. list table:: Table (customers)
+.. list-table:: Table (customers)
    :widths: 20 20 20 20 20
    :header-rows: 1
 
