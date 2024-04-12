@@ -16,7 +16,7 @@ For example, take the following data:
      - full_address
    * - 12345
      - John William Doe
-     - 555 Evergreen Av., Springfield, USA
+     - 742 Evergreen T., Springfield, USA
 
 The CSV that represents this table would state
 
@@ -26,4 +26,8 @@ The CSV that represents this table would state
     customers, name, text
     customers, full_address, text
 
-    table, attribute, integer primary key
+And the ERD diagram:
+
+.. image:: images/example1.png
+  :width: 280
+  :alt: ERD example of 'customers' table
