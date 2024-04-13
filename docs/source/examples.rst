@@ -208,5 +208,9 @@ The CSV now does have some 'major' change:
 
 And the ERD diagram is transformed to:
 
+.. image:: images/example2.png
+  :width: 280
+  :alt: ERD example of 'Example 1' table
+
 
 
