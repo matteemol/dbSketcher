@@ -168,6 +168,16 @@ Example 3: 2 tables
 
 and
 
+.. list-table:: Table xxxx (recipes)
+   :widths: 20 80
+   :header-rows: 1
+
+   * - recipe_id (primary_key)
+     - name
+   * - 1
+     - Chimichurri
+
+
 .. list-table:: Table 2 (ingredients)
    :widths: 20 80
    :header-rows: 1
@@ -209,8 +219,8 @@ The CSV now does have some 'major' change:
 And the ERD diagram is transformed to:
 
 .. image:: images/example2.png
-  :width: 280
-  :alt: ERD example of 'Example 1' table
+  :width: 657
+  :alt: ERD example of 'Example 2' table
 
 
 
