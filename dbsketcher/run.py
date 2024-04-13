@@ -188,8 +188,8 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
         colsLines = ""
         startLine = "table( " + table + " ) {\n"
         for col in columns:
-            if col[0] in list(relations.keys()) and col[1][:2] != "fk":
-                attLine = "  column_fk( " + col[0] + " ): " + col[2] + "\n"
+            if col[0] in list(relations.keys()) and col[1][:2] == "fk":
+                attLine = "  foreign_key( " + col[0] + " ): " + col[2] + "\n"
             else:
                 attLine = (
                     "  "

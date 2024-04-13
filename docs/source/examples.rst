@@ -161,18 +161,20 @@ Example 3: 2 tables
    :widths: 20 80
    :header-rows: 1
 
-   * - recipe_id
+   * - recipe_id (primary_key)
      - name
    * - 1
      - Chimichurri
+
+and
 
 .. list-table:: Table 2 (ingredients)
    :widths: 20 80
    :header-rows: 1
 
-   * - ingredient_id
+   * - ingredient_id (primary_key)
      - ingredient
-     - recipe_id
+     - recipe_id (foreign_key)
    * - 1
      - 1/2 Cup Oil
      - 1
@@ -194,6 +196,17 @@ Example 3: 2 tables
 
 Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (recipes), but it's also the ``foreign_key`` of the second table (ingredients)
 
+The CSV now does have some 'major' change:
+
+.. code-block:: python
+    
+    recipes, recipe_id, integer primary key
+    recipes, name, text not null
+    ingredients, ingredient_id, integer primary key
+    ingredients, ingredient, text not null
+    ingredients, recipe_id, integer foreign key (recipes)
+
+And the ERD diagram is transformed to:
 
 
 
