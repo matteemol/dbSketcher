@@ -168,18 +168,8 @@ Example 3: 2 tables
 
 and
 
-.. list-table:: Table xxxx (recipes)
-   :widths: 20 80
-   :header-rows: 1
-
-   * - recipe_id (primary_key)
-     - name
-   * - 1
-     - Chimichurri
-
-
 .. list-table:: Table 2 (ingredients)
-   :widths: 20 80
+   :widths: 20 60 20
    :header-rows: 1
 
    * - ingredient_id (primary_key)
