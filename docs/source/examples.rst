@@ -158,7 +158,7 @@ Example 3: 2 tables
 | If we go a little bit further in normalization, the first thing we should do, would be to split the recipe's name from the ingredients, right?
 
 .. list-table:: Table 1 (recipes)
-   :widths: 20 80
+   :widths: 25 75
    :header-rows: 1
 
    * - recipe_id (primary_key)
@@ -166,10 +166,8 @@ Example 3: 2 tables
    * - 1
      - Chimichurri
 
-and
-
 .. list-table:: Table 2 (ingredients)
-   :widths: 20 60 20
+   :widths: 25 55 20
    :header-rows: 1
 
    * - ingredient_id (primary_key)
@@ -194,9 +192,9 @@ and
      - (...)
      - (...)
 
-Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (recipes), but it's also the ``foreign_key`` of the second table (ingredients)
+Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (**recipes**), but it's also the ``foreign_key`` of the second table (**ingredients**)
 
-The CSV now does have some 'major' change:
+The CSV now does have some 'major' changes:
 
 .. code-block:: python
     
