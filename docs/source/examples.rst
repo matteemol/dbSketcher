@@ -13,8 +13,8 @@ The CSV should be just a simple file, with no headers, where each line represent
 
 For example, take the following data:
 
-Example 1: 1 table
-------------------
+Example 1: Just 1 table
+-----------------------
 
 .. list-table:: Table (recipes)
    :widths: 30 30 40
@@ -30,7 +30,7 @@ Example 1: 1 table
        | 1/2 cup finely chopped parsley
        | 1 tablespoon finely chopped chili
        | 1 teaspoon salt
-       | (...)
+       (...)
 
 The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.csv>`_) would state
 
@@ -42,25 +42,23 @@ The CSV that represents this table (`example1.csv <https://github.com/matteemol/
 
 As you can see, lines can be decomposed in three parameters each:
 
-.. code-block:: python
+  ``[TABLE NAME]`` = recipes
+  ``[ATTRIBUTE NAME]`` = recipe_id
+  ``[BASIC SQLITE DEFINITION]`` = integer primary key
 
-  [TABLE NAME] = recipes
-  [ATTRIBUTE NAME] = recipe_id
-  [BASIC SQLITE DEFINITION] = integer primary key
+  ``[TABLE NAME]`` = recipes
+  ``[ATTRIBUTE NAME]`` = name
+  ``[BASIC SQLITE DEFINITION]`` = text not null
 
-  [TABLE NAME] = recipes
-  [ATTRIBUTE NAME] = name
-  [BASIC SQLITE DEFINITION] = text not null
-
-  [TABLE NAME] = recipes
-  [ATTRIBUTE NAME] = ingredients
-  [BASIC SQLITE DEFINITION] = text
+  ``[TABLE NAME]`` = recipes
+  ``[ATTRIBUTE NAME]`` = ingredients
+  ``[BASIC SQLITE DEFINITION]`` = text
 
 Then, after running in the terminal:
 
 .. code-block:: python
 
-  python dbsketcher/run.py example1.csv
+  python dbsketcher/run.py examples/example1.csv
 
 We'll get two new output files:
 
@@ -110,8 +108,8 @@ That renders to:
   :width: 280
   :alt: ERD example of 'Example 1' table
 
-Example 2: 1 table (multiple items)
------------------------------------
+Example 2: Only 1 table with multiple items
+-------------------------------------------
 
 | Okay, that table it's kind of awful. Really, really unnormalized.
 | A **sligthly** better version would be:
