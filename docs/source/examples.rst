@@ -13,6 +13,9 @@ The CSV should be just a simple file, with no headers, where each line represent
 
 For example, take the following data:
 
+Example 1: 1 table
+------------------
+
 .. list-table:: Table (recipes)
    :widths: 30 30 40
    :header-rows: 1
@@ -27,6 +30,7 @@ For example, take the following data:
        | 1/2 cup finely chopped parsley
        | 1 tablespoon finely chopped chili
        | 1 teaspoon salt
+       | (...)
 
 The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/main/examples/example1.csv>`_) would state
 
@@ -40,17 +44,17 @@ As you can see, lines can be decomposed in three parameters each:
 
 .. code-block:: python
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = recipe_id
-  ``[BASIC SQLITE DEFINITION]`` = integer primary key
+  [TABLE NAME] = recipes
+  [ATTRIBUTE NAME] = recipe_id
+  [BASIC SQLITE DEFINITION] = integer primary key
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = name
-  ``[BASIC SQLITE DEFINITION]`` = text not null
+  [TABLE NAME] = recipes
+  [ATTRIBUTE NAME] = name
+  [BASIC SQLITE DEFINITION] = text not null
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = ingredients
-  ``[BASIC SQLITE DEFINITION]`` = text
+  [TABLE NAME] = recipes
+  [ATTRIBUTE NAME] = ingredients
+  [BASIC SQLITE DEFINITION] = text
 
 Then, after running in the terminal:
 
@@ -98,5 +102,52 @@ We'll get two new output files:
     column( ingredients ): TEXT
   }
 
-
   @enduml
+
+That renders to:
+
+.. image:: images/example1.png
+  :width: 280
+  :alt: ERD example of 'Example 1' table
+
+Example 2: 1 table (multiple items)
+-----------------------------------
+
+| Okay, that table it's kind of awful. Really, really unnormalized.
+| A **sligthly** better version would be:
+
+.. list-table:: Table (recipes)
+   :widths: 30 30 40
+   :header-rows: 1
+
+   * - recipe_id
+     - name
+     - ingredient
+   * - 1
+     - Chimichurri
+     - 1/2 Cup Oil
+   * - 1
+     - Chimichurri
+     - 2 tablespoons red wine vinegar
+   * - 1
+     - Chimichurri
+     - 1/2 cup finely chopped parsley
+   * - 1
+     - Chimichurri
+     - 1 tablespoon finely chopped chili
+   * - 1
+     - Chimichurri
+     - 1 teaspoon salt
+   * - 1
+     - Chimichurri
+     - (...)
+
+The **ONLY** difference in the CSV file would be the name of the third column: as we now denormalized the table a little bit, we now have a column for each ingredient, so we changed ``ingredients`` by ``ingredient`` (without the last "s")
+
+.. code-block:: python
+    
+    recipes, recipe_id, integer primary key
+    recipes, name, text not null
+    recipes, ingredient, text
+
+So the other files would change in a similar way.

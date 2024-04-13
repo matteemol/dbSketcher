@@ -1,0 +1,3 @@
+recipes, recipe_id, integer primary key
+recipes, name, text not null
+recipes, ingredient, text
