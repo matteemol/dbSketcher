@@ -142,7 +142,7 @@ Example 2: 1 table (multiple items)
      - Chimichurri
      - (...)
 
-The **ONLY** difference in the CSV file would be the name of the third column: as we now denormalized the table a little bit, we now have a column for each ingredient, so we changed ``ingredients`` by ``ingredient`` (without the last "s")
+Since the information that the CSV file contains are the columns (attributes) names, the table to where they belong and the sql syntax that generates them, the **ONLY** difference in this file would be the name of the third column: as we now denormalized the table a little bit, we now have a column for each ingredient, so we changed ``ingredients`` by ``ingredient`` (without the last "s")
 
 .. code-block:: python
     
@@ -151,3 +151,49 @@ The **ONLY** difference in the CSV file would be the name of the third column: a
     recipes, ingredient, text
 
 So the other files would change in a similar way.
+
+Example 3: 2 tables
+-------------------
+
+| If we go a little bit further in normalization, the first thing we should do, would be to split the recipe's name from the ingredients, right?
+
+.. list-table:: Table 1 (recipes)
+   :widths: 20 80
+   :header-rows: 1
+
+   * - recipe_id
+     - name
+   * - 1
+     - Chimichurri
+
+.. list-table:: Table 2 (ingredients)
+   :widths: 20 80
+   :header-rows: 1
+
+   * - ingredient_id
+     - ingredient
+     - recipe_id
+   * - 1
+     - 1/2 Cup Oil
+     - 1
+   * - 2
+     - 2 tablespoons red wine vinegar
+     - 1
+   * - 3
+     - 1/2 cup finely chopped parsley
+     - 1
+   * - 4
+     - 1 tablespoon finely chopped chili
+     - 1
+   * - 5
+     - 1 teaspoon salt
+     - 1
+   * - 6
+     - (...)
+     - (...)
+
+Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (recipes), but it's also the ``foreign_key`` of the second table (ingredients)
+
+
+
+
