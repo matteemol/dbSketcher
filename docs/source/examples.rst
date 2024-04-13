@@ -194,7 +194,7 @@ Example 3: 2 tables
 
 Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (**recipes**), but it's also the ``foreign_key`` of the second table (**ingredients**)
 
-The CSV now does have some 'major' changes:
+The CSV (`example3.csv <https://github.com/matteemol/dbSketcher/tree/main/examples/example3.csv>`_) now does have some 'major' changes:
 
 .. code-block:: python
     
@@ -204,7 +204,7 @@ The CSV now does have some 'major' changes:
     ingredients, ingredient, text not null
     ingredients, recipe_id, integer foreign key (recipes)
 
-And the ERD diagram is transformed to:
+And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree/main/examples/example3.uml>`_) is transformed to:
 
 .. image:: images/example2.png
   :width: 657
