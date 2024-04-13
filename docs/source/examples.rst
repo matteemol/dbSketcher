@@ -32,7 +32,7 @@ Example 1: 1 table
        | 1 teaspoon salt
        | (...)
 
-The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/main/examples/example1.csv>`_) would state
+The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.csv>`_) would state
 
 .. code-block:: python
     
@@ -64,7 +64,7 @@ Then, after running in the terminal:
 
 We'll get two new output files:
 
-* `example1.sql <https://github.com/matteemol/dbSketcher/tree/main/examples/example1.sql>`_
+* `example1.sql <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.sql>`_
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ We'll get two new output files:
   ingredients TEXT
   );
 
-* `example1.uml <https://github.com/matteemol/dbSketcher/tree/main/examples/example1.uml>`_
+* `example1.uml <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.uml>`_
 
 .. code-block:: python
 
@@ -194,7 +194,7 @@ Example 3: 2 tables
 
 Now the ``recipe_id`` attribute is not only the ``primary_key`` of the first table (**recipes**), but it's also the ``foreign_key`` of the second table (**ingredients**)
 
-The CSV (`example3.csv <https://github.com/matteemol/dbSketcher/tree/main/examples/example3.csv>`_) now does have some 'major' changes:
+The CSV (`example3.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example3.csv>`_) now does have some 'major' changes:
 
 .. code-block:: python
     
@@ -204,7 +204,7 @@ The CSV (`example3.csv <https://github.com/matteemol/dbSketcher/tree/main/exampl
     ingredients, ingredient, text not null
     ingredients, recipe_id, integer foreign key (recipes)
 
-And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree/main/examples/example3.uml>`_) is transformed to:
+And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example3.uml>`_) is transformed to:
 
 .. image:: images/example2.png
   :width: 657
