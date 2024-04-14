@@ -29,7 +29,7 @@ Example 1: Just 1 table
        | 2 tablespoons red wine vinegar
        | 1/2 cup finely chopped parsley
        | 1 tablespoon finely chopped chili
-       | 1 teaspoon salt
+       1 teaspoon salt
        (...)
 
 The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.csv>`_) would state
@@ -42,17 +42,26 @@ The CSV that represents this table (`example1.csv <https://github.com/matteemol/
 
 As you can see, lines can be decomposed in three parameters each:
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = recipe_id
-  ``[BASIC SQLITE DEFINITION]`` = integer primary key
+| ``[TABLE NAME]`` = recipes
+| ``[ATTRIBUTE NAME]`` = recipe_id
+| ``[BASIC SQLITE DEFINITION]`` = integer primary key
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = name
-  ``[BASIC SQLITE DEFINITION]`` = text not null
+| ``[TABLE NAME]`` = recipes
+| ``[ATTRIBUTE NAME]`` = name
+| ``[BASIC SQLITE DEFINITION]`` = text not null
 
-  ``[TABLE NAME]`` = recipes
-  ``[ATTRIBUTE NAME]`` = ingredients
-  ``[BASIC SQLITE DEFINITION]`` = text
+| ``[TABLE NAME]`` = recipes
+| ``[ATTRIBUTE NAME]`` = ingredients
+| ``[BASIC SQLITE DEFINITION]`` = text
+
+.. warning::
+    Currently, the way to indicate that the attribute is a key, is:
+
+    Primary Key: ``primary key``, ``primary_key``, ``pk``, ``pkey``
+
+    Foreign Key: ``foreign key``, ``foreign_key``, ``fk``, ``fkey``
+
+    Any other term used may rise to incorrect outputs (missing relationships)
 
 Then, after running in the terminal:
 
@@ -108,11 +117,11 @@ That renders to:
   :width: 280
   :alt: ERD example of 'Example 1' table
 
-Example 2: Only 1 table with multiple items
+Example 2: Just 1 table with multiple items
 -------------------------------------------
 
 | Okay, that table it's kind of awful. Really, really unnormalized.
-| A **sligthly** better version would be:
+| A **sligthly** better version could be:
 
 .. list-table:: Table (recipes)
    :widths: 30 30 40
@@ -208,5 +217,90 @@ And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree
   :width: 657
   :alt: ERD example of 'Example 2' table
 
+Example 4: Several tables
+-------------------------
+
+| The following diagram -which has several tables and keys-:
+
+.. image:: images/example3.png
+  :width: 657
+  :alt: ERD example of 'Example 3' table
+
+
+.. list-table:: Table 1 (recipes)
+   :widths: 25 50 25
+   :header-rows: 1
+
+   * - recipe_id (primary_key)
+     - name
+     - type_id (foreign_key)
+   * - 1
+     - Chimichurri
+     - 2
+   * - 2
+     - Criolla
+     - 2
+   * - 3
+     - Flan
+     - 5
+
+.. list-table:: Table 2 (recipe_type)
+   :widths: 25 75
+   :header-rows: 1
+
+   * - type_id (primary_key)
+     - type_name
+   * - 1
+     - Starter
+   * - 2
+     - Dressing
+   * - 3
+     - Main course
+   * - 4
+     - Side dish
+   * - 5
+     - Dessert
+
+.. list-table:: Table 3 (recipe_ingredients)
+   :widths: 20 20 20 20 20
+   :header-rows: 1
+
+   * - recipe_id (foreign_key)
+     - ingredient_id (foreign_key)
+     - quantity
+     - unit_of_measurement
+     - preparation
+   * - 1
+     - 1
+     - 1/2
+     - Cup
+     - 
+   * - 1
+     - 2
+     - 2
+     - tablespoons
+     - 
+   * - 1
+     - 3
+     - 1/2
+     - Cup
+     - Finely chopped
+
+.. list-table:: Table 4 (ingredient_list)
+   :widths: 20 80
+   :header-rows: 1
+
+   * - ingredient_id (primary_key)
+     - ingredient_name
+   * - 1
+     - Sunflower Oil
+   * - 2
+     - Red wine vinegar
+   * - 3
+     - Parsley
+   * - 4
+     - Chili
+   * - 5
+     - Salt
 
 

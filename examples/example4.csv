@@ -1,0 +1,12 @@
+recipes, recipe_id, integer primary key
+recipes, name, text
+recipes, type_id, integer foreign key (recipe_type)
+recipe_type, type_id, integer primary key
+recipe_type, type_name, text not null
+recipe_ingredients, recipe_id, integer foreign key (recipes)
+recipe_ingredients, ingredient_id, integer foreign key (ingredient_list)
+recipe_ingredients, quantity, real not null
+recipe_ingredients, unit_of_measurement, text not null
+recipe_ingredients, preparation, text
+ingredient_list, ingredient_id, integer primary key
+ingredient_list, ingredient_name, text not null

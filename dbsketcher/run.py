@@ -34,7 +34,7 @@ def identifyType(data: str)-> tuple:
     parent = ""
 # Values initialized with the standard outputs for a plain column.
 
-    pKeys = [' primary key', ' pk', ' pkey']
+    pKeys = [' primary key', ' primary_key', ' pk', ' pkey']
 # Lines in which the SQL-type definition: '... primary key',
 # '... integer pk', or '... pkey' are broken down here, updating
 # the att_class and col_type values (parent still == "")
@@ -48,7 +48,7 @@ def identifyType(data: str)-> tuple:
             )
             att_class = "pk"
 
-    fKeys = [' foreign key', ' fk', ' fkey']
+    fKeys = [' foreign key', ' foreign_key', ' fk', ' fkey']
 # Similar to the primary key lines, but for foreign keys. In addition,
 # the parent string is updated according to the name between brackets
 # after the 'fk' string in the CSV line.
