@@ -213,18 +213,18 @@ The CSV (`example3.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/ex
 
 And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example3.uml>`_) is transformed to:
 
-.. image:: images/example2.png
+.. image:: images/example3.png
   :width: 657
-  :alt: ERD example of 'Example 2' table
+  :alt: ERD example of 'Example 3' table
 
 Several tables
 --------------
 
 | The following diagram -which has several tables and keys-:
 
-.. image:: images/example3.png
-  :width: 657
-  :alt: ERD example of 'Example 3' table
+.. image:: images/example4.png
+  :width: 759
+  :alt: ERD example of 'Example 4' table
 
 
 .. list-table:: Table 1 (recipes)
