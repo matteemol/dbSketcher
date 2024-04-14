@@ -13,8 +13,8 @@ The CSV should be just a simple file, with no headers, where each line represent
 
 For example, take the following data:
 
-Example 1: Just 1 table
------------------------
+Just 1 table
+------------
 
 .. list-table:: Table (recipes)
    :widths: 30 30 40
@@ -29,8 +29,8 @@ Example 1: Just 1 table
        | 2 tablespoons red wine vinegar
        | 1/2 cup finely chopped parsley
        | 1 tablespoon finely chopped chili
-       1 teaspoon salt
-       (...)
+       | 1 teaspoon salt
+       | (...)
 
 The CSV that represents this table (`example1.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.csv>`_) would state
 
@@ -57,9 +57,9 @@ As you can see, lines can be decomposed in three parameters each:
 .. warning::
     Currently, the way to indicate that the attribute is a key, is:
 
-    Primary Key: ``primary key``, ``primary_key``, ``pk``, ``pkey``
+    **Primary Key**: ``primary key``, ``primary_key``, ``pk``, ``pkey``
 
-    Foreign Key: ``foreign key``, ``foreign_key``, ``fk``, ``fkey``
+    **Foreign Key**: ``foreign key``, ``foreign_key``, ``fk``, ``fkey``
 
     Any other term used may rise to incorrect outputs (missing relationships)
 
@@ -117,8 +117,8 @@ That renders to:
   :width: 280
   :alt: ERD example of 'Example 1' table
 
-Example 2: Just 1 table with multiple items
--------------------------------------------
+Just 1 table with multiple items
+--------------------------------
 
 | Okay, that table it's kind of awful. Really, really unnormalized.
 | A **sligthly** better version could be:
@@ -159,8 +159,8 @@ Since the information that the CSV file contains are the columns (attributes) na
 
 So the other files would change in a similar way.
 
-Example 3: 2 tables
--------------------
+2 tables
+--------
 
 | If we go a little bit further in normalization, the first thing we should do, would be to split the recipe's name from the ingredients, right?
 
@@ -217,8 +217,8 @@ And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree
   :width: 657
   :alt: ERD example of 'Example 2' table
 
-Example 4: Several tables
--------------------------
+Several tables
+--------------
 
 | The following diagram -which has several tables and keys-:
 
