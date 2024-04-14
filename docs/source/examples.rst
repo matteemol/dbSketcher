@@ -220,12 +220,7 @@ And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree
 Several tables
 --------------
 
-| The following diagram -which has several tables and keys-:
-
-.. image:: images/example4.png
-  :width: 759
-  :alt: ERD example of 'Example 4' table
-
+| If we go a little bit further in normalizing this scheme, we can break these tables a little bit more into:
 
 .. list-table:: Table 1 (recipes)
    :widths: 25 50 25
@@ -302,5 +297,28 @@ Several tables
      - Chili
    * - 5
      - Salt
+
+To generate an ERD diagram, the input could be (`example3.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example3.csv>`_):
+
+.. code-block:: python
+
+  recipes, recipe_id, integer primary key
+  recipes, name, text
+  recipes, type_id, integer foreign key (recipe_type)
+  recipe_type, type_id, integer primary key
+  recipe_type, type_name, text not null
+  recipe_ingredients, recipe_id, integer foreign key (recipes)
+  recipe_ingredients, ingredient_id, integer foreign key (ingredient_list)
+  recipe_ingredients, quantity, real not null
+  recipe_ingredients, unit_of_measurement, text not null
+  recipe_ingredients, preparation, text
+  ingredient_list, ingredient_id, integer primary key
+  ingredient_list, ingredient_name, text not null
+
+With this input, the ERD generated (with `example4.uml <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example4.uml>`_) is:
+
+.. image:: images/example4.png
+  :width: 759
+  :alt: ERD example of 'Example 4' table
 
 
