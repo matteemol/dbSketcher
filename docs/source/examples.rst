@@ -151,7 +151,7 @@ Just 1 table with multiple items
      - Chimichurri
      - (...)
 
-Since the information that the CSV file contains are the columns (attributes) names, the table to where they belong and the sql syntax that generates them, the **ONLY** difference in this file would be the name of the third column: as we now denormalized the table a little bit, we now have a column for each ingredient, so we changed ``ingredients`` by ``ingredient`` (without the last "s")
+Since the information that the CSV file contains are the columns (attributes) names, the table to where they belong and the sql syntax that generates them, the **ONLY** difference in this file would be the name of the third column: as we now denormalized the table a little bit, we now have an entry (row) for each ingredient, so we changed ``ingredients`` by ``ingredient`` (without the last "s")
 
 .. code-block:: python
     
