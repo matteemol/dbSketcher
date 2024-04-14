@@ -10,8 +10,7 @@ Usage
 
 To run the program, execute the ``python3 run.py <csv file>`` command in the terminal. 
 
-| **Notes:**
-  | - The ``python run.py <csv file>`` command should work too.
+**Note:** The ``python run.py <csv file>`` command should work too.
 
 Input format
 ************
@@ -32,7 +31,7 @@ Output
 
 Two files are generated:
 
-- a ``.uml`` file (code to be viewed in `PlantUML server <https://www.plantuml.com/plantuml/uml/>`_)
+- a ``.uml`` file (code to be viewed in `PlantUML server <https://www.plantuml.com/plantuml/uml/Km00>`_)
 - a ``.sql`` file (script to run with sqlite3)
 
 Table generation (optional)

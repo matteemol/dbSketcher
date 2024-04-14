@@ -117,6 +117,8 @@ That renders to:
   :width: 280
   :alt: ERD example of 'Example 1' table
 
+`See in PlantUML server <https://www.plantuml.com/plantuml/uml/ZP5HYzGm4CVVyob63kGAod6YHpbAkJifShYUibPmdvQqcRP3qsIP97IB-DrjkzIj--IKFkJ_dzzCClFWl6GVEYs4nig3jy1KDnuKCPQUh16k9NEGB3jW6umgBHjakFsmCbmZbUt9rE0vuCfef54za_Tee9BQhRrII-VWbu0ndcJPrdFvZrPRXhuXZxFpo6pxatZrxYwErViJO5aX_wl_5kALmeeCWfU5nkjZ16Wy-G6Ea2HmdR-1pVIux-tmf0D6aAP_YGDJ9tdOjpXCN5AaIJbLlxygulZkTZo-7gqqkPdL58x9JN6cAyj8jLde1PLpNA99I4SwdEbH3vrPWrXDtmXsg4Y-PImjgrNp2tHVjVzFd_kBqvY0iQG3EeYcRQmdiLXxKX3Tm_DBddtAjl1j-_pbSRk3pzbEm79xCBB3AIlFVkRmydNyVsmsAvzCpQW8ZNTBshGoyO16XKx_0G00>`_
+
 Just 1 table with multiple items
 --------------------------------
 
@@ -217,6 +219,8 @@ And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree
   :width: 657
   :alt: ERD example of 'Example 3' table
 
+`See in PlantUML server <https://www.plantuml.com/plantuml/uml/ZP7HQzim4CRVzLVSA8m65ah7Le8nfkqmeophHkR1-XHawsmBor8uIpXcz7-VR8T4oLugumVVTx_lFf_kEyl9kbOnfh2qO0sGh6eBGX8MLXhDkaRg7IVU0XcdHM588y7jvq3eQYvCBtK5bXm6Gisrw4bQYnfAhhfGAnJlElZBm9z7NZJLPF_5A4FGrzBYf3mGcNukNdsyMwt4fnam993Eww-ClHDOIerWUQxmUhy0r5RQ0VOGnt2TVO3r-7E_ck5HELn0aXo97ScMqx1jS1YvE4_YOdIFhlBLwkxMVxxtKXBVJDK4zl5DVg9BGoWhVQGFA9_E9HgxnDFkHFkwQtK8OZa-7cnHIBuaB0o9OFW5kYsRDzF1V3Ql2QIko7UYjXqinXi9jn7AMobW4S7JSvP-JJVmS_Fq_M7p0j_I5mQ7A67xs9kbVp9u_k7Vt-irWxDDWKycTtZkobwFkMRv8bD8lYcFvYt-dyHFETX7qSbikKo2_A74s3rguLhr3m00>`_
+
 Several tables
 --------------
 
@@ -298,7 +302,7 @@ Several tables
    * - 5
      - Salt
 
-To generate an ERD diagram, the input could be (`example3.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example3.csv>`_):
+To generate an ERD diagram, the input could be (`example4.csv <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example4.csv>`_):
 
 .. code-block:: python
 
@@ -321,4 +325,4 @@ With this input, the ERD generated (with `example4.uml <https://github.com/matte
   :width: 759
   :alt: ERD example of 'Example 4' table
 
-
+`See in PlantUML server <https://www.plantuml.com/plantuml/uml/ZPBHQzim4CRVzLVSA8m65ah7Le8nfka8eophHfR1-cGKwvo8s59saaZCwFy-AIQnwfaHXppuxllvEtsdUsCvMLTNZ5LOMh0QIAut5eGaBApKYfcjL3jEl0RIJeb2aqA2suzHmsouq7kfrc39OTJOS2Ns9Ar51IMlJDmhAcuC_67WdmTURDV7pt_IbIRORwJ5OsTAfFTjyUhztMGYFhI09e7qklx2s1k1fLG8bgygl3wC09MLje43f2bSBz_1F1pknxPvg1oE8ClEn8vapQd9jzW4BbrbQH6-dboj9fExM__wrhUozEPOpU2GtgmwkjI4SgrEz0dbnwUFfYxpjEjeNtUrYa4imy-3DGh9nuG-TH6Pzz2yt5vET_wiZGdyuiWhKTcyaiR2wBYLE95O8WMC4dXyMiu-pnRmVV7uTRfuXY-pPmQdayHonMiCm7BsQmbFt_p_vtpENixcX8NSOTuHflMFC-rKiNUd-V-CqLo_7MylXEykPjDvDr2dSKhQN9TvZTmumXgLZUVlotU4uJvRgTL9zk_fRBF3eLX3_Q90W_32ACsGKMXTQ1Mxn14FpnliU_SdILvlOZpE1hRSKx5MuSlTg8DWh61Hl4bYcpvcpaN6xb49LrT_0G00>`_

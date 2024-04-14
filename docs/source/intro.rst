@@ -1,18 +1,23 @@
 Introduction
 ============
 
-During the development of another project, I needed to transform some worksheets into a database, so I created **dbSketcher** as a simple program to help me design the database out from a CSV file with minimal code.
+During the development of another project, I needed to transform some worksheets into a database,
+so I created **dbSketcher** as a simple program to help me design the database out from a CSV file
+with minimal code.
 
 What it does
 ************
 
-Takes a simple CSV input, consisting in three columns with the basic table/columns data, and generates an sqlite script (to create the tables) and a UML file with the ERD diagram for the data.
-See some `Examples <examples.html>`_
+| Takes a simple CSV input, consisting in three columns with the basic table/columns data, and generates
+an sqlite script (to create the tables) and a UML file with the code required to generate an ERD diagram
+for the data (for the time being, this code must be input in the `PlantUML Server <https://www.plantuml.com/plantuml/uml/Km00>`_).
+| See some `Examples <examples.html>`_
 
 Limitations
 ***********
 
-The code was developed just as an aid tool. **No unit tests were done**, and several errors can arise without explanation if the initial syntax of the CSV file is not properly done.
+The code was developed just as an aid tool. **No unit tests were done**, and several errors can
+appear without explanation if the initial syntax of the CSV file is not properly done.
 
 TODO List
 *********
