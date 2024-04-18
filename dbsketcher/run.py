@@ -17,9 +17,10 @@ def identifyType(data: str)-> tuple:
     :return: 3 strings in a tuple.
 
         #. ``att_class``: the tag for the type of attribute:
+        
            - **'col'** stands for "column", a standard non-key attribute
            - **'pk'** stands for "primary key"
-           - **'fk (``PARENT``)'** stands for "foreign key", where PARENT
+           - **'fk (PARENT)'** stands for "foreign key", where PARENT
            is the table to which this key makes reference to.
 
         #. ``col_type``: SQLite code to declare an attribute (uppercase)
@@ -85,14 +86,15 @@ represent the relationships in a useful way for the rest of the code.
 :param `file`: Each row of the file represents an attribute, the table
                where it belongs to, and eventually the parent (in case of
                a foreign key).
+               
                'table name', 'attribute', 'SQL-type definition'             
 :type `file`: head-less CSV file
 
 :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
          - ``tables``:            tables and attributes information
-         - ``relationships_uml``: foreign key relationships, for UML format
-         - ``relationships_sql``: foreign key relationships, for SQL format
+         - ``relationships_uml``: foreign key relationships, for UML output
+         - ``relationships_sql``: foreign key relationships, for SQL output
 
 :rtype: tuple
 """
