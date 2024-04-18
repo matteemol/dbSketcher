@@ -7,23 +7,23 @@ import formatStrings
 def identifyType(data: str)-> tuple:
     """
     Core function of the script. Reads the 3rd row of the CSV line (the
-    so called 'SQL-type definition') and breaks it down in 3:
-    `att_class`, `col_type` and -if exists- `parent` (only in case of
-    foreign keys).
+    so called ``SQL-type definition``) and breaks it down in 3:
+    ``att_class``, ``col_type`` and -if exists- ``parent`` (only in case
+    of foreign keys).
 
-    :param `data`: SQL-type attribute definition string.
-    :type `data`: String
+    :param ``data``: SQL-type attribute definition string.
+    :type ``data``: String
 
     :return: 3 strings in a tuple.
 
-        #. `att_class`: the tag for the type of attribute:
-           * "col" stands for "column", a standard non-key attribute
-           * "pk" stands for "primary key"
-           * "fk (PARENT)" stands for fk, where PARENT is the table
-           to which this key makes reference to.
+        #. ``att_class``: the tag for the type of attribute:
+           - **'col'** stands for "column", a standard non-key attribute
+           - **'pk'** stands for "primary key"
+           - **'fk (``PARENT``)'** stands for "foreign key", where PARENT
+           is the table to which this key makes reference to.
 
-        #. `col_type`: SQLite code to declare an attribute (uppercase)
-        #.  `parent`: when the line corresponds to a foreign key, this
+        #. ``col_type``: SQLite code to declare an attribute (uppercase)
+        #.  ``parent``: when the line corresponds to a foreign key, this
             output corresponds to the parent table's name.
 
     :rtype: tuple
@@ -72,11 +72,10 @@ Starting point of the program. Takes a CSV file with the structure:
     ``table name``, ``attribute``, ``SQL-type definition``
 
 | and transforms this into a dictionary with the structure:
-| {'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
-(...)]}
+| {'table name 1': [('attribute x', 'attribute x type', 'SQL script'), (...)]}
 
 If foreign keys are present, the CSV line should state the parent table
-to which the foreign key refer, between brackets:
+to which the foreign key refers, between brackets:
 
     i.e: ``SQL-type definition`` = 'integer foreign key (``PARENT TABLE``)'
 
@@ -93,7 +92,7 @@ represent the relationships in a useful way for the rest of the code.
 
          - ``tables``:            tables and attributes information
          - ``relationships_uml``: foreign key relationships, for UML format
-         - ``relationchips_sql``: foreign key relationships, for SQL format
+         - ``relationships_sql``: foreign key relationships, for SQL format
 
 :rtype: tuple
 """
