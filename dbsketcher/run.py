@@ -69,31 +69,31 @@ def csvToDict(file)-> tuple:
     """
 Starting point of the program. Takes a CSV file with the structure:
 
-    'table name', 'attribute', 'SQL-type definition'
+    ``table name``, ``attribute``, ``SQL-type definition``
 
-and transforms this into a dictionary with the structure:
-{'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
+| and transforms this into a dictionary with the structure:
+| {'table name 1': [('attribute x', 'attribute x type', 'SQL script'),
 (...)]}
 
 If foreign keys are present, the CSV line should state the parent table
 to which the foreign key refer, between brackets:
 
-    i.e:`'SQL-type definition'` = 'integer foreign key ('parent table')
+    i.e: ``SQL-type definition`` = 'integer foreign key (``PARENT TABLE``)'
 
 If so, two additional dictionaries are populated by this function to
 represent the relationships in a useful way for the rest of the code.
 
-:param `file`: Base file without headers and only three columns
+:param `file`: Each row of the file represents an attribute, the table
+               where it belongs to, and eventually the parent (in case of
+               a foreign key).
                'table name', 'attribute', 'SQL-type definition'             
-:type `file`: CSV file
-
-...
+:type `file`: head-less CSV file
 
 :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
-         `tables`:            tables and attributes information
-         `relationships_uml`: foreign key relationships, for UML format
-         `relationchips_sql`: foreign key relationships, for SQL format
+         - ``tables``:            tables and attributes information
+         - ``relationships_uml``: foreign key relationships, for UML format
+         - ``relationchips_sql``: foreign key relationships, for SQL format
 
 :rtype: tuple
 """
