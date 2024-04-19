@@ -4,6 +4,6 @@ Modules
 .. toctree::
    :maxdepth: 4
 
-   run (main)
+   run
    formatStrings
    sqlitegen
