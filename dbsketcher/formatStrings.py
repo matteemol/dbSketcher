@@ -4,7 +4,7 @@ the construction of the output scripts:
 - ``initUML``: Header of the UML output
 - ``endUML``: Footer of the UML output
 - ``fkSQL``: SQL script to include as standard code for the foreign
-            foreign keys behavior in the SQL output.
+             keys behavior in the SQL output.
 
 """
 
