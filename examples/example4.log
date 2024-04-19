@@ -1,0 +1,6 @@
+CSV to dict - Tables:
+{'ingredient_list': [('ingredient_id', 'pk', 'INTEGER PRIMARY KEY'), ('ingredient_name', 'col', 'TEXT NOT NULL')], 'recipe_ingredients': [('recipe_id', 'fk (recipes)', 'INTEGER'), ('ingredient_id', 'fk (ingredient_list)', 'INTEGER'), ('quantity', 'col', 'REAL NOT NULL'), ('unit_of_measurement', 'col', 'TEXT NOT NULL'), ('preparation', 'col', 'TEXT')], 'recipe_type': [('type_id', 'pk', 'INTEGER PRIMARY KEY'), ('type_name', 'col', 'TEXT NOT NULL')], 'recipes': [('recipe_id', 'pk', 'INTEGER PRIMARY KEY'), ('name', 'col', 'TEXT'), ('type_id', 'fk (recipe_type)', 'INTEGER')]}
+CSV to dict - Relationships (UML):
+{'ingredient_id': [('ingredient_list', 'recipe_ingredients')], 'recipe_id': [('recipes', 'recipe_ingredients')], 'type_id': [('recipe_type', 'recipes')]}
+CSV to dict - Relationships (SQL):
+{'recipe_ingredients': [('recipe_id', 'recipes'), ('ingredient_id', 'ingredient_list')], 'recipes': [('type_id', 'recipe_type')]}

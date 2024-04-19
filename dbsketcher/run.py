@@ -462,12 +462,22 @@ if __name__ == '__main__':
 
     tables, relationships_uml, relationships_sql = csvToDict(file)
 
-    print("\nCSV to dict - Tables")
+    output = "CSV to dict - Tables:\n" + \
+    str(tables) + \
+    "\nCSV to dict - Relationships (UML):\n" + \
+    str(relationships_uml) + \
+    "\nCSV to dict - Relationships (SQL):\n" + \
+    str(relationships_sql)
+
+    print("CSV to dict - Tables")
     print(tables)
     print("\nCSV to dict - Relationships (UML)")
     print(relationships_uml)
     print("\nCSV to dict - Relationships (SQL)")
     print(relationships_sql)
+
+    with open(f"{file[:-4]}.log", "w") as logfile:
+        logfile.write(output)
 
     dictToUml(tables, relationships_uml, file)
     dictToSql(tables, relationships_sql, file)
