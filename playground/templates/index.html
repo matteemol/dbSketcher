@@ -46,7 +46,7 @@
 </div>
 	<div class=container>
 		<div class=cell>
-			<textarea spellcheck=false id=uml oninput="done()">
+			<textarea spellcheck=false id=uml> <!--oninput="done()">-->
 @startuml
 Alice -> Bob : Hello!
 @enduml
@@ -54,11 +54,24 @@ Alice -> Bob : Hello!
 		</div>
 	</div>
 	<!--container-->
+	<form action="/tryme/" method="post">
+		<button name="tryme" type="submit">Try me!</button>
+	</form>
+	<button onclick='tryme()'>Try me! (JS)</button>
 	<div>
 	<button onclick='permlink()'>PermLink</button><a id=permlink href=.></a>
 	</div>
 
 	<script>
+	var jarfile = "{{ linktofile }}"
+
+	cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", jarfile)
+
+	function tryme() {
+		text = document.getElementById('uml').value;
+		cjCall("com.plantuml.api.cheerpj.v1.Svg", "convert", "light", text);
+	}
+
 	function permlink() {
 		if (version_displayed==0)
 			return;
@@ -73,7 +86,7 @@ Alice -> Bob : Hello!
 			else
 				url = url.substr(0,x) + "?" + res;
 			// alert(url);
-			document.getElementById('permlink').innerText="Permink to this page";
+			document.getElementById('permlink').innerText="Permlink to this page";
 			document.getElementById('permlink').href=url;
 
 		});
@@ -133,7 +146,7 @@ if (x>0)
 
 
 cheerpjInit({disableLoadTimeReporting:true,disableErrorReporting:true}).then( (val0) => {
-	cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", "/app/plantuml-core/plantuml-core.jar", "/app/plantuml-core/", "debugjava").then ( (val1) => {
+	cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", jarfile, jarfolder, "debugjava").then ( (val1) => {
 		if (x>0) {
 			var encoded = url.substr(x+1);
 			console.log(encoded);
