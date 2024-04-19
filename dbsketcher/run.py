@@ -68,7 +68,7 @@ def identifyType(data: str)-> tuple:
 
 def csvToDict(file)-> tuple:
     """
-Starting point of the program. Takes a CSV file with the structure:
+Starting point of the program. Takes a CSV file where each line contains:
 
     ``table name``, ``attribute``, ``SQL-type definition``
 
@@ -87,14 +87,23 @@ represent the relationships in a useful way for the rest of the code.
                where it belongs to, and eventually the parent (in case of
                a foreign key).
                
-               'table name', 'attribute', 'SQL-type definition'             
+               ``table name``, ``attribute``, ``SQL-type definition``             
 :type `file`: head-less CSV file
 
 :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
          - ``tables``:            tables and attributes information
+        
+        {``TABLE NAME 1``:
+        [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}        
+        
          - ``relationships_uml``: foreign key relationships, for UML output
+
+        {``FOREIGN KEY``: [(``PARENT TABLE``, ``CHILD TABLE``)]
+
          - ``relationships_sql``: foreign key relationships, for SQL output
+
+        {``CHILD TABLE``: [(``FOREIGN KEY``, ``PARENT TABLE``)]
 
 :rtype: tuple
 """
@@ -162,20 +171,21 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     Reads the dictionary of the table's information and generates a
     plantUML-ready file for it's visualization.
 
-    :param `tables`: {'table name 1':
-           [('attribute x', 'attribute x type', 'SQL script'), (...)]}
+    :param `tables`: {``TABLE NAME 1``: [(``ATTRIBUTE X``,
+                     ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}
     :type `tables`: Dictionary
 
     :param `relations`: if foreign keys are defined, this is the
             dictionary that holds the relationships information:
-            {'attribute': [(father_table, child_table)]}
+            
+            {``ATTRIBUTE X``: [(``FATHER TABLE``, ``CHILD_TABLE``)]}
     :type `relations`: Dictionary
 
-    :param `fname`: name of the file with the CSV information (to be
+    :param `fname`: name of the file with the CSV information (also
             used as the name for the output file)
     :type `fname`: String
 
-    :return: UML script that represents the database
+    :return: UML script to sketch the database
     :rtype: String
     """
 
@@ -227,6 +237,28 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
 
 
 def dictToSql(tables:dict, relations:dict, fname:str)-> str:
+    """
+    Reads the dictionary of the table's information and generates an
+    SQL script to create the tables with the references with minimal
+    code.
+
+    :param `tables`: {``TABLE NAME 1``: [(``ATTRIBUTE X``,
+                     ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}
+    :type `tables`: Dictionary
+
+    :param `relations`: if foreign keys are defined, this is the
+            dictionary that holds the relationships information:
+            
+            {``ATTRIBUTE X``: [(``FATHER TABLE``, ``CHILD_TABLE``)]}
+    :type `relations`: Dictionary
+
+    :param `fname`: name of the file with the CSV information (also
+            used as the name for the output file)
+    :type `fname`: String
+
+    :return: UML script to sketch the database
+    :rtype: String
+    """
     sqlScript = ""
 
     for table, columns in tables.items():
