@@ -76,8 +76,8 @@ Starting point of the program. Takes a CSV file where each line contains:
 | {``TABLE NAME 1``:
   [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}        
 
-If foreign keys are present, the CSV line should state the parent table
-to which the foreign key refers, between brackets:
+If foreign keys are present, the CSV line should also state the parent
+table to which the foreign key refers, between brackets:
 
     i.e: ``SQL-type definition`` = 'integer foreign key (``PARENT TABLE``)'
 
@@ -93,18 +93,19 @@ represent the relationships in a useful way for the rest of the code.
 
 :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
-         - ``tables``:            tables and attributes information
+         - ``tables``:
+         | tables and attributes information
+         | {``TABLE NAME 1``:
+            [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``),
+             (...)]}        
         
-        {``TABLE NAME 1``:
-        [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}        
-        
-         - ``relationships_uml``: foreign key relationships, for UML output
+         - ``relationships_uml``:
+         | foreign key relationships, for UML output
+         | {``FOREIGN KEY``: [(``PARENT TABLE``, ``CHILD TABLE``)]
 
-        {``FOREIGN KEY``: [(``PARENT TABLE``, ``CHILD TABLE``)]
-
-         - ``relationships_sql``: foreign key relationships, for SQL output
-
-        {``CHILD TABLE``: [(``FOREIGN KEY``, ``PARENT TABLE``)]
+         - ``relationships_sql``:
+         | foreign key relationships, for SQL output
+         | {``CHILD TABLE``: [(``FOREIGN KEY``, ``PARENT TABLE``)]
 
 :rtype: tuple
 """
