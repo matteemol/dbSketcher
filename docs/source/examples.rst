@@ -40,7 +40,7 @@ The CSV that represents this table (`example1.csv <https://github.com/matteemol/
     recipes, name, text not null
     recipes, ingredients, text
 
-As you can see, lines can be decomposed in three parameters each:
+As you can see, each line is composed by three parameters:
 
 | ``[TABLE NAME]`` = recipes
 | ``[ATTRIBUTE NAME]`` = recipe_id
@@ -69,7 +69,7 @@ Then, after running in the terminal:
 
   python dbsketcher/run.py examples/example1.csv
 
-We'll get two new output files:
+We'll get two output files (and a `log <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.log>`_):
 
 * `example1.sql <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.sql>`_
 
@@ -219,7 +219,7 @@ And the ERD diagram (`example3.uml <https://github.com/matteemol/dbSketcher/tree
   :width: 657
   :alt: ERD example of 'Example 3' table
 
-`See in PlantUML server <https://www.plantuml.com/plantuml/uml/ZP7HQzim4CRVzLVSA8m65ah7Le8nfkqmeophHkR1-XHawsmBor8uIpXcz7-VR8T4oLugumVVTx_lFf_kEyl9kbOnfh2qO0sGh6eBGX8MLXhDkaRg7IVU0XcdHM588y7jvq3eQYvCBtK5bXm6Gisrw4bQYnfAhhfGAnJlElZBm9z7NZJLPF_5A4FGrzBYf3mGcNukNdsyMwt4fnam993Eww-ClHDOIerWUQxmUhy0r5RQ0VOGnt2TVO3r-7E_ck5HELn0aXo97ScMqx1jS1YvE4_YOdIFhlBLwkxMVxxtKXBVJDK4zl5DVg9BGoWhVQGFA9_E9HgxnDFkHFkwQtK8OZa-7cnHIBuaB0o9OFW5kYsRDzF1V3Ql2QIko7UYjXqinXi9jn7AMobW4S7JSvP-JJVmS_Fq_M7p0j_I5mQ7A67xs9kbVp9u_k7Vt-irWxDDWKycTtZkobwFkMRv8bD8lYcFvYt-dyHFETX7qSbikKo2_A74s3rguLhr3m00>`_
+`See in PlantUML server <https://www.plantuml.com/plantuml/uml/ZP7HQzim4CRVzLVSA8m65ah7Le8nfkqmeophHkR1-XHawsmBor8uIpXcz7-VR8T4oLugumVVTx_lFf_kEyl9kbOnfh2qO0sGh6eBGX8MLXhDkaRg7IVU0XcdHM588y7jvq3eQYvCBtK5bXm6Gisrw4bQYnfAhhfGAnJlElZBm9z7NZJLPF_5A4FGrzBYf3mGcNukNdsyMwt4fnam993Eww-ClHDOIerWUQxmUhy0r5RQ0VOGnt2TVO3r-7E_ck5HELn0aXo97ScMqx1jS1YvE4_YOdIFhlBLwkxMVxxtKXBVJDK4zl5DVg9BGoWhVQGFA9_E9HgxnDFkHFkwQtK8OZa-7cnHIBuaB0o9OFW5kYsRDzF1V3Ql2QIko7UYjXqinXi9jn7AMobW4S7JSvP-JJVmS_Fq_M7p0j_I5mQ7A67xs9kbVp9u_k7Vt-irWxDDWKycTtZkobwFkMRv8bD8lYcFvYt-dyHFETX7qSbikKo2_A74s3rguLhr3m00>`_ and the `output <https://github.com/matteemol/dbSketcher/tree/rtd-docs/examples/example1.log>`_)
 
 Several tables
 --------------

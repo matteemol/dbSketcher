@@ -1,0 +1,6 @@
+CSV to dict - Tables:
+{'ingredients': [('ingredient_id', 'pk', 'INTEGER PRIMARY KEY'), ('ingredient', 'col', 'TEXT NOT NULL'), ('recipe_id', 'fk (recipes)', 'INTEGER')], 'recipes': [('recipe_id', 'pk', 'INTEGER PRIMARY KEY'), ('name', 'col', 'TEXT NOT NULL')]}
+CSV to dict - Relationships (UML):
+{'recipe_id': [('recipes', 'ingredients')]}
+CSV to dict - Relationships (SQL):
+{'ingredients': [('recipe_id', 'recipes')]}

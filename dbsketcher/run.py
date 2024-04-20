@@ -73,7 +73,8 @@ Starting point of the program. Takes a CSV file where each line contains:
     ``table name``, ``attribute``, ``SQL-type definition``
 
 | and transforms this into a dictionary with the structure:
-| {'table name 1': [('attribute x', 'attribute x type', 'SQL script'), (...)]}
+| {``TABLE NAME 1``:
+  [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}        
 
 If foreign keys are present, the CSV line should state the parent table
 to which the foreign key refers, between brackets:
