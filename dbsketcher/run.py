@@ -176,11 +176,11 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
                      ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}
     :type `tables`: Dictionary
 
-    :param `relations`:
-    if foreign keys are defined, this is the dictionary that holds
-    the relationships information:
+    :param `relations`: if foreign keys are defined, this is the
+    dictionary that holds the relationships information:
             
             {``ATTRIBUTE X``: [(``FATHER TABLE``, ``CHILD_TABLE``)]}
+
     :type `relations`: Dictionary
 
     :param `fname`: name of the file with the CSV information (also
