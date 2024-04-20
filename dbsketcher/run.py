@@ -432,6 +432,17 @@ def polishSQL(raw_list: list)-> list:
     transforms it into a list of tuples with the form
     (name, pk/fk/col, type), where type is the SQL script code to
     define the column's data type.
+
+    :param raw_list: list of the database's attributes read from the
+                    SQL script.
+    :type raw_list: list
+
+    :return: list of tuples, where each tuple is composed by:
+
+            (``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``)
+
+    :rtype: list
+
     """
 
     clean = []
