@@ -372,6 +372,21 @@ def polishUML(raw_list: list)-> list:
 
 
 def umlToDict(file)-> dict:
+    """
+    Reads an UML script file and transforms it into a dictionary with
+    the required format to be used to create a UML/SQL file.
+
+    :param file: UML script file (see formatStrings for structure info)
+    :type file: UML script
+
+    :return: dictionary with the tables' data
+
+            {``TABLE NAME 1``:
+            [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``),
+            (...)]}
+
+    :rtype: dict
+    """
 
     isWithin = False
     isTable = ""
@@ -478,7 +493,7 @@ def polishSQL(raw_list: list)-> list:
 def sqlToDict(file)-> dict:
     """
     Reads an SQL script file and transforms it into a dictionary with
-    the required format to be used to create a UML file.
+    the required format to be used to create a UML/SQL file.
 
     :param file: SQL script file (minimum statements)
     :type file: sqlite3 script
@@ -491,6 +506,7 @@ def sqlToDict(file)-> dict:
 
     :rtype: dict
     """
+
     isWithin = False
     isTable = ""
     table = ""
