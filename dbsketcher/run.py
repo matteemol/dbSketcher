@@ -330,7 +330,11 @@ def polishUML(raw_list: list)-> list:
     type), where type is the SQL script code to define the column's
     data type.
 
-    `raw_list` : list
+    :param raw_list: _description_
+    :type raw_list: list
+
+    :return: _description_
+    :rtype: list
     """
 
     clean = []
