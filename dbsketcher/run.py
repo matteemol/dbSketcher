@@ -93,18 +93,15 @@ represent the relationships in a useful way for the rest of the code.
 
 :return: 3 dictionaries as a 3-tuple. These dictionaries are
 
-         - ``tables``:
-         | tables and attributes information
+         - ``tables``: tables and attributes information
          | {``TABLE NAME 1``:
             [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``),
              (...)]}        
         
-         - ``relationships_uml``:
-         | foreign key relationships, for UML output
+         - ``relationships_uml``: foreign key relationships, for UML output
          | {``FOREIGN KEY``: [(``PARENT TABLE``, ``CHILD TABLE``)]
 
-         - ``relationships_sql``:
-         | foreign key relationships, for SQL output
+         - ``relationships_sql``: foreign key relationships, for SQL output
          | {``CHILD TABLE``: [(``FOREIGN KEY``, ``PARENT TABLE``)]
 
 :rtype: tuple
@@ -244,21 +241,21 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     SQL script to create the tables with the references with minimal
     code.
 
-    :param `tables`: {``TABLE NAME 1``: [(``ATTRIBUTE X``,
+    :param `tables`:
+    | {``TABLE NAME 1``: [(``ATTRIBUTE X``,
                      ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}
     :type `tables`: Dictionary
 
     :param `relations`: if foreign keys are defined, this is the
             dictionary that holds the relationships information:
-            
-            {``ATTRIBUTE X``: [(``FATHER TABLE``, ``CHILD_TABLE``)]}
+    | {``ATTRIBUTE X``: [(``FATHER TABLE 1``, ``CHILD_TABLE 1``)]}
     :type `relations`: Dictionary
 
     :param `fname`: name of the file with the CSV information (also
             used as the name for the output file)
     :type `fname`: String
 
-    :return: UML script to sketch the database
+    :return: SQL script to generate the database with sqlite3
     :rtype: String
     """
     sqlScript = ""
