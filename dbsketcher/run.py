@@ -6,8 +6,8 @@ import formatStrings
 
 def identifyType(data: str)-> tuple:
     """
-    Core function of the script. Reads the 3rd row of the CSV line (the
-    so called ``SQL-type definition``) and breaks it down in 3:
+    Core function of the script. Reads the 3rd column of the CSV line
+    (the so called ``SQL-type definition``) and breaks it down in 3:
     ``att_class``, ``col_type`` and -if exists- ``parent`` (only in case
     of foreign keys).
 
@@ -21,7 +21,7 @@ def identifyType(data: str)-> tuple:
            - **'col'** stands for "column", a standard non-key attribute
            - **'pk'** stands for "primary key"
            - **'fk (PARENT)'** stands for "foreign key", where PARENT
-           is the table to which this key makes reference to.
+             is the table to which this key makes reference to.
 
         #. ``col_type``: SQLite code to declare an attribute (uppercase)
         #.  ``parent``: when the line corresponds to a foreign key, this
