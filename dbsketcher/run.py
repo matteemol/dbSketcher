@@ -428,7 +428,7 @@ def umlToDict(file)-> dict:
 
 def polishSQL(raw_list: list)-> list:
     """
-    Takes a list consisting of each of the SQL text lines and
+    Takes a list consisting of each of the SQL script lines and
     transforms it into a list of tuples with the form
     (name, pk/fk/col, type), where type is the SQL script code to
     define the column's data type.
@@ -477,8 +477,19 @@ def polishSQL(raw_list: list)-> list:
 
 def sqlToDict(file)-> dict:
     """
-    Reads an sql script file and transforms it into a dictionary with
+    Reads an SQL script file and transforms it into a dictionary with
     the required format to be used to create a UML file.
+
+    :param file: SQL script file (minimum statements)
+    :type file: sqlite3 script
+
+    :return: dictionary with the tables' data
+
+            {``TABLE NAME 1``:
+            [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``),
+            (...)]}
+
+    :rtype: dict
     """
     isWithin = False
     isTable = ""
