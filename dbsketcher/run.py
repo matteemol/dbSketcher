@@ -330,10 +330,14 @@ def polishUML(raw_list: list)-> list:
     type), where type is the SQL script code to define the column's
     data type.
 
-    :param raw_list: _description_
+    :param raw_list: list of the database's attributes read from the
+                    UML script.
     :type raw_list: list
 
-    :return: _description_
+    :return: list of tuples, where each tuple is composed by:
+
+            (``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``)
+
     :rtype: list
     """
 
@@ -404,6 +408,7 @@ def umlToDict(file)-> dict:
 # append it to the list of colums for the table
                 if column != "": table_list.append(column)
 
+#            print(table_list)
             if "}" in line:
                 isWithin = False
 
@@ -423,10 +428,11 @@ def umlToDict(file)-> dict:
 
 def polishSQL(raw_list: list)-> list:
     """
-Takes a list consisting of each of the SQL text lines and transforms it
-into a list of tuples with the form (name, pk/fk/col, type), where type
-is the SQL script code to define the column's data type.
-"""
+    Takes a list consisting of each of the SQL text lines and
+    transforms it into a list of tuples with the form
+    (name, pk/fk/col, type), where type is the SQL script code to
+    define the column's data type.
+    """
 
     clean = []
     att_class = ""
@@ -460,9 +466,9 @@ is the SQL script code to define the column's data type.
 
 def sqlToDict(file)-> dict:
     """
-Reads an sql script file and transforms it into a dictionary with the
-required format to be used to create a UML file
-"""
+    Reads an sql script file and transforms it into a dictionary with
+    the required format to be used to create a UML file.
+    """
     isWithin = False
     isTable = ""
     table = ""
