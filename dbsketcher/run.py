@@ -257,7 +257,7 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     :type `tables`: Dictionary
 
     :param `relations`: if foreign keys are defined, this is the
-                dictionary that holds the relationships information:
+              dictionary that holds the relationships information:
     
             {``ATTRIBUTE X``: [(``FATHER TABLE 1``, ``CHILD_TABLE 1``)]}
 
