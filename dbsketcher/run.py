@@ -202,12 +202,16 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     references["col"] = "column( "
 
     for table, columns in tables.items():
+# Iterate over the {tables} dictionary to start composing the UML script
         colsLines = ""
         startLine = "table( " + table + " ) {\n"
         for col in columns:
             if col[0] in list(relations.keys()) and col[1][:2] == "fk":
+# recognize if the attribute is a foreign key
                 attLine = "  foreign_key( " + col[0] + " ): " + col[2] + "\n"
             else:
+# if it's not foreign, then it's primary (Note: this conditional is
+# testing the attributes that belong to the {relations} dictionary)
                 attLine = (
                     "  "
                     + references[col[1].split("(")[0]] + col[0] + " ): "
@@ -217,11 +221,13 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
         lastLine = "}"
 
         if table == list(tables.keys())[-1]:
+# Detect if the table is the last one
             umlScript += (startLine + colsLines + lastLine)
         else:
             umlScript += (startLine + colsLines + lastLine + "\n\n")
 
     if relations != "":
+# Trigger to detect if the tables are related and generate the links
         umlScript += "\n\n"
         for attribute, rel in relations.items():
             for family in rel:
@@ -235,6 +241,7 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
                 umlScript += link + "\n"
 
     umlScript += formatStrings.endUML
+# Add the footer of the umlScript to make it ready for output
 
     with open(f"{fname[:-4]}.uml", "w") as uml_out:
         uml_out.write(umlScript)
@@ -273,16 +280,20 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     sqlScript = ""
 
     for table, columns in tables.items():
+# Iterate over the {tables} dictionary to start composing the SQL script
         colsLines = ""
         startLine = "CREATE TABLE IF NOT EXISTS " + table + " (\n"
 
         for col in columns:
 
             if col != columns[-1]:
+# This if/else is to consider (or not) the last colon before closing
+# the SQL script
                 attLine = " " + col[0] + " " + col[2] + ",\n"
             else:
                 attLine = " " + col[0] + " " + col[2]
                 try:
+# This try/except evaluates if the attribute is a foreign key
                     for family in relations[table]:
                         link = ""
                         attLine += ",\n"
@@ -291,6 +302,8 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
                             " FOREIGN KEY (" + attribute + ")\n  "
                             + "REFERENCES " + father + " (" + attribute + ")"
                             + formatStrings.fkSQL
+# The standard action to be taken for foreign keys is read from the 
+# formatStrings module
                         )
                         attLine += link
                 except:
@@ -299,6 +312,7 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
         lastLine = "\n);"
 
         if table == list(tables.keys())[-1]:
+# Detect if the table is the last one
             sqlScript += (startLine + colsLines + lastLine)
         else:
             sqlScript += (startLine + colsLines + lastLine + "\n\n")
