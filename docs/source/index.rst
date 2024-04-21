@@ -14,6 +14,7 @@ Welcome to dbSketcher's documentation!
    installation
    examples
    modules
+   changelog
 
 Indices and tables
 ==================

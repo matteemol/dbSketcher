@@ -86,7 +86,8 @@ represent the relationships in a useful way for the rest of the code.
 
 :param `file`: Each row of the file represents an attribute, the table
                where it belongs to, and eventually the parent (in case of
-               a foreign key).
+               a foreign key). The expected (correct) way to indicate this
+               information is:
                
                ``table name``, ``attribute``, ``SQL-type definition``             
 :type `file`: head-less CSV file
@@ -183,7 +184,7 @@ def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     :param `relations`: if foreign keys are defined, this is the
             dictionary that holds the relationships information:
             
-            {``ATTRIBUTE X``: [(``FATHER TABLE``, ``CHILD_TABLE``)]}
+            {``ATTRIBUTE X``: [(``FATHER TABLE 1``, ``CHILD TABLE 1``)]}
 
     :type `relations`: Dictionary
 
@@ -266,7 +267,7 @@ def dictToSql(tables:dict, relations:dict, fname:str)-> str:
     :param `relations`: if foreign keys are defined, this is the
             dictionary that holds the relationships information:
             
-            {``ATTRIBUTE X``: [(``FATHER TABLE 1``, ``CHILD_TABLE 1``)]}
+            {``CHILD TABLE``: [(``ATTRIBUTE X``, ``FATHER TABLE 1``)]}
 
     :type `relations`: Dictionary
 

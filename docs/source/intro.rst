@@ -3,6 +3,11 @@ Introduction
 
 During the development of another project, I needed to transform some worksheets into a database, so I created **dbSketcher** as a simple program to help me design the database out from a CSV file with minimal code.
 
+What's new
+**********
+| The current version (1.0) is the initial release! So everything is new ;)
+| Check the `Changelog <changelog.html>`_ for the (future) complete release history.
+
 What it does
 ************
 
