@@ -4,12 +4,16 @@ from sqlite3 import Error
 
 
 def execute_script(sqlite_db, scriptFile):
-    """
-Runs an SQLite script from a file.
+    """Runs an SQLite script from a file.
 
-`sqlite_db`: the .sqlite database (created if doesn't exists)
-`scriptFile`: the file with the script to run on `sqlite_db`
-"""
+    :param `sqlite_db`: Database name to which the script should
+        establish the connection. If it doesn't exists, it's
+        created with this parameter's name.
+    :type `sqlite_db`: slqite3 database
+
+    :param `scriptFile`: SQL script file to run
+    :type `scriptFile`: sqlite3 script
+    """
     try:
         sqliteConnection = sqlite3.connect(sqlite_db)
         cursor = sqliteConnection.cursor()

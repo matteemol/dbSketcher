@@ -1,14 +1,4 @@
-"""
-This module contains the long or repetitive strings required during
-the construction of the output scripts:
-
-- ``initUML``: Header of the UML output
-- ``endUML``: Footer of the UML output
-- ``fkSQL``: SQL script to include as standard code for the foreign
-            keys behavior in the SQL output.
-"""
-
-initUML = """@startuml
+@startuml
 
 left to right direction
 skinparam roundcorner 15
@@ -26,11 +16,17 @@ skinparam class {
 !define column(x) <color:#efefef><&media-record></color> x
 !define column_fk(x) <color:#efefef><&media-record></color> <u>x</u>
 
-"""
+table( ingredients ) {
+  primary_key( ingredient_id ): INTEGER PRIMARY KEY
+  column( ingredient ): TEXT NOT NULL
+  foreign_key( recipe_id ): INTEGER
+}
 
-endUML = """
-@enduml"""
+table( recipes ) {
+  primary_key( recipe_id ): INTEGER PRIMARY KEY
+  column( name ): TEXT NOT NULL
+}
 
-fkSQL = """
-    ON UPDATE SET NULL
-    ON DELETE SET NULL"""
+recipes::recipe_id --> ingredients::recipe_id
+
+@enduml

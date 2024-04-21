@@ -14,9 +14,7 @@ Welcome to dbSketcher's documentation!
    installation
    examples
    modules
-   run
-   formatStrings
-   sqlitegen
+   changelog
 
 Indices and tables
 ==================

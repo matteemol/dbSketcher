@@ -1,0 +1,5 @@
+recipes, recipe_id, integer primary key
+recipes, name, text not null
+ingredients, ingredient_id, integer primary key
+ingredients, ingredient, text not null
+ingredients, recipe_id, integer foreign key (recipes)
