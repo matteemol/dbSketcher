@@ -7,8 +7,8 @@ def execute_script(sqlite_db, scriptFile):
     """Runs an SQLite script from a file.
 
     :param `sqlite_db`: Database name to which the script should
-        establish the connection. If the database doesn't exists,
-        then it's created.
+        establish the connection. If it doesn't exists, it's
+        created with this parameter's name.
     :type `sqlite_db`: slqite3 database
 
     :param `scriptFile`: SQL script file to run
