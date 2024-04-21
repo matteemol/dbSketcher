@@ -1,12 +1,12 @@
 """
-    This module contains the long or repetitive strings required during
-    the construction of the output scripts:
+This module contains the long or repetitive strings required during
+the construction of the output scripts:
 
-        - ``initUML``: Header of the UML output
-        - ``endUML``: Footer of the UML output
-        - ``fkSQL``: SQL script to include as standard code for the
-                     foreign keys behavior in the SQL output.
-                     
+- ``initUML``: Header of the UML output
+- ``endUML``: Footer of the UML output
+- ``fkSQL``: SQL script to include as standard code for the foreign
+    keys behavior in the SQL output.
+
 """
 
 initUML = """@startuml
