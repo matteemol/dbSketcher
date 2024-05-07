@@ -1,166 +1,177 @@
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no"/>
 <title>dbSketcher Playground</title>
 <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<style>
-.container {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	height: 70%;
-}
-
-.cell {
-	width: 50%;
-}
-
-
-#uml {
-	width: 100%;
-	height: 100%;
-}
-#lean {
-	background-color: #F2F2FF;
-	padding: 0px;
-	margin: 0px;
-	position: fixed;
-	bottom: 0px;
-	right: 0px;
-	left: 0px;
-	width: 100%;
-	height: 80px;
-}
-#lean p {
-	margin: 30px 0 0px 120px;
-}
-
-#lean img {
-	position: fixed;
-	margin: 10px 30px 0 30px;
-}
-</style>
-
 <body>
-</div>
-	<div class=container>
-		<div class=cell>
-			<textarea spellcheck=false id=uml> <!--oninput="done()">-->
-@startuml
-Alice -> Bob : Hello!
-@enduml
-</textarea>
-		</div>
-	</div>
-	<!--container-->
-	<form action="/tryme/" method="post">
-		<button name="tryme" type="submit">Try me!</button>
-	</form>
-	<button onclick='tryme()'>Try me! (JS)</button>
-	<div>
-	<button onclick='permlink()'>PermLink</button><a id=permlink href=.></a>
-	</div>
 
-	<script>
-	var jarfile = "{{ linktofile }}"
+    <main>
+      <section class="content">
+        <div class="text">
+          <h1>dbSketcher</h1>
+          <p>dbSketcher is a tool developed in Python to generate a graph of a -simple- database with <a href=https://www.plantuml.com/>PlantUML</a> by indicating a set of instructions with minimum code.</p>
+          <p>It also generates the base code for an SQL script to generate this database.</p>
+          <p>You can find the <a href=https://www.github.com/matteemol/dbSketcher>repository here</a> and <a href=https://dbSketcher.readthedocs.org>take a look at the docs</a> to find how it works.</p>
+        </div>
+        <div class="main-frame">
+        <div class="input">
+          <h2>1: Input (CSV)</h2>
+          <p>Paste the content of the CSV file to run the dbSketcher script here:</p>
+          <div class=cell>
+              <textarea spellcheck=false id=csv>
+  recipes, recipe_id, integer primary key
+  recipes, name, text
+  recipes, type_id, integer foreign key (recipe_type)
+  recipe_type, type_id, integer primary key
+  recipe_type, type_name, text not null
+  recipe_ingredients, recipe_id, integer foreign key (recipes)
+  recipe_ingredients, ingredient_id, integer foreign key (ingredient_list)
+  recipe_ingredients, quantity, real not null
+  recipe_ingredients, unit_of_measurement, text not null
+  recipe_ingredients, preparation, text
+  ingredient_list, ingredient_id, integer primary key
+  ingredient_list, ingredient_name, text not null</textarea>
+          </div>
+          <div>
+            <button class=btn onclick='callfuncs()'>Sketch it!</button><a id=sketch_button href=''></a>
+          </div>  
+        </div>
+        <div class="output">
+          <h2>2: Output (UML code)</h2>
+          <p>The dbSketcher script generates a <i>.uml</i> file with the following output:</p>
+          <div class=cell>
+            <textarea spellcheck=false id=uml>
+  @startuml
+  
+  left to right direction
+  skinparam roundcorner 15
+  skinparam shadowing true
+  skinparam handwritten false
+  skinparam class {
+      BackgroundColor white
+      ArrowColor #2688d4
+      BorderColor #2688d4
+  }
+  
+  !define table(x) entity x << (T, LightSkyBlue) >>
+  !define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+  !define foreign_key(x) <color:#aaaaaa><&key></color> <u>x</u>
+  !define column(x) <color:#efefef><&media-record></color> x
+  !define column_fk(x) <color:#efefef><&media-record></color> <u>x</u>
+  
+  table( ingredient_list ) {
+    primary_key( ingredient_id ): INTEGER PRIMARY KEY
+    column( ingredient_name ): TEXT NOT NULL
+  }
+  
+  table( recipe_ingredients ) {
+    foreign_key( recipe_id ): INTEGER
+    foreign_key( ingredient_id ): INTEGER
+    column( quantity ): REAL NOT NULL
+    column( unit_of_measurement ): TEXT NOT NULL
+    column( preparation ): TEXT
+  }
+  
+  table( recipe_type ) {
+    primary_key( type_id ): INTEGER PRIMARY KEY
+    column( type_name ): TEXT NOT NULL
+  }
+  
+  table( recipes ) {
+    primary_key( recipe_id ): INTEGER PRIMARY KEY
+    column( name ): TEXT
+    foreign_key( type_id ): INTEGER
+  }
+  
+  ingredient_list::ingredient_id --> recipe_ingredients::ingredient_id
+  recipes::recipe_id --> recipe_ingredients::recipe_id
+  recipe_type::type_id --> recipes::type_id
+  
+  @enduml</textarea>
+          </div>
+          <div>
+            <button class=btn onclick='callfuncs()'>Visualize it!</button><a id=permlink href=.></a>
+          </div>  
+        </div>
+        <div class="vis">
+          <h2>3: db Diagram</h2>
+          <div class=debug id=popup>ERROR</div>
+          <div class=debug id=debugjava>(...debug div...)</div>
+          <div class=cell>
+            <canvas id="canvas"></canvas>
+          </div>
+          <div>
+              <button class=btn onclick='callfuncs()'>Edit in PlantUML Server</button><a id=permlink href=.></a>
+          </div>
+        </div>
+        </section>
+      <div class="credits">
+          <div id=lean>
+            <p><i>Image generation powered by <a href=https://www.plantuml.com/>PlantUML</a> and <a href=https://docs.leaningtech.com/cheerpj>CheerpJ</a> (CheerpJ is a Leaning Technologies Java tool). UI inspired in an <a href=https://github.com/ecemgo>Ecem Gokdogan</a> design from <a href=https://codepen.io/ecemgo/pen/YzBZjjb>Codepen</a>. Buttons by <a href=https://codepen.io/yuhomyan/pen/OJMejWJ>yuhomyan</a></i>
+            </p>
+          </div>
+        </div>
+    </main>
+  
+    <script>
+        function generate_link() {
+            text = document.getElementById('uml').value;
+            console.log("text="+text);
+        
+            cheerpjInit({disableLoadTimeReporting:true,disableErrorReporting:true}).then( (val0) => {
+                cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", "/app/dbSketcher-playground/plantuml-core.jar", "/app/dbSketcher-playground/", "debugjava").then ( (val1) => {
+                    cjCall("com.plantuml.api.cheerpj.v1.Info", "encode", text).then((res) => {
+                        console.log("res="+res);
+                        url = "https://www.plantuml.com/plantuml/uml/?" + res;
+                        alert(url);
+                        document.getElementById('permlink').innerText="Link to this page";
+                        document.getElementById('permlink').href=url;
+                    });
+                });
+            });	
+        }
+        
+        function createPNG() {
+            text = document.getElementById('uml').value;
+            document.getElementById('permlink').innerText="";
+            cjCall("com.plantuml.api.cheerpj.v1.Raw", "convert", "light", text).then((raw) => {
+                if (raw.constructor.name=='Int8Array') {
+                    document.getElementById("popup").style.visibility = "hidden";
+                    const canvas = document.getElementById('canvas');
+                    canvas.style.visibility = "visible";
+                    const ctx = canvas.getContext('2d');
+                    
+                    const width = (255&raw[1]) * 256 + (255&raw[2]); 
+                    const height = (255&raw[3]) * 256 + (255&raw[4]);
+                    
+                    console.log("width="+ width+" height="+height);
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    const imageData = ctx.createImageData(width, height);
+            
+                    // Fill the array with RGBA values
+                    for (let i = 0; i < imageData.data.length; i ++)
+                      imageData.data[i] = 255&raw[5+i]
+            
+                    // Force refresh?
+                    canvas.width+=10;
+                    ctx.putImageData(imageData, 0, 0);
+                    
+                } else {
+                    const obj = JSON.parse(raw);
+                    document.getElementById('popup').innerText=raw;
+                    document.getElementById("popup").style.visibility = "visible";
+                }
+            });
+        }
 
-	cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", jarfile)
-
-	function tryme() {
-		text = document.getElementById('uml').value;
-		cjCall("com.plantuml.api.cheerpj.v1.Svg", "convert", "light", text);
-	}
-
-	function permlink() {
-		if (version_displayed==0)
-			return;
-		text = document.getElementById('uml').value;
-		console.log("text="+text);
-		cjCall("com.plantuml.api.cheerpj.v1.Info", "encode", text).then((res) => {
-			console.log("res="+res);
-			var url = window.location.href;
-			var x = url.indexOf("?");
-			if (x==-1)
-				url = url + "?" + res;
-			else
-				url = url.substr(0,x) + "?" + res;
-			// alert(url);
-			document.getElementById('permlink').innerText="Permlink to this page";
-			document.getElementById('permlink').href=url;
-
-		});
-		
-	}
-	
-var _inprogress = false;
-var version_input = 0;
-var version_displayed = 0;
-
-function done() {
-	text = document.getElementById('uml').value;
-	version_input++;
-	const current = version_input;
-	if (_inprogress) return;
-	_inprogress = true;
-	document.getElementById('permlink').innerText="";
-	cjCall("com.plantuml.api.cheerpj.v1.Raw", "convert", "light", text).then((raw) => {
-		if (raw.constructor.name=='Int8Array') {
-			document.getElementById("popup").style.visibility = "hidden";
-			const canvas = document.getElementById('canvas');
-			canvas.style.visibility = "visible";
-			const ctx = canvas.getContext('2d');
-			
-			const width = (255&raw[1]) * 256 + (255&raw[2]); 
-			const height = (255&raw[3]) * 256 + (255&raw[4]);
-			
-			console.log("width="+ width+" height="+height);
-			canvas.width = width;
-			canvas.height = height;
-			
-			const imageData = ctx.createImageData(width, height);
-	
-			// Fill the array with RGBA values
-			for (let i = 0; i < imageData.data.length; i ++)
-			  imageData.data[i] = 255&raw[5+i]
-	
-			// Force refresh?
-			canvas.width+=10;
-			ctx.putImageData(imageData, 0, 0);
-			
-		} else {
-			const obj = JSON.parse(raw);
-			document.getElementById('popup').innerText=raw;
-			document.getElementById("popup").style.visibility = "visible";
-		}
-		version_displayed = current;
-		_inprogress = false;
-		if (version_displayed<version_input) done();
-	});
-}
-
-var url = window.location.href;
-var x = url.indexOf("?");
-if (x>0)
-	document.getElementById('uml').value = "...in progress...";
-
-
-cheerpjInit({disableLoadTimeReporting:true,disableErrorReporting:true}).then( (val0) => {
-	cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", jarfile, jarfolder, "debugjava").then ( (val1) => {
-		if (x>0) {
-			var encoded = url.substr(x+1);
-			console.log(encoded);
-			cjCall("com.plantuml.api.cheerpj.v1.Info", "decode", encoded).then((res) => {
-				document.getElementById('uml').value = res;
-				done();
-			});
-			
-		} else		
-			done();
-	});
-});
-  </script>
-
-</body>
-
+        function callfuncs() {
+        alert("Click!");
+      }
+    </script>
+  
+  </body>
 </html>

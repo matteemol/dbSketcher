@@ -11,8 +11,8 @@ app = Flask(__name__)
 # Index page
 @app.route('/')
 def index():
-	linktojarfile = os.path.join(basedir, 'plantuml-core.jar')
-	return render_template('index.html', linktofile=linktojarfile)
+#	linktojarfile = os.path.join(basedir, 'plantuml-core.jar')
+	return render_template('index.html')
 
 @app.route("/tryme/", methods=['POST'])
 def try_me():
