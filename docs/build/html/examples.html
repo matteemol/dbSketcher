@@ -16,12 +16,12 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dbsketcher" href="modules.html" />
+    <link rel="next" title="Modules" href="modules.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -50,12 +50,14 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#csv-input-format">CSV input format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#just-1-table">Just 1 table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#just-1-table-with-multiple-items">Just 1 table with multiple items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tables">2 tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#several-tables">Several tables</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">dbsketcher</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sqlitegen.html">sqlitegen module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
         </div>
@@ -83,14 +85,411 @@
            <div itemprop="articleBody">
              
   <section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<h1><a class="toc-backref" href="#id12" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<p>The best way to understand how this works, and what is useful for, it’s probably with some examples, so here we go:</p>
+<nav class="contents" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#examples" id="id12">Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#csv-input-format" id="id13">CSV input format</a></p></li>
+<li><p><a class="reference internal" href="#just-1-table" id="id14">Just 1 table</a></p></li>
+<li><p><a class="reference internal" href="#just-1-table-with-multiple-items" id="id15">Just 1 table with multiple items</a></p></li>
+<li><p><a class="reference internal" href="#tables" id="id16">2 tables</a></p></li>
+<li><p><a class="reference internal" href="#several-tables" id="id17">Several tables</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
 <section id="csv-input-format">
-<h2>CSV input format<a class="headerlink" href="#csv-input-format" title="Link to this heading"></a></h2>
-<p>The CSV doesn’t have any header, and one line per attribute</p>
-<p>“Here goes a Table related to the CSV below”</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">CSV input format</a><a class="headerlink" href="#csv-input-format" title="Link to this heading"></a></h2>
+<p>The CSV should be just a simple file, with no headers, where each line represents an attribute of a table.</p>
+<p>For example, take the following data:</p>
+</section>
+<section id="just-1-table">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Just 1 table</a><a class="headerlink" href="#just-1-table" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Table (recipes)</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>recipe_id</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>ingredients</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><div class="line-block">
+<div class="line">1/2 Cup Oil</div>
+<div class="line">2 tablespoons red wine vinegar</div>
+<div class="line">1/2 cup finely chopped parsley</div>
+<div class="line">1 tablespoon finely chopped chili</div>
+<div class="line">1 teaspoon salt</div>
+<div class="line">(…)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The CSV that represents this table (<a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example1.csv">example1.csv</a>) would state</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recipes</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">ingredients</span><span class="p">,</span> <span class="n">text</span>
 </pre></div>
 </div>
+<p>As you can see, each line is composed by three parameters:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> = recipes</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> = recipe_id</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> = integer primary key</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> = recipes</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> = name</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> = text not null</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[TABLE</span> <span class="pre">NAME]</span></code> = recipes</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ATTRIBUTE</span> <span class="pre">NAME]</span></code> = ingredients</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[BASIC</span> <span class="pre">SQLITE</span> <span class="pre">DEFINITION]</span></code> = text</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently, the way to indicate that the attribute is a key, is:</p>
+<p><strong>Primary Key</strong>: <code class="docutils literal notranslate"><span class="pre">primary</span> <span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">primary_key</span></code>, <code class="docutils literal notranslate"><span class="pre">pk</span></code>, <code class="docutils literal notranslate"><span class="pre">pkey</span></code></p>
+<p><strong>Foreign Key</strong>: <code class="docutils literal notranslate"><span class="pre">foreign</span> <span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign_key</span></code>, <code class="docutils literal notranslate"><span class="pre">fk</span></code>, <code class="docutils literal notranslate"><span class="pre">fkey</span></code></p>
+<p>Any other term used may rise to incorrect outputs (missing relationships)</p>
+</div>
+<p>Then, after running in the terminal:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">dbsketcher</span><span class="o">/</span><span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="n">examples</span><span class="o">/</span><span class="n">example1</span><span class="o">.</span><span class="n">csv</span>
+</pre></div>
+</div>
+<p>We’ll get two output files (and a <a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example1.log">log</a>):</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example1.sql">example1.sql</a></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">recipes</span> <span class="p">(</span>
+<span class="n">recipe_id</span> <span class="n">INTEGER</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+<span class="n">name</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+<span class="n">ingredients</span> <span class="n">TEXT</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example1.uml">example1.uml</a></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@startuml</span>
+
+<span class="n">left</span> <span class="n">to</span> <span class="n">right</span> <span class="n">direction</span>
+<span class="n">skinparam</span> <span class="n">roundcorner</span> <span class="mi">15</span>
+<span class="n">skinparam</span> <span class="n">shadowing</span> <span class="n">true</span>
+<span class="n">skinparam</span> <span class="n">handwritten</span> <span class="n">false</span>
+<span class="n">skinparam</span> <span class="k">class</span> <span class="err">{</span>
+    <span class="n">BackgroundColor</span> <span class="n">white</span>
+    <span class="n">ArrowColor</span> <span class="c1">#2688d4</span>
+    <span class="n">BorderColor</span> <span class="c1">#2688d4</span>
+<span class="p">}</span>
+
+<span class="err">!</span><span class="n">define</span> <span class="n">table</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">entity</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">LightSkyBlue</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<span class="err">!</span><span class="n">define</span> <span class="n">primary_key</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;&lt;</span><span class="n">color</span><span class="p">:</span><span class="c1">#b8861b&gt;&lt;&amp;key&gt;&lt;/color&gt; x&lt;/b&gt;</span>
+<span class="err">!</span><span class="n">define</span> <span class="n">foreign_key</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">color</span><span class="p">:</span><span class="c1">#aaaaaa&gt;&lt;&amp;key&gt;&lt;/color&gt; &lt;u&gt;x&lt;/u&gt;</span>
+<span class="err">!</span><span class="n">define</span> <span class="n">column</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">color</span><span class="p">:</span><span class="c1">#efefef&gt;&lt;&amp;media-record&gt;&lt;/color&gt; x</span>
+<span class="err">!</span><span class="n">define</span> <span class="n">column_fk</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">color</span><span class="p">:</span><span class="c1">#efefef&gt;&lt;&amp;media-record&gt;&lt;/color&gt; &lt;u&gt;x&lt;/u&gt;</span>
+
+<span class="n">table</span><span class="p">(</span> <span class="n">recipes</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="n">primary_key</span><span class="p">(</span> <span class="n">recipe_id</span> <span class="p">):</span> <span class="n">INTEGER</span> <span class="n">PRIMARY</span> <span class="n">KEY</span>
+  <span class="n">column</span><span class="p">(</span> <span class="n">name</span> <span class="p">):</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="n">column</span><span class="p">(</span> <span class="n">ingredients</span> <span class="p">):</span> <span class="n">TEXT</span>
+<span class="p">}</span>
+
+<span class="nd">@enduml</span>
+</pre></div>
+</div>
+<p>That renders to:</p>
+<a class="reference internal image-reference" href="_images/example1.png"><img alt="ERD example of 'Example 1' table" src="_images/example1.png" style="width: 280px;" /></a>
+<p><a class="reference external" href="https://www.plantuml.com/plantuml/uml/ZP5HYzGm4CVVyob63kGAod6YHpbAkJifShYUibPmdvQqcRP3qsIP97IB-DrjkzIj--IKFkJ_dzzCClFWl6GVEYs4nig3jy1KDnuKCPQUh16k9NEGB3jW6umgBHjakFsmCbmZbUt9rE0vuCfef54za_Tee9BQhRrII-VWbu0ndcJPrdFvZrPRXhuXZxFpo6pxatZrxYwErViJO5aX_wl_5kALmeeCWfU5nkjZ16Wy-G6Ea2HmdR-1pVIux-tmf0D6aAP_YGDJ9tdOjpXCN5AaIJbLlxygulZkTZo-7gqqkPdL58x9JN6cAyj8jLde1PLpNA99I4SwdEbH3vrPWrXDtmXsg4Y-PImjgrNp2tHVjVzFd_kBqvY0iQG3EeYcRQmdiLXxKX3Tm_DBddtAjl1j-_pbSRk3pzbEm79xCBB3AIlFVkRmydNyVsmsAvzCpQW8ZNTBshGoyO16XKx_0G00">See in PlantUML server</a></p>
+</section>
+<section id="just-1-table-with-multiple-items">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Just 1 table with multiple items</a><a class="headerlink" href="#just-1-table-with-multiple-items" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">Okay, that table it’s kind of awful. Really, really unnormalized.</div>
+<div class="line">A <strong>sligthly</strong> better version could be:</div>
+</div>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Table (recipes)</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>recipe_id</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>ingredient</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>1/2 Cup Oil</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>2 tablespoons red wine vinegar</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>1/2 cup finely chopped parsley</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>1 tablespoon finely chopped chili</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>1 teaspoon salt</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>(…)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Since the information that the CSV file contains are the columns (attributes) names, the table to where they belong and the sql syntax that generates them, the <strong>ONLY</strong> difference in this file would be the name of the third column: as we now denormalized the table a little bit, we now have an entry (row) for each ingredient, so we changed <code class="docutils literal notranslate"><span class="pre">ingredients</span></code> by <code class="docutils literal notranslate"><span class="pre">ingredient</span></code> (without the last “s”)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recipes</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">ingredient</span><span class="p">,</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>So the other files would change in a similar way.</p>
+</section>
+<section id="tables">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">2 tables</a><a class="headerlink" href="#tables" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">If we go a little bit further in normalization, the first thing we should do, would be to split the recipe’s name from the ingredients, right?</div>
+</div>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">Table 1 (recipes)</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>recipe_id (primary_key)</p></th>
+<th class="head"><p>name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text">Table 2 (ingredients)</span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 55.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>ingredient_id (primary_key)</p></th>
+<th class="head"><p>ingredient</p></th>
+<th class="head"><p>recipe_id (foreign_key)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1/2 Cup Oil</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>2 tablespoons red wine vinegar</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>1/2 cup finely chopped parsley</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>1 tablespoon finely chopped chili</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>1 teaspoon salt</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>(…)</p></td>
+<td><p>(…)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Now the <code class="docutils literal notranslate"><span class="pre">recipe_id</span></code> attribute is not only the <code class="docutils literal notranslate"><span class="pre">primary_key</span></code> of the first table (<strong>recipes</strong>), but it’s also the <code class="docutils literal notranslate"><span class="pre">foreign_key</span></code> of the second table (<strong>ingredients</strong>)</p>
+<p>The CSV (<a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example3.csv">example3.csv</a>) now does have some ‘major’ changes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recipes</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">ingredients</span><span class="p">,</span> <span class="n">ingredient_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">ingredients</span><span class="p">,</span> <span class="n">ingredient</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">ingredients</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">foreign</span> <span class="n">key</span> <span class="p">(</span><span class="n">recipes</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And the ERD diagram (<a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example3.uml">example3.uml</a>) is transformed to:</p>
+<a class="reference internal image-reference" href="_images/example3.png"><img alt="ERD example of 'Example 3' table" src="_images/example3.png" style="width: 657px;" /></a>
+<p><a class="reference external" href="https://www.plantuml.com/plantuml/uml/ZP7HQzim4CRVzLVSA8m65ah7Le8nfkqmeophHkR1-XHawsmBor8uIpXcz7-VR8T4oLugumVVTx_lFf_kEyl9kbOnfh2qO0sGh6eBGX8MLXhDkaRg7IVU0XcdHM588y7jvq3eQYvCBtK5bXm6Gisrw4bQYnfAhhfGAnJlElZBm9z7NZJLPF_5A4FGrzBYf3mGcNukNdsyMwt4fnam993Eww-ClHDOIerWUQxmUhy0r5RQ0VOGnt2TVO3r-7E_ck5HELn0aXo97ScMqx1jS1YvE4_YOdIFhlBLwkxMVxxtKXBVJDK4zl5DVg9BGoWhVQGFA9_E9HgxnDFkHFkwQtK8OZa-7cnHIBuaB0o9OFW5kYsRDzF1V3Ql2QIko7UYjXqinXi9jn7AMobW4S7JSvP-JJVmS_Fq_M7p0j_I5mQ7A67xs9kbVp9u_k7Vt-irWxDDWKycTtZkobwFkMRv8bD8lYcFvYt-dyHFETX7qSbikKo2_A74s3rguLhr3m00">See in PlantUML server</a> (and the script’s <a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example3.log">output</a>)</p>
+</section>
+<section id="several-tables">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Several tables</a><a class="headerlink" href="#several-tables" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">If we go a little bit further in normalizing this scheme, we can break these tables a little bit more into:</div>
+</div>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text">Table 1 (recipes)</span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>recipe_id (primary_key)</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>type_id (foreign_key)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Chimichurri</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Criolla</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Flan</p></td>
+<td><p>5</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-text">Table 2 (recipe_type)</span><a class="headerlink" href="#id9" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>type_id (primary_key)</p></th>
+<th class="head"><p>type_name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Starter</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Dressing</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Main course</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Side dish</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Dessert</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text">Table 3 (recipe_ingredients)</span><a class="headerlink" href="#id10" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>recipe_id (foreign_key)</p></th>
+<th class="head"><p>ingredient_id (foreign_key)</p></th>
+<th class="head"><p>quantity</p></th>
+<th class="head"><p>unit_of_measurement</p></th>
+<th class="head"><p>preparation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>Cup</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>tablespoons</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>1/2</p></td>
+<td><p>Cup</p></td>
+<td><p>Finely chopped</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id11">
+<caption><span class="caption-text">Table 4 (ingredient_list)</span><a class="headerlink" href="#id11" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>ingredient_id (primary_key)</p></th>
+<th class="head"><p>ingredient_name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Sunflower Oil</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Red wine vinegar</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Parsley</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Chili</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Salt</p></td>
+</tr>
+</tbody>
+</table>
+<p>To generate an ERD diagram, the input could be (<a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example4.csv">example4.csv</a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recipes</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span>
+<span class="n">recipes</span><span class="p">,</span> <span class="n">type_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">foreign</span> <span class="n">key</span> <span class="p">(</span><span class="n">recipe_type</span><span class="p">)</span>
+<span class="n">recipe_type</span><span class="p">,</span> <span class="n">type_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">recipe_type</span><span class="p">,</span> <span class="n">type_name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">recipe_ingredients</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">foreign</span> <span class="n">key</span> <span class="p">(</span><span class="n">recipes</span><span class="p">)</span>
+<span class="n">recipe_ingredients</span><span class="p">,</span> <span class="n">ingredient_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">foreign</span> <span class="n">key</span> <span class="p">(</span><span class="n">ingredient_list</span><span class="p">)</span>
+<span class="n">recipe_ingredients</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">real</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">recipe_ingredients</span><span class="p">,</span> <span class="n">unit_of_measurement</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="n">recipe_ingredients</span><span class="p">,</span> <span class="n">preparation</span><span class="p">,</span> <span class="n">text</span>
+<span class="n">ingredient_list</span><span class="p">,</span> <span class="n">ingredient_id</span><span class="p">,</span> <span class="n">integer</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="n">ingredient_list</span><span class="p">,</span> <span class="n">ingredient_name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+</pre></div>
+</div>
+<p>With this input, we get this <a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example4.log">output</a> and the ERD diagram (<a class="reference external" href="https://github.com/matteemol/dbSketcher/tree/main/examples/example4.uml">example4.uml</a>):</p>
+<a class="reference internal image-reference" href="_images/example4.png"><img alt="ERD example of 'Example 4' table" src="_images/example4.png" style="width: 759px;" /></a>
+<p><a class="reference external" href="https://www.plantuml.com/plantuml/uml/ZPBHQzim4CRVzLVSA8m65ah7Le8nfka8eophHfR1-cGKwvo8s59saaZCwFy-AIQnwfaHXppuxllvEtsdUsCvMLTNZ5LOMh0QIAut5eGaBApKYfcjL3jEl0RIJeb2aqA2suzHmsouq7kfrc39OTJOS2Ns9Ar51IMlJDmhAcuC_67WdmTURDV7pt_IbIRORwJ5OsTAfFTjyUhztMGYFhI09e7qklx2s1k1fLG8bgygl3wC09MLje43f2bSBz_1F1pknxPvg1oE8ClEn8vapQd9jzW4BbrbQH6-dboj9fExM__wrhUozEPOpU2GtgmwkjI4SgrEz0dbnwUFfYxpjEjeNtUrYa4imy-3DGh9nuG-TH6Pzz2yt5vET_wiZGdyuiWhKTcyaiR2wBYLE95O8WMC4dXyMiu-pnRmVV7uTRfuXY-pPmQdayHonMiCm7BsQmbFt_p_vtpENixcX8NSOTuHflMFC-rKiNUd-V-CqLo_7MylXEykPjDvDr2dSKhQN9TvZTmumXgLZUVlotU4uJvRgTL9zk_fRBF3eLX3_Q90W_32ACsGKMXTQ1Mxn14FpnliU_SdILvlOZpE1hRSKx5MuSlTg8DWh61Hl4bYcpvcpaN6xb49LrT_0G00">See in PlantUML server</a></p>
 </section>
 </section>
 
@@ -99,7 +498,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modules.html" class="btn btn-neutral float-right" title="dbsketcher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

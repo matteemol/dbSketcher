@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -50,13 +50,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-format">Input format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#table-generation-optional">Table generation (optional)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">dbsketcher</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sqlitegen.html">sqlitegen module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
         </div>
@@ -93,10 +93,7 @@
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <p>To run the program, execute the <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command in the terminal.</p>
-<div class="line-block">
-<div class="line"><strong>Notes:</strong>
-| - The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command should work too.</div>
-</div>
+<p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span> <span class="pre">&lt;csv</span> <span class="pre">file&gt;</span></code> command should work too.</p>
 </section>
 <section id="input-format">
 <h2>Input format<a class="headerlink" href="#input-format" title="Link to this heading"></a></h2>
@@ -111,6 +108,18 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">text</span></code> / <code class="docutils literal notranslate"><span class="pre">integer</span></code> / <code class="docutils literal notranslate"><span class="pre">real</span></code> (optional: <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">null</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">foreign</span> <span class="pre">key</span> <span class="pre">(PARENT_TABLE)</span></code></p></li>
 </ul>
+</section>
+<section id="output">
+<h2>Output<a class="headerlink" href="#output" title="Link to this heading"></a></h2>
+<p>Two files are generated:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">.uml</span></code> file (code to be viewed in <a class="reference external" href="https://www.plantuml.com/plantuml/uml/Km00">PlantUML server</a>)</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">.sql</span></code> file (script to run with sqlite3)</p></li>
+</ul>
+</section>
+<section id="table-generation-optional">
+<h2>Table generation (optional)<a class="headerlink" href="#table-generation-optional" title="Link to this heading"></a></h2>
+<p>Additionally, the module <code class="docutils literal notranslate"><span class="pre">sqlitegen.py</span></code> can run the sql script to generate a table (with no data).</p>
 </section>
 </section>
 

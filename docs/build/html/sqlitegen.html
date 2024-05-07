@@ -16,12 +16,13 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="run module" href="run.html" /> 
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="formatStrings module" href="formatStrings.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,21 +49,16 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">dbsketcher</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="run.html">run module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">sqlitegen module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sqlitegen.execute_script"><code class="docutils literal notranslate"><span class="pre">execute_script()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="formatStrings.html">formatStrings module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">sqlitegen module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#sqlitegen.execute_script"><code class="docutils literal notranslate"><span class="pre">execute_script()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
         </div>
@@ -79,7 +75,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">dbsketcher</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Modules</a></li>
       <li class="breadcrumb-item active">sqlitegen module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/sqlitegen.rst.txt" rel="nofollow"> View page source</a>
@@ -96,8 +92,16 @@
 <dt class="sig sig-object py" id="sqlitegen.execute_script">
 <span class="sig-prename descclassname"><span class="pre">sqlitegen.</span></span><span class="sig-name descname"><span class="pre">execute_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sqlite_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scriptFile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sqlitegen.execute_script" title="Link to this definition"></a></dt>
 <dd><p>Runs an SQLite script from a file.</p>
-<p><cite>sqlite_db</cite>: the .sqlite database (created if doesn’t exists)
-<cite>scriptFile</cite>: the file with the script to run on <cite>sqlite_db</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sqlite_db</strong> (<em>slqite3 database</em>) – Database name to which the script should
+establish the connection. If it doesn’t exists, it’s
+created with this parameter’s name.</p></li>
+<li><p><strong>scriptFile</strong> (<em>sqlite3 script</em>) – SQL script file to run</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -106,7 +110,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="run.html" class="btn btn-neutral float-left" title="run module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="formatStrings.html" class="btn btn-neutral float-left" title="formatStrings module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

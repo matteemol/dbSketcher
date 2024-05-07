@@ -10,8 +10,7 @@ Usage
 
 To run the program, execute the ``python3 run.py <csv file>`` command in the terminal. 
 
-| **Notes:**
-  | - The ``python run.py <csv file>`` command should work too.
+**Note:** The ``python run.py <csv file>`` command should work too.
 
 Input format
 ************
@@ -26,3 +25,16 @@ The CSV file should contain the following information per line:
 - ``integer primary key``
 - ``text`` / ``integer`` / ``real`` (optional: ``not null``)
 - ``integer foreign key (PARENT_TABLE)``
+
+Output
+******
+
+Two files are generated:
+
+- a ``.uml`` file (code to be viewed in `PlantUML server <https://www.plantuml.com/plantuml/uml/Km00>`_)
+- a ``.sql`` file (script to run with sqlite3)
+
+Table generation (optional)
+***************************
+
+Additionally, the module ``sqlitegen.py`` can run the sql script to generate a table (with no data).
