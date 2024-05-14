@@ -21,8 +21,6 @@ body {
   background: #252422;
 }
 
-/* MAIN MENU */
-
 main {
   display: grid;
 /*  grid-template-columns: 60% 40%;*/
@@ -34,6 +32,54 @@ main {
   border-radius: 15px;
   z-index: 10;
 }
+
+.loading-state, .visualizing-state {
+  visibility: hidden;
+  flex-direction: column;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5%;
+}
+
+.loading {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 10px solid #ddd;
+  border-top-color: rgba(45,140,15,1);
+  animation: loading 1s linear infinite;
+}
+
+.loading-h2 {
+  font-size: 2.0rem;
+  margin: 0.7rem;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px gray;
+}
+
+.visualizing-debug {
+  font-size: 1.0rem;
+  margin: 0.7rem;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px gray;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 /* CONTENT */
 
@@ -71,6 +117,16 @@ main {
   background: #CCD69A;
   margin: 0.3rem;
   border-radius: 15px;
+}
+
+.render-text {
+  visibility: hidden;
+}
+
+.render-button {
+  flex-direction: row;
+  justify-self: center;
+  visibility: hidden;
 }
 
 .output {
@@ -123,10 +179,13 @@ p {
 .debug {
   text-align: center;
   visibility: hidden;
+  height: 0;
 }
 
 .cell {
   text-align: center;
+  display: grid;
+  flex-direction: column;
 }
 
 textarea {
