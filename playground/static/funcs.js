@@ -55,7 +55,7 @@ function createSVG() {
 
 function loadEngine() {
     cheerpjInit({disableLoadTimeReporting:false,disableErrorReporting:false}).then( (val0) => {
-        cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", "/app/dbSketcher-playground/static/plantuml-core.jar", "/app/dbSketcher-playground/static/", "debugjava").then ( (val1) => {
+        cheerpjRunMain("com.plantuml.api.cheerpj.v1.RunInit", "/app/static/plantuml-core.jar", "/app/static/", "debugjava").then ( (val1) => {
             console.log("Engine started");
             document.getElementsByClassName('loading-state')[0].style.visibility="hidden";
         });
