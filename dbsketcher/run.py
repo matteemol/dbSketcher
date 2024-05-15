@@ -1,7 +1,7 @@
 import re
 import sys
 import csv
-import formatStrings
+from dbsketcher import formatStrings
 
 
 def identifyType(data: str)-> tuple:
@@ -560,31 +560,36 @@ def sqlToDict(file)-> dict:
 
 if __name__ == '__main__':
 
-    if len(sys.argv) != 2:
-        print("Wrong number of arguments")
-        print("python3 run.py <csv file>")
-        exit()
+    if len(sys.argv) == 1:
+        print("Called without args")
 
-    file = sys.argv[1]
+#    if len(sys.argv) != 2:
+#        print("Wrong number of arguments")
+#        print("python3 run.py <csv file>")
+#        exit()
 
-    tables, relationships_uml, relationships_sql = csvToDict(file)
+    if len(sys.argv) == 2:
 
-    output = "CSV to dict - Tables:\n" + \
-    str(tables) + \
-    "\nCSV to dict - Relationships (UML):\n" + \
-    str(relationships_uml) + \
-    "\nCSV to dict - Relationships (SQL):\n" + \
-    str(relationships_sql)
+        file = sys.argv[1]
 
-    print("CSV to dict - Tables")
-    print(tables)
-    print("\nCSV to dict - Relationships (UML)")
-    print(relationships_uml)
-    print("\nCSV to dict - Relationships (SQL)")
-    print(relationships_sql)
+        tables, relationships_uml, relationships_sql = csvToDict(file)
 
-    with open(f"{file[:-4]}.log", "w") as logfile:
-        logfile.write(output)
+        output = "CSV to dict - Tables:\n" + \
+        str(tables) + \
+        "\nCSV to dict - Relationships (UML):\n" + \
+        str(relationships_uml) + \
+        "\nCSV to dict - Relationships (SQL):\n" + \
+        str(relationships_sql)
 
-    dictToUml(tables, relationships_uml, file)
-    dictToSql(tables, relationships_sql, file)
+        print("CSV to dict - Tables")
+        print(tables)
+        print("\nCSV to dict - Relationships (UML)")
+        print(relationships_uml)
+        print("\nCSV to dict - Relationships (SQL)")
+        print(relationships_sql)
+
+        with open(f"{file[:-4]}.log", "w") as logfile:
+            logfile.write(output)
+
+        dictToUml(tables, relationships_uml, file)
+        dictToSql(tables, relationships_sql, file)
