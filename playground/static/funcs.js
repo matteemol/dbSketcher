@@ -6,10 +6,12 @@ function callfuncs() {
 
 function sketch_it() {
     var request = new XMLHttpRequest();
+    text = document.getElementById("csv").value;
     request.onload = function() {
         // We could do more interesting things with the response
         // or, we could ignore it entirely
         alert(request.responseText);
+        document.getElementById("uml").value = "Some new text"
     };
     // We point the request at the appropriate command
     request.open("GET", "/sketch-it", true);

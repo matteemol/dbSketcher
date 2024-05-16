@@ -30,9 +30,10 @@ def try_me():
 
 
 @app.route('/sketch-it')
-def command():
-	run.HTMLToDict();
-	response = "Clicked"
+def sketch():
+	text = request.get_json(0)
+	run.HTMLToDict(text);
+	response = text
 	return response, 200, {'Content-Type': 'text/plain'}
 
 

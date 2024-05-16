@@ -168,8 +168,8 @@ represent the relationships in a useful way for the rest of the code.
     )
 
 
-def HTMLToDict():
-    print("HTMLToDict called")
+def HTMLToDict(text):
+    print(text)
 
 
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
