@@ -3,7 +3,7 @@
 <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no"/>
 <title>dbSketcher Playground</title>
 <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
-<link rel="stylesheet" href="static/styles.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <div class="loading-state">
@@ -45,7 +45,7 @@ ingredient_list, ingredient_id, integer primary key
 ingredient_list, ingredient_name, text not null</textarea>
           </div>
           <div>
-            <button class=btn onclick='callfuncs()'>Sketch it!</button><a id=sketch_button href=''></a>
+            <button class=btn onclick='sketch_it()'>Sketch it!</button><a id=sketch_button href=''></a>
           </div>  
         </div>
         <div class="output">

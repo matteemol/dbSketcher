@@ -168,6 +168,10 @@ represent the relationships in a useful way for the rest of the code.
     )
 
 
+def HTMLToDict():
+    print("HTMLToDict called")
+
+
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
     """
     Reads the dictionary of the table's information and generates a

@@ -28,6 +28,14 @@ def index():
 def try_me():
     return render_template('ok.html')
 
+
+@app.route('/sketch-it')
+def command():
+	run.HTMLToDict();
+	response = "Clicked"
+	return response, 200, {'Content-Type': 'text/plain'}
+
+
 # Main Driver Function
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')

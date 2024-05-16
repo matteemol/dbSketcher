@@ -4,6 +4,19 @@ function callfuncs() {
     alert("Click!");
 }
 
+function sketch_it() {
+    var request = new XMLHttpRequest();
+    request.onload = function() {
+        // We could do more interesting things with the response
+        // or, we could ignore it entirely
+        alert(request.responseText);
+    };
+    // We point the request at the appropriate command
+    request.open("GET", "/sketch-it", true);
+    // and then we send it off
+    request.send();
+}
+
 function adjust_size(elementId) {
     document.getElementById(elementId).style.width="100%";
     document.getElementById(elementId).style.height="100%";
