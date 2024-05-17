@@ -3,6 +3,7 @@
 <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no"/>
 <title>dbSketcher Playground</title>
 <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -30,7 +31,8 @@
           <h2>1: Input (CSV)</h2>
           <p>Paste the content of the CSV file to run the dbSketcher script here:</p>
           <div class=cell>
-              <textarea spellcheck=false id=csv>
+            <form class="form" method="POST">
+            <textarea name="csv" spellcheck=false id=csv>
 recipes, recipe_id, integer primary key
 recipes, name, text
 recipes, type_id, integer foreign key (recipe_type)
@@ -45,8 +47,9 @@ ingredient_list, ingredient_id, integer primary key
 ingredient_list, ingredient_name, text not null</textarea>
           </div>
           <div>
-            <button class=btn onclick='sketch_it()'>Sketch it!</button><a id=sketch_button href=''></a>
+            <button type="submit" class=btn>Sketch it!</button><a id=sketch_button href=''></a>
           </div>  
+        </form>
         </div>
         <div class="output">
           <h2>2: Output (UML code)</h2>
@@ -141,6 +144,23 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Playground ready')
 /*  generate_link();*/
 });
+
+$(document).ready(function() {
+  $('form').submit(function(event) {
+//    csv_text = 
+    event.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/sketch',
+        data: $('form').serialize(),
+        success: function() {
+//          $('#csv').val('');
+          alert('Form submitted! (alert)');
+        }
+    });
+  });
+});
+
 </script>
   
   </body>

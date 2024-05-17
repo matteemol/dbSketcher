@@ -29,12 +29,16 @@ def try_me():
     return render_template('ok.html')
 
 
-@app.route('/sketch-it')
-def sketch():
-	text = request.get_json(0)
-	run.HTMLToDict(text);
-	response = text
-	return response, 200, {'Content-Type': 'text/plain'}
+@app.route('/sketch', methods=['POST'])
+def submit():
+	csv = request.form['csv']
+	run.HTMLToDict(csv);
+	
+	return 'Form submitted!'
+	
+#	text = request
+#	response = text
+#	return response, 200, {'Content-Type': 'text/plain'}
 
 
 # Main Driver Function

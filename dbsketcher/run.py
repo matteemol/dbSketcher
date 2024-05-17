@@ -169,7 +169,7 @@ represent the relationships in a useful way for the rest of the code.
 
 
 def HTMLToDict(text):
-    print(text)
+    print("HTMLToDict func called with:\n" , text)
 
 
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
