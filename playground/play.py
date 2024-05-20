@@ -30,11 +30,11 @@ def try_me():
 
 
 @app.route('/sketch', methods=['POST'])
-def submit():
-	csv = request.form['csv']
-	run.HTMLToDict(csv);
-	
-	return 'Form submitted!'
+def sketch():
+	print(request.json)
+#	csv = request.form['csv']
+#	output, umlOutput = run.runHTML(csv);
+	return "output", 200, {'Content-Type': 'text/plain'}
 	
 #	text = request
 #	response = text

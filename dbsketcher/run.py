@@ -169,7 +169,97 @@ represent the relationships in a useful way for the rest of the code.
 
 
 def HTMLToDict(text):
-    print("HTMLToDict func called with:\n" , text)
+    """
+This is an analogue function to csvToDict, but instead of getting a
+file as an input, it's just a string (HTML text).
+The structure of the string should be the same as if it were a CSV
+
+See csvToDict to have a full description of how this works.
+
+:param `text`: Each row of the text represents an attribute, the table
+               where it belongs to, and eventually the parent (in case of
+               a foreign key). The expected (correct) way to indicate this
+               information is:
+               
+               ``table name``, ``attribute``, ``SQL-type definition``             
+
+:return: 3 dictionaries as a 3-tuple. These dictionaries are
+
+         - ``tables``:            tables and attributes information
+        
+        {``TABLE NAME 1``:
+        [(``ATTRIBUTE X``, ``ATTRIBUTE'S X TYPE``, ``SQL SCRIPT``), (...)]}        
+        
+         - ``relationships_uml``: foreign key relationships, for UML output
+
+        {``FOREIGN KEY``: [(``PARENT TABLE``, ``CHILD TABLE``)]
+
+         - ``relationships_sql``: foreign key relationships, for SQL output
+
+        {``CHILD TABLE``: [(``FOREIGN KEY``, ``PARENT TABLE``)]
+
+:rtype: tuple
+"""
+    print("HTMLToDict func called")
+    tables = {}
+    relationships_uml = {}
+    relationships_sql = {}
+
+    tableinfo = []
+    relinfo = []  #Aux list for relationships_uml
+    families = [] #Aux list for relationships_sql
+
+    transformed_text = text.splitlines()
+    print(transformed_text)
+
+    for csv_row in transformed_text:
+        row = csv_row.split(",")
+# Iterate over rows and add them to the returned dict.
+# try/except used in case the line opened is the first appearance and
+# the item in the dictionary doesn't exist. In such case, it's created.
+        try:
+            tableinfo = tables[row[0]]
+        except:
+            tables[row[0]] = tableinfo
+        name = row[1].strip()
+        att_class, col_type, parent = identifyType(row[2].strip())
+# Breaks down the CSV line info into chunks that are then used to write
+# the dictionary with an adequate format
+
+        tableinfo.append((name, att_class, col_type))
+        tables[row[0]] = tableinfo
+
+        if parent != "":
+# Relationships creation block. Analogue to the table creation block,
+# whenever a fk is present, a parent-child relationship is created
+# and stored in two dictionaries (although may seem redundant, it
+# simplifies the functions' code from this point forward)
+            try:
+                relinfo = relationships_uml[name]
+            except:
+                relationships_uml[name] = relinfo
+
+            relinfo.append((parent, row[0]))
+            relationships_uml[name] = relinfo
+
+            try:
+                families = relationships_sql[row[0]]
+            except:
+                relationships_sql[row[0]] = families
+
+            families.append((row[1].strip(), parent))
+            relationships_sql[row[0]] = families
+
+        relinfo = []
+        tableinfo = []
+        families = []
+# All three auxiliary lists must be reinitialized between row and row
+
+    return (
+        dict(sorted(tables.items())),
+        dict(sorted(relationships_uml.items())),
+        dict(sorted(relationships_sql.items()))
+    )
 
 
 def dictToUml(tables:dict, relations:dict, fname:str)-> str:
@@ -560,6 +650,29 @@ def sqlToDict(file)-> dict:
 # clear the table_list list to continue with the next table
                 table_list = []
     return dict(sorted(tables.items()))
+
+
+def runHTML(text):
+    tables, relationships_uml, relationships_sql = HTMLToDict(text)
+
+    output = "CSV to dict - Tables:\n" + \
+    str(tables) + \
+    "\nCSV to dict - Relationships (UML):\n" + \
+    str(relationships_uml) + \
+    "\nCSV to dict - Relationships (SQL):\n" + \
+    str(relationships_sql)
+
+    print("CSV to dict - Tables")
+    print(tables)
+    print("\nCSV to dict - Relationships (UML)")
+    print(relationships_uml)
+    print("\nCSV to dict - Relationships (SQL)")
+    print(relationships_sql)
+
+    file = ""
+    umlOutput = dictToUml(tables, relationships_uml, file)
+
+    return output, umlOutput
 
 
 if __name__ == '__main__':

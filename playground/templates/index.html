@@ -31,7 +31,7 @@
           <h2>1: Input (CSV)</h2>
           <p>Paste the content of the CSV file to run the dbSketcher script here:</p>
           <div class=cell>
-            <form class="form" method="POST">
+            <form class="form" name="form_csv" method="POST">
             <textarea name="csv" spellcheck=false id=csv>
 recipes, recipe_id, integer primary key
 recipes, name, text
@@ -145,21 +145,26 @@ document.addEventListener('DOMContentLoaded', function() {
 /*  generate_link();*/
 });
 
+
 $(document).ready(function() {
   $('form').submit(function(event) {
-//    csv_text = 
     event.preventDefault();
+    sketch_it();
+    alert('Form submitted! (alert)');
+/*
     $.ajax({
         type: 'POST',
         url: '/sketch',
         data: $('form').serialize(),
         success: function() {
-//          $('#csv').val('');
           alert('Form submitted! (alert)');
+          console.log('Calling Python...');
+          sketch_it();
         }
-    });
+    });*/
   });
 });
+
 
 </script>
   

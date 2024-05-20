@@ -6,19 +6,36 @@ function callfuncs() {
 
 
 function sketch_it() {
+
+//    const formData = new FormData(document.forms("form_csv"));
+    console.log($(document).forms("form_csv"));
+/*
+    fetch("/sketch", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify($('form').serialize(), null, 4)
+    })
+    .then(function (response) {
+        return response.text();
+    }).then(function (text) {
+        console.log(text)
+    });
+
+
     var request = new XMLHttpRequest();
-    text = document.getElementById("csv").value;
     request.onload = function() {
         // We could do more interesting things with the response
         // or, we could ignore it entirely
         alert(request.responseText);
-        document.getElementById("uml").value = "Some new text"
+        console.log(request.responseText)
+//        document.getElementById("uml").value = "Some new text"
     };
     // We point the request at the appropriate command
-    request.open("GET", "/sketch-it", true);
+    request.open("POST", "/sketch", true);
     // and then we send it off
-    request.send();
+    request.send();*/
 }
+
 
 function adjust_size(elementId) {
     document.getElementById(elementId).style.width="100%";
