@@ -4,23 +4,43 @@ function callfuncs() {
     alert("Click!");
 }
 
+function handleSubmit(event) {
+    event.preventDefault();
 
-function sketch_it() {
+    const data = new FormData(event.target);
+    const value = data.get('csv');
 
+    console.log({ value });
+    sketch_it(value);
+}
+
+
+function sketch_it(data) {
+  
 //    const formData = new FormData(document.forms("form_csv"));
-    console.log($(document).forms("form_csv"));
+//    console.log($('form')[0][0]);
+    console.log(data);
+
+    fetch('/sketch', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, 
+        body: data
+    }).then((response) => { 
+    // do something with response here... 
+        console.log(response.text())
+    });
 /*
     fetch("/sketch", {
         method: "POST",
         headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify($('form').serialize(), null, 4)
+        body: $('form')
     })
     .then(function (response) {
         return response.text();
     }).then(function (text) {
         console.log(text)
     });
-
+/*
 
     var request = new XMLHttpRequest();
     request.onload = function() {

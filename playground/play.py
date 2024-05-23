@@ -31,7 +31,9 @@ def try_me():
 
 @app.route('/sketch', methods=['POST'])
 def sketch():
-	print(request.json)
+	print("request received")
+	data = request
+	print(request.get_data())
 #	csv = request.form['csv']
 #	output, umlOutput = run.runHTML(csv);
 	return "output", 200, {'Content-Type': 'text/plain'}
