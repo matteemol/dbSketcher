@@ -8,27 +8,29 @@ function handleSubmit(event) {
     event.preventDefault();
 
     const data = new FormData(event.target);
-    const value = data.get('csv');
-
-    console.log({ value });
-    sketch_it(value);
-}
-
-
-function sketch_it(data) {
-  
-//    const formData = new FormData(document.forms("form_csv"));
-//    console.log($('form')[0][0]);
-    console.log(data);
+//    const value = data.get('csv');
+    const value = Object.fromEntries(data.entries())
+    console.log(value);
 
     fetch('/sketch', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}, 
-        body: data
-    }).then((response) => { 
-    // do something with response here... 
+        body: JSON.stringify(value)
+    }).then(response => response.text)
+        .then(text => console.log(text) );
+
+        // do something with response here... 
         console.log(response.text())
-    });
+        console.log(response.umlOutput)
+//    });
+
+}
+
+/*
+function sketch_it(data) {
+  
+//    const formData = new FormData(document.forms("form_csv"));
+//    console.log($('form')[0][0]);
 /*
     fetch("/sketch", {
         method: "POST",
@@ -53,9 +55,9 @@ function sketch_it(data) {
     // We point the request at the appropriate command
     request.open("POST", "/sketch", true);
     // and then we send it off
-    request.send();*/
+    request.send();
 }
-
+*/
 
 function adjust_size(elementId) {
     document.getElementById(elementId).style.width="100%";
