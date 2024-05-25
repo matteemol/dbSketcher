@@ -1,8 +1,11 @@
 import re
 import sys
 import csv
-import formatStrings
-#from dbsketcher import formatStrings
+
+try:
+    from dbsketcher import formatStrings
+except:
+    import formatStrings
 
 
 def identifyType(data: str)-> tuple:
