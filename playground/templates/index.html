@@ -113,7 +113,7 @@ recipe_type::type_id --> recipes::type_id
           <div class=debug id=popup>ERROR</div>
           <div class=cell>
             <div class=render><a id="diagram" href=.><img id="render-image"></div></a>
-            <p class="render-text">(click to enlarge)</p>
+            <p class="render-text">(click to view fullsize)</p>
               <div class="render-button">
                 <a id="plant-link" href=. target="_blank"><button class=btn>Edit in PlantUML Server</button></a>
               </div>
@@ -136,38 +136,28 @@ recipe_type::type_id --> recipes::type_id
 
 <script src="static/funcs.js"></script>
 <script>
+// initialize plantUUML script (engine)
 document.addEventListener('DOMContentLoaded', function() {
   console.log('The page has loaded!');
   document.getElementsByClassName('loading-state')[0].style.visibility="visible";
   console.log(window.location.pathname)
   loadEngine();
 
+// link the submit button to the python call
   const form = document.querySelector('form');
   form.addEventListener('submit', handleSubmit);
 
   console.log('Playground ready')
-/*  generate_link();*/
 });
 
+/*
 $(document).ready(function() {
   $('form').submit(function(event) {
     event.preventDefault();
-//    sketch_it();
     alert('Form submitted! (alert)');
-    /*
-    $.ajax({
-        type: 'POST',
-        url: '/sketch',
-        data: $('form').serialize(),
-        success: function() {
-          alert('Form submitted! (alert)');
-          console.log('Calling Python...');
-          sketch_it();
-        }
-    });*/
   });
 });
-
+*/
 
 </script>
   

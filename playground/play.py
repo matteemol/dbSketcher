@@ -1,5 +1,5 @@
 # Importing required functions
-from flask import Flask, flash, render_template, request, abort, send_from_directory, send_file
+from flask import Flask, flash, render_template, request, abort, send_from_directory, send_file, jsonify
 
 import sys
 import os
@@ -17,18 +17,10 @@ app = Flask(__name__)
 # Index page
 @app.route('/')
 def index():
-#	linktojarfile = os.path.join(basedir, 'plantuml-core.jar')
-
-# Copiar aca las indicaciones de como ejecutar el programa segun el input del textarea
-# en lugar de sys.argv llamar las funciones desde aca
-
 	return render_template('index.html')
 
-@app.route("/tryme/", methods=['POST'])
-def try_me():
-    return render_template('ok.html')
-
-
+# Receive a JSON object with the structure required by the main program
+# (plain text of the CSV file), and run the program with this text.
 @app.route('/sketch', methods=['POST'])
 def sketch():
 	print("request received")
@@ -38,21 +30,15 @@ def sketch():
 		print(data)
 	else:
 		print("Request is not JSON")
-		
-	print(data['csv'])
-#	csv = request.form['csv']
-	output, umlOutput = run.runHTML(data['csv']);
+
+# Here's the key. runHTML runs the program directly with the text
+# instead of requiring the CSV file/route in the command line		
+	output, umlOutput = run.runHTML(data['csv'])
 	print('\n-+-+-+- Output -+-+-+-\n')
-	print(umlOutput)
-#	return umlOutput, 200, {'Content-Type': 'text/plain'}
+	print(output)
+	returnOutput = { "uml": umlOutput}
 
-	return {
-		"umlOutput": umlOutput
-	}
-
-#	text = request
-#	response = text
-#	return response, 200, {'Content-Type': 'text/plain'}
+	return jsonify(returnOutput), 200, {'Content-Type': 'application/json'}
 
 
 # Main Driver Function

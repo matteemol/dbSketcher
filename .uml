@@ -16,32 +16,14 @@ skinparam class {
 !define column(x) <color:#efefef><&media-record></color> x
 !define column_fk(x) <color:#efefef><&media-record></color> <u>x</u>
 
-table( ingredient_list ) {
-  primary_key( ingredient_id ): INTEGER PRIMARY KEY
-  column( ingredient_name ): TEXT NOT NULL
-}
-
-table( recipe_ingredients ) {
-  foreign_key( recipe_id ): INTEGER
-  foreign_key( ingredient_id ): INTEGER
-  column( quantity ): REAL NOT NULL
-  column( unit_of_measurement ): TEXT NOT NULL
-  column( preparation ): TEXT
-}
-
-table( recipe_type ) {
-  primary_key( type_id ): INTEGER PRIMARY KEY
-  column( type_name ): TEXT NOT NULL
+table( otratabla ) {
+  column( atributo ): INTEGER
 }
 
 table( recipes ) {
   primary_key( recipe_id ): INTEGER PRIMARY KEY
   column( name ): TEXT
-  foreign_key( type_id ): INTEGER
 }
 
-ingredient_list::ingredient_id --> recipe_ingredients::ingredient_id
-recipes::recipe_id --> recipe_ingredients::recipe_id
-recipe_type::type_id --> recipes::type_id
 
 @enduml
