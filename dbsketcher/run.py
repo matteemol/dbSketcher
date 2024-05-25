@@ -1,7 +1,8 @@
 import re
 import sys
 import csv
-from dbsketcher import formatStrings
+import formatStrings
+#from dbsketcher import formatStrings
 
 
 def identifyType(data: str)-> tuple:
@@ -654,21 +655,21 @@ def sqlToDict(file)-> dict:
 
 def runHTML(text):
     """
-Execute the program through an HTML call from the UI
+    Execute the program through an HTML call from the UI
 
-:param `text`: Each row of the text represents an attribute, the table
-               where it belongs to, and eventually the parent (in case of
-               a foreign key). The expected (correct) way to indicate this
-               information is:
-               
-               ``table name``, ``attribute``, ``SQL-type definition``             
+    :param `text`: Each row of the text represents an attribute, the table
+                where it belongs to, and eventually the parent (in case of
+                a foreign key). The expected (correct) way to indicate this
+                information is:
+                
+                ``table name``, ``attribute``, ``SQL-type definition``             
 
-:type text: String
+    :type text: String
 
-:return: ``output`` = python terminal output
-         ``umlOutput`` = the UML code (string) generated
-:rtype: tuple (2 strings)
-"""
+    :return: ``output`` = python terminal output
+            ``umlOutput`` = the UML code (string) generated
+    :rtype: tuple (2 strings)
+    """
     tables, relationships_uml, relationships_sql = HTMLToDict(text)
 
     output = "CSV to dict - Tables:\n" + \
